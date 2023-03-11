@@ -9,11 +9,17 @@
         display: flex;
         align-items: center;
         justify-content: center;
-        &-wrapp {
+        &-input {
             width: 230px;
             height: 50px;
             background: #F3F4F6;
             border-radius: 6px;
+            border: none;
+            text-align: right;
+            font-size: 36px;
+            line-height: 44px;
+            color: #111827;
+            outline: none;
         }
     }
     &__operations {
@@ -37,6 +43,77 @@
             background: #FFFFFF;
             border: 1px solid #E2E3E5;
             border-radius: 6px;
+            cursor: pointer;
+            transition: 1.500ms;
+            &:active {
+                transform: scale(98%);
+            }
         }
+    }
+    &__dial {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 240px;
+        height: 225px;
+        margin-top: 12px;
+        box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.06), 0px 4px 6px rgba(0, 0, 0, 0.1);
+        border-radius: 4px;
+        &-wrapp {
+            display: grid; 
+            grid-template-columns: 1fr 1fr 1fr; 
+            grid-template-rows: 1fr 1fr 1fr 1fr; 
+            gap: 8px;
+            width: 230px;
+            height: 215px;
+            :nth-child(10) {
+                grid-column-start: 1;
+                grid-column-end: 3;
+            }
+        }
+        &-button {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: #FFFFFF;
+            border: 1px solid #E2E3E5;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: 1.500ms;
+            &:active {
+                transform: scale(98%);
+            }
+        }
+    }
+    &__equally {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin-top: 12px;
+        width: 240px;
+        height: 72px;
+        box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.06), 0px 4px 6px rgba(0, 0, 0, 0.1);
+        border-radius: 4px;
+        &-wrapp {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 232px;
+            height: 64px;
+            background: #5D5FEF;
+            border-radius: 6px;
+            color: #FFFFFF;
+            cursor: pointer;
+            transition: 500ms;
+        }
+        :active {
+            transform: scale(99%);
+        }
+    }
+    &__drop {
+        width: 243px;
+        height: 448px;
+        border: 2px dashed #C4C4C4;
+        border-radius: 6px;
     }
 }

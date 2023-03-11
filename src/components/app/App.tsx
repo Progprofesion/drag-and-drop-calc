@@ -1,5 +1,6 @@
-// import Header from '../header/Header';
+import Hug from '../hug/Hug';
 import Pallete from '../palette/Pallete';
+import Canvas from '../canvas/Canvas';
 
 import './app.scss'
 
@@ -7,8 +8,12 @@ const App = () => {
     return (
         <main className='app'>
             <div className="container">
-                {/* <Header /> */}
-                <Pallete />
+                <section className="main">
+                    <Hug />
+                    <Pallete />
+                    <Canvas />
+                </section>
+
             </div>
         </main>
     )
