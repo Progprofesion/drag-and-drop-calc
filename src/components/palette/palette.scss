@@ -20,6 +20,7 @@
             line-height: 44px;
             color: #111827;
             outline: none;
+            cursor: grab;
         }
     }
     &__operations {
@@ -31,11 +32,13 @@
         margin-top: 12px;
         box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.06), 0px 4px 6px rgba(0, 0, 0, 0.1);
         border-radius: 4px;
+        cursor: grab;
         &-wrapp {
             display: flex;
             justify-content: space-between;
             width: 232px;
             height: 48px;
+            z-index: -1;
         }
         &-buttons {
             width: 52px;
@@ -43,11 +46,8 @@
             background: #FFFFFF;
             border: 1px solid #E2E3E5;
             border-radius: 6px;
-            cursor: pointer;
+            cursor: grab;
             transition: 1.500ms;
-            &:active {
-                transform: scale(98%);
-            }
         }
     }
     &__dial {
@@ -78,11 +78,9 @@
             background: #FFFFFF;
             border: 1px solid #E2E3E5;
             border-radius: 6px;
-            cursor: pointer;
+            cursor: grab;
             transition: 1.500ms;
-            &:active {
-                transform: scale(98%);
-            }
+            z-index: -1;
         }
     }
     &__equally {
@@ -103,11 +101,8 @@
             background: #5D5FEF;
             border-radius: 6px;
             color: #FFFFFF;
-            cursor: pointer;
+            cursor: grab;
             transition: 500ms;
-        }
-        :active {
-            transform: scale(99%);
         }
     }
     &__drop {
@@ -116,4 +111,9 @@
         border: 2px dashed #C4C4C4;
         border-radius: 6px;
     }
+}
+
+
+.wrappTest {
+    cursor: grab;
 }
