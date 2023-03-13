@@ -2,7 +2,9 @@ import './canvas.scss';
 
 const Canvas = () => {
     return (
-        <section className="canvas">
+        <section
+            draggable={true}
+            className="canvas">
             <div className="canvas__drop"></div>
         </section>
     )
