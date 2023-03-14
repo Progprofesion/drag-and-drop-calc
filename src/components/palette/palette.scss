@@ -1,6 +1,13 @@
 .pallete {
     width: 243px;
     height: 448px;
+    &__wrapp {
+        display: grid;
+        justify-content: space-between;
+        max-width: 540px;
+        grid-template-columns: 245px 245px;
+        gap: 55px;
+    }
     &__display {
         width: 240px;
         height: 60px;
@@ -120,4 +127,11 @@
 
 .wrappTest {
     cursor: grab;
+}
+
+.boardTest {
+    &:nth-child(2) {
+        border: 2px dashed #C4C4C4;
+        border-radius: 6px;
+    }
 }

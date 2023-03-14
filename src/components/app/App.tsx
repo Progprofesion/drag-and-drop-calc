@@ -11,7 +11,7 @@ const App = () => {
                 <section className="main">
                     <Hug />
                     <Pallete />
-                    <Canvas />
+                    {/* <Canvas /> */}
                 </section>
 
             </div>
