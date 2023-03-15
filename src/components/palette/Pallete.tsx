@@ -1,25 +1,35 @@
 import { useState } from "react";
-import { useSelector, useDispatch } from "react-redux";
+// import { useSelector, useDispatch } from "react-redux";
 
-import Canvas from '../canvas/Canvas';
+// import Canvas from '../canvas/Canvas';
 
-import { RootState } from "@/store";
+// import { RootState } from "@/store";
 
-import { setDb, setCurrenBoard, setCurrentItem } from "../../store/reducer/reducerDb";
+// import { setDb, setCurrenBoard, setCurrentItem } from "../../store/reducer/reducerDb";
 
 import './palette.scss';
 import '../canvas/canvas.scss';
 
+import './board.scss';
+import { boolean } from "yargs";
+
 const Pallete = () => {
 
-    const stateDb = useSelector((state: RootState) => state.reducerDb.stateDb);
-    const currentBoard = useSelector((state: RootState) => state.reducerDb.currentBoard);
-    const currentItem = useSelector((state: RootState) => state.reducerDb.currentItem);
+    const [boards, setBoards] = useState([
+        {
+            id: 1, title: "первый", items: [
+                { id: 1, title: "первый-первый", type: "input" },
+                { id: 2, title: "первый-второй", type: "operations", operations: [{ titleOperations: "/" }, { titleOperations: "x" }, { titleOperations: "-" }, { titleOperations: "+" }] },
+                { id: 3, title: "первый-третий", type: "dial", numbers: [{ titleNumbers: "7" }, { titleNumbers: "8" }, { titleNumbers: "9" }, { titleNumbers: "4" }, { titleNumbers: "5" }, { titleNumbers: "6" }, { titleNumbers: "1" }, { titleNumbers: "2" }, { titleNumbers: "3" }, { titleNumbers: "0" }, { titleNumbers: "," }] },
+                { id: 4, title: "первый-четвертый", type: "equally", titleEqually: "=" }]
+        },
+        { id: 2, title: "второй", items: [] }
+    ]);
 
-    let cloneDb = JSON.parse(JSON.stringify(stateDb))
-    // console.log(cloneDb)
+    const [currentBoard, setCurrenBoard] = useState(null) as any
+    const [currentItem, setCurrentItem] = useState(null) as any
 
-    const dispatch = useDispatch()
+    const [disabled, setDisabled] = useState(true);
 
     const dragOverHandler: any = (e: any) => {
         e.preventDefault();
@@ -40,39 +50,26 @@ const Pallete = () => {
         e.target.style.borderBottom = "none"
     }
     const dragStartHandler: any = (e: any, board: any, item: any) => {
-        dispatch(setCurrenBoard(board))
-        dispatch(setCurrentItem(item))
+        setCurrenBoard(board)
+        setCurrentItem(item)
     }
-    const dragEndHandler: any = (e: any) => {
+    const dragEndHandler: any = (e: any, board: any) => {
         e.target.style.borderBottom = "none"
-        e.target.style.opacity = "50%"
+        if (board.id === 1) {
+            e.target.style.opacity = "50%"
+
+        }
     }
-    const dropHandler: any = (e: any, board: any, item: never) => {
+    const dropHandler: any = (e: any, board: any, item: any) => {
         e.preventDefault();
-        e.target.style.borderBottom = "none"
+        e.stopPropagation();
+        setDisabled(false)
         if (board.id === 2) {
-            let set = new Set() as any;
-
-            let john = { name: "John" };
-            let pete = { name: "Pete" };
-            let mary = { name: "Mary" };
-
-            // считаем гостей, некоторые приходят несколько раз
-            set.add(john);
-            set.add(pete);
-            set.add(mary);
-            set.add(john);
-            set.add(mary);
-            set.add(currentItem)
-            for (let user of set) {
-                console.log(user); // John (потом Pete и Mary)
-                // console.log(board.items[0])
-            }
-
-            // if (!set.has(item)) {
+            const currentIndex = currentBoard.items.indexOf(currentItem)
+            currentBoard.items.splice(currentIndex, 1)
             const dropIndex = board.items.indexOf(item)
-            board.items.splice(dropIndex, 0, currentItem + 1)
-            dispatch(setDb(cloneDb.map((b: any) => {
+            board.items.splice(dropIndex + 1, 0, currentItem)
+            setBoards(boards.map((b: any) => {
                 if (b.id === board.id) {
                     return board
                 }
@@ -80,33 +77,20 @@ const Pallete = () => {
                     return currentBoard
                 }
                 return b
-            })))
-            console.log(item)
-            // }
-
-
-        };
-
-        if (e.target.className === "boardTest") {
-            e.target.style.display = "none"
-            e.target.style.zIndex = "-1"
+            }))
         }
-
+        e.target.style.borderBottom = "none"
 
     }
     const doubleClickHandler = (e: any, board: any) => {
         e.preventDefault()
-        let testCurrent = currentBoard.items.slice()
-        const currentIndex = testCurrent.indexOf(currentItem)
-        testCurrent.splice(currentIndex, 1)
-
-    }
-
-    const dropElementHandler = (e: any, board: any) => {
 
         if (board.id === 2) {
+            const currentIndex = board.items.indexOf(currentItem)
+            board.items.splice(currentIndex, 1)
             board.items.push(currentItem)
-            dispatch(setDb(cloneDb.map((b: any) => {
+            console.log(currentItem)
+            setBoards(boards.map((b: any) => {
                 if (b.id === board.id) {
                     return board
                 }
@@ -114,16 +98,38 @@ const Pallete = () => {
                     return currentBoard
                 }
                 return b
-            })))
-        }
-
-        if (e.target.className === "boardTest") {
-            e.target.style.border = "none"
+            }))
         }
     }
 
+    const dropElementHandler = (e: any, board: any) => {
+        e.preventDefault();
+        e.stopPropagation();
+        board.items.push(currentItem)
+        console.log(disabled)
+        if (board.id === currentBoard.id) {
+            const currentIndex = currentBoard.items.indexOf(currentItem)
+            currentBoard.items.splice(currentIndex, 1)
+        }
 
-    const elements: any = cloneDb.map((board: any) => {
+        setBoards(boards.map((b: any) => {
+            if (b.id === board.id) {
+                return board
+            }
+            if (b.id === currentBoard.id) {
+                return currentBoard
+            }
+            return b
+        }))
+        e.target.style.borderBottom = "none"
+        if (e.target.className === "boardTest") {
+            e.target.style.border = "none"
+            e.target.style.zIndex = "1"
+        }
+
+    }
+
+    const elements: any = boards.map((board: any) => {
         return <div
             onDragOver={(e) => dragOverHandler(e)}
             onDrop={(e) => dropElementHandler(e, board)}
@@ -138,12 +144,12 @@ const Pallete = () => {
                                 onDragOver={(e) => dragOverHandler(e)}
                                 onDragLeave={e => dragLeaveHandlear(e)}
                                 onDragStart={(e) => dragStartHandler(e, board, item)}
-                                onDragEnd={(e) => dragEndHandler(e)}
+                                onDragEnd={(e) => dragEndHandler(e, board)}
                                 onDrop={(e) => dropHandler(e, board, item)}
-                                draggable={true}
+                                draggable={disabled}
                                 key={item.id}
                                 className="pallete__display">
-                                <input placeholder="0" type="text" className="pallete__display-input" />
+                                <input disabled={true} placeholder="0" type="tel" className="pallete__display-input" />
                             </div>;
                         case 'operations':
                             return <div
@@ -151,9 +157,9 @@ const Pallete = () => {
                                 onDragOver={(e) => dragOverHandler(e)}
                                 onDragLeave={e => dragLeaveHandlear(e)}
                                 onDragStart={(e) => dragStartHandler(e, board, item)}
-                                onDragEnd={(e) => dragEndHandler(e)}
+                                onDragEnd={(e) => dragEndHandler(e, board)}
                                 onDrop={(e) => dropHandler(e, board, item)}
-                                draggable={true}
+                                draggable={disabled}
                                 key={item.id}
                                 className="pallete__operations">
                                 <div className="pallete__operations-wrapp">
@@ -170,9 +176,9 @@ const Pallete = () => {
                                 onDragOver={(e) => dragOverHandler(e)}
                                 onDragLeave={e => dragLeaveHandlear(e)}
                                 onDragStart={(e) => dragStartHandler(e, board, item)}
-                                onDragEnd={(e) => dragEndHandler(e)}
+                                onDragEnd={(e) => dragEndHandler(e, board)}
                                 onDrop={(e) => dropHandler(e, board, item)}
-                                draggable={true}
+                                draggable={disabled}
                                 key={item.id}
                                 className="pallete__dial">
                                 <div className="pallete__dial-wrapp">
@@ -189,9 +195,9 @@ const Pallete = () => {
                                 onDragOver={(e) => dragOverHandler(e)}
                                 onDragLeave={e => dragLeaveHandlear(e)}
                                 onDragStart={(e) => dragStartHandler(e, board, item)}
-                                onDragEnd={(e) => dragEndHandler(e)}
+                                onDragEnd={(e) => dragEndHandler(e, board)}
                                 onDrop={(e) => dropHandler(e, board, item)}
-                                draggable={true}
+                                draggable={disabled}
                                 key={item.id}
                                 className="pallete__equally">
                                 <div className="pallete__equally-wrapp">{item.titleEqually}</div>

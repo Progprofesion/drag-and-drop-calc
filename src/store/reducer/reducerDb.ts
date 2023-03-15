@@ -10,7 +10,7 @@ export interface UserSliceInterface {
 const cardsAdapter = createEntityAdapter();
 
 const initialState = cardsAdapter.getInitialState({
-    currentBoard: {},
+    currentBoard: [],
     currentItem: { asd: "asda" },
     stateDb: [
         {
