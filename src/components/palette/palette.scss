@@ -16,7 +16,7 @@
         display: flex;
         align-items: center;
         justify-content: center;
-        cursor: move;
+        cursor: grab;
         &-input {
             width: 230px;
             height: 50px;
@@ -40,7 +40,7 @@
         margin-top: 12px;
         box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.06), 0px 4px 6px rgba(0, 0, 0, 0.1);
         border-radius: 4px;
-        cursor: move;
+        cursor: grab;
         &-wrapp {
             display: flex;
             justify-content: space-between;
@@ -54,7 +54,7 @@
             background: #FFFFFF;
             border: 1px solid #E2E3E5;
             border-radius: 6px;
-            cursor: move;
+            cursor: grab;
             transition: 1.500ms;
         }
     }
@@ -67,7 +67,7 @@
         margin-top: 12px;
         box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.06), 0px 4px 6px rgba(0, 0, 0, 0.1);
         border-radius: 4px;
-        cursor: move;
+        cursor: grab;
         &-wrapp {
             display: grid; 
             grid-template-columns: 1fr 1fr 1fr; 
@@ -88,7 +88,7 @@
             background: #FFFFFF;
             border: 1px solid #E2E3E5;
             border-radius: 6px;
-            cursor: move;
+            cursor: grab;
             transition: 1.500ms;
             z-index: -1;
         }
@@ -102,7 +102,7 @@
         height: 72px;
         box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.06), 0px 4px 6px rgba(0, 0, 0, 0.1);
         border-radius: 4px;
-        cursor: move;
+        cursor: grab;
         &-wrapp {
             display: flex;
             justify-content: center;

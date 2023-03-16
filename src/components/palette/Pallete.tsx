@@ -11,7 +11,6 @@ import './palette.scss';
 import '../canvas/canvas.scss';
 
 import './board.scss';
-import { boolean } from "yargs";
 
 const Pallete = () => {
 
@@ -29,46 +28,43 @@ const Pallete = () => {
     const [currentBoard, setCurrenBoard] = useState(null) as any
     const [currentItem, setCurrentItem] = useState(null) as any
 
-    const [disabled, setDisabled] = useState(true);
-
-    const dragOverHandler: any = (e: any) => {
+    const dragOverHandler: any = (e: any, board: any) => {
         e.preventDefault();
-        if (e.target.className === "pallete__display") {
-            e.target.style.borderBottom = "10px solid #5D5FEF"
-        }
-        if (e.target.className === "pallete__operations") {
-            e.target.style.borderBottom = "10px solid #5D5FEF"
-        }
-        if (e.target.className === "pallete__dial") {
-            e.target.style.borderBottom = "10px solid #5D5FEF"
-        }
-        if (e.target.className === "pallete__equally") {
-            e.target.style.borderBottom = "10px solid #5D5FEF"
+        if (board && board.id === 2) {
+            if (e.target.className === "pallete__display") {
+                e.target.style.borderTop = "10px solid #5D5FEF"
+            }
+            if (e.target.className === "pallete__operations") {
+                e.target.style.borderTop = "10px solid #5D5FEF"
+            }
+            if (e.target.className === "pallete__dial") {
+                e.target.style.borderTop = "10px solid #5D5FEF"
+            }
+            if (e.target.className === "pallete__equally") {
+                e.target.style.borderTop = "10px solid #5D5FEF"
+            }
         }
     }
     const dragLeaveHandlear: any = (e: any) => {
-        e.target.style.borderBottom = "none"
+        e.target.style.borderTop = "none"
     }
     const dragStartHandler: any = (e: any, board: any, item: any) => {
         setCurrenBoard(board)
         setCurrentItem(item)
     }
-    const dragEndHandler: any = (e: any, board: any) => {
+    const dragEndHandler: any = (e: any) => {
         e.target.style.borderBottom = "none"
-        if (board.id === 1) {
-            e.target.style.opacity = "50%"
 
-        }
+        // e.target.style.opacity = "50%"
     }
     const dropHandler: any = (e: any, board: any, item: any) => {
         e.preventDefault();
         e.stopPropagation();
-        setDisabled(false)
         if (board.id === 2) {
             const currentIndex = currentBoard.items.indexOf(currentItem)
             currentBoard.items.splice(currentIndex, 1)
             const dropIndex = board.items.indexOf(item)
-            board.items.splice(dropIndex + 1, 0, currentItem)
+            board.items.splice(dropIndex, 0, currentItem)
             setBoards(boards.map((b: any) => {
                 if (b.id === board.id) {
                     return board
@@ -79,39 +75,19 @@ const Pallete = () => {
                 return b
             }))
         }
-        e.target.style.borderBottom = "none"
+        e.target.style.borderTop = "none"
 
     }
-    const doubleClickHandler = (e: any, board: any) => {
-        e.preventDefault()
 
-        if (board.id === 2) {
-            const currentIndex = board.items.indexOf(currentItem)
-            board.items.splice(currentIndex, 1)
-            board.items.push(currentItem)
-            console.log(currentItem)
-            setBoards(boards.map((b: any) => {
-                if (b.id === board.id) {
-                    return board
-                }
-                if (b.id === currentBoard.id) {
-                    return currentBoard
-                }
-                return b
-            }))
-        }
-    }
 
-    const dropElementHandler = (e: any, board: any) => {
+    const dropElementHandler = (e: any, board: any,) => {
         e.preventDefault();
         e.stopPropagation();
-        board.items.push(currentItem)
-        console.log(disabled)
-        if (board.id === currentBoard.id) {
+        if (board.id === 2) {
+            board.items.push(currentItem)
             const currentIndex = currentBoard.items.indexOf(currentItem)
-            currentBoard.items.splice(currentIndex, 1)
+            currentBoard.items.splice(currentIndex, 0, 1)
         }
-
         setBoards(boards.map((b: any) => {
             if (b.id === board.id) {
                 return board
@@ -129,6 +105,24 @@ const Pallete = () => {
 
     }
 
+    // const doubleClickHandler = (e: any, board: any) => {
+    //     e.preventDefault()
+    //     // if (board.id === 2) {
+    //     board.items.push(currentItem)
+    //     const currentIndex = board.items.indexOf(currentItem)
+    //     board.items.splice(currentIndex, 1)
+    //     setBoards(boards.map((b: any) => {
+    //         if (b.id === board.id) {
+    //             return board
+    //         }
+    //         if (b.id === currentBoard.id) {
+    //             return currentBoard
+    //         }
+    //         return b
+    //     }))
+    //     // }
+    // }
+
     const elements: any = boards.map((board: any) => {
         return <div
             onDragOver={(e) => dragOverHandler(e)}
@@ -140,26 +134,26 @@ const Pallete = () => {
                     switch (item.type) {
                         case 'input':
                             return <div
-                                onDoubleClick={(e) => doubleClickHandler(e, board)}
-                                onDragOver={(e) => dragOverHandler(e)}
+                                // onDoubleClick={(e) => doubleClickHandler(e, board)}
+                                onDragOver={(e) => dragOverHandler(e, board)}
                                 onDragLeave={e => dragLeaveHandlear(e)}
                                 onDragStart={(e) => dragStartHandler(e, board, item)}
-                                onDragEnd={(e) => dragEndHandler(e, board)}
+                                onDragEnd={(e) => dragEndHandler(e)}
                                 onDrop={(e) => dropHandler(e, board, item)}
-                                draggable={disabled}
+                                draggable={true}
                                 key={item.id}
                                 className="pallete__display">
-                                <input disabled={true} placeholder="0" type="tel" className="pallete__display-input" />
+                                <input placeholder="0" type="text" className="pallete__display-input" />
                             </div>;
                         case 'operations':
                             return <div
-                                onDoubleClick={(e) => doubleClickHandler(e, board)}
-                                onDragOver={(e) => dragOverHandler(e)}
+                                // onDoubleClick={(e) => doubleClickHandler(e, board)}
+                                onDragOver={(e) => dragOverHandler(e, board)}
                                 onDragLeave={e => dragLeaveHandlear(e)}
                                 onDragStart={(e) => dragStartHandler(e, board, item)}
-                                onDragEnd={(e) => dragEndHandler(e, board)}
+                                onDragEnd={(e) => dragEndHandler(e)}
                                 onDrop={(e) => dropHandler(e, board, item)}
-                                draggable={disabled}
+                                draggable={true}
                                 key={item.id}
                                 className="pallete__operations">
                                 <div className="pallete__operations-wrapp">
@@ -172,13 +166,13 @@ const Pallete = () => {
                             </div>
                         case 'dial':
                             return <div
-                                onDoubleClick={(e) => doubleClickHandler(e, board)}
-                                onDragOver={(e) => dragOverHandler(e)}
+                                // onDoubleClick={(e) => doubleClickHandler(e, board)}
+                                onDragOver={(e) => dragOverHandler(e, board)}
                                 onDragLeave={e => dragLeaveHandlear(e)}
                                 onDragStart={(e) => dragStartHandler(e, board, item)}
-                                onDragEnd={(e) => dragEndHandler(e, board)}
+                                onDragEnd={(e) => dragEndHandler(e)}
                                 onDrop={(e) => dropHandler(e, board, item)}
-                                draggable={disabled}
+                                draggable={true}
                                 key={item.id}
                                 className="pallete__dial">
                                 <div className="pallete__dial-wrapp">
@@ -191,13 +185,13 @@ const Pallete = () => {
                             </div>
                         case 'equally':
                             return <div
-                                onDoubleClick={(e) => doubleClickHandler(e, board)}
-                                onDragOver={(e) => dragOverHandler(e)}
+                                // onDoubleClick={(e) => doubleClickHandler(e, board)}
+                                onDragOver={(e) => dragOverHandler(e, board)}
                                 onDragLeave={e => dragLeaveHandlear(e)}
                                 onDragStart={(e) => dragStartHandler(e, board, item)}
-                                onDragEnd={(e) => dragEndHandler(e, board)}
+                                onDragEnd={(e) => dragEndHandler(e)}
                                 onDrop={(e) => dropHandler(e, board, item)}
-                                draggable={disabled}
+                                draggable={true}
                                 key={item.id}
                                 className="pallete__equally">
                                 <div className="pallete__equally-wrapp">{item.titleEqually}</div>
