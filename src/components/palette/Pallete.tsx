@@ -27,6 +27,7 @@ const Pallete = () => {
 
     const [currentBoard, setCurrenBoard] = useState(null) as any
     const [currentItem, setCurrentItem] = useState(null) as any
+    const [disabledDropBoard1, setDisabledDropBoard1] = useState(false) as any
 
     const dragOverHandler: any = (e: any, board: any) => {
         e.preventDefault();
@@ -60,9 +61,30 @@ const Pallete = () => {
     const dropHandler: any = (e: any, board: any, item: any) => {
         e.preventDefault();
         e.stopPropagation();
-        if (board.id === 2) {
+        // setDisabledDropBoard1(true)
+        if (currentBoard.id === 1) {
+            // console.log(disabledDropBoard1)
             const currentIndex = currentBoard.items.indexOf(currentItem)
-            currentBoard.items.splice(currentIndex, 1)
+            currentBoard.items.splice(currentIndex, 0, 1)
+            // запрет на копирование элементов в 1 доске
+            if (board.id === 2) {
+                const dropIndex = board.items.indexOf(item)
+                board.items.splice(dropIndex, 0, currentItem)
+            }
+            setBoards(boards.map((b: any) => {
+                if (b.id === board.id) {
+                    return board
+                }
+                if (b.id === currentBoard.id) {
+                    return currentBoard
+                }
+                return b
+            }))
+        }
+
+        if (currentBoard.id === 2) {
+            const currentIndex = currentBoard.items.indexOf(currentItem)
+            currentBoard.items.splice(currentIndex, 1, 1)
             const dropIndex = board.items.indexOf(item)
             board.items.splice(dropIndex, 0, currentItem)
             setBoards(boards.map((b: any) => {
@@ -75,12 +97,19 @@ const Pallete = () => {
                 return b
             }))
         }
+
+        // if (currentBoard.id === 2) {
+        //     const currentIndex = currentBoard.items.indexOf(currentItem)
+        //     currentBoard.items.splice(currentIndex, 0, 1)
+
+
+        // }
         e.target.style.borderTop = "none"
 
     }
 
 
-    const dropElementHandler = (e: any, board: any,) => {
+    const dropElementHandler = (e: any, board: any, item: any) => {
         e.preventDefault();
         e.stopPropagation();
         if (board.id === 2) {
@@ -88,6 +117,11 @@ const Pallete = () => {
             const currentIndex = currentBoard.items.indexOf(currentItem)
             currentBoard.items.splice(currentIndex, 0, 1)
         }
+        if (currentBoard.id === 2) {
+            const currentIndex = currentBoard.items.indexOf(currentItem)
+            currentBoard.items.splice(currentIndex, 1, 1)
+        }
+
         setBoards(boards.map((b: any) => {
             if (b.id === board.id) {
                 return board
@@ -105,28 +139,27 @@ const Pallete = () => {
 
     }
 
-    // const doubleClickHandler = (e: any, board: any) => {
-    //     e.preventDefault()
-    //     // if (board.id === 2) {
-    //     board.items.push(currentItem)
-    //     const currentIndex = board.items.indexOf(currentItem)
-    //     board.items.splice(currentIndex, 1)
-    //     setBoards(boards.map((b: any) => {
-    //         if (b.id === board.id) {
-    //             return board
-    //         }
-    //         if (b.id === currentBoard.id) {
-    //             return currentBoard
-    //         }
-    //         return b
-    //     }))
-    //     // }
-    // }
+    const doubleClickHandler = (e: any, board: any, item: any) => {
+        e.preventDefault()
+        if (board.id === 2) {
+            const currentIndex = board.items.indexOf(item)
+            board.items.splice(currentIndex, 1, 1)
+            setBoards(boards.map((b: any) => {
+                if (b.id === board.id) {
+                    return board
+                }
+                if (b.id === currentBoard.id) {
+                    return currentBoard
+                }
+                return b
+            }))
+        }
+    }
 
     const elements: any = boards.map((board: any) => {
         return <div
             onDragOver={(e) => dragOverHandler(e)}
-            onDrop={(e) => dropElementHandler(e, board)}
+            onDrop={(e) => dropElementHandler(e, board, board.item)}
             key={board.id}
             className="boardTest">
             {
@@ -134,7 +167,7 @@ const Pallete = () => {
                     switch (item.type) {
                         case 'input':
                             return <div
-                                // onDoubleClick={(e) => doubleClickHandler(e, board)}
+                                onDoubleClick={(e) => doubleClickHandler(e, board, item)}
                                 onDragOver={(e) => dragOverHandler(e, board)}
                                 onDragLeave={e => dragLeaveHandlear(e)}
                                 onDragStart={(e) => dragStartHandler(e, board, item)}
@@ -147,7 +180,7 @@ const Pallete = () => {
                             </div>;
                         case 'operations':
                             return <div
-                                // onDoubleClick={(e) => doubleClickHandler(e, board)}
+                                onDoubleClick={(e) => doubleClickHandler(e, board, item)}
                                 onDragOver={(e) => dragOverHandler(e, board)}
                                 onDragLeave={e => dragLeaveHandlear(e)}
                                 onDragStart={(e) => dragStartHandler(e, board, item)}
@@ -166,7 +199,7 @@ const Pallete = () => {
                             </div>
                         case 'dial':
                             return <div
-                                // onDoubleClick={(e) => doubleClickHandler(e, board)}
+                                onDoubleClick={(e) => doubleClickHandler(e, board, item)}
                                 onDragOver={(e) => dragOverHandler(e, board)}
                                 onDragLeave={e => dragLeaveHandlear(e)}
                                 onDragStart={(e) => dragStartHandler(e, board, item)}
@@ -185,7 +218,7 @@ const Pallete = () => {
                             </div>
                         case 'equally':
                             return <div
-                                // onDoubleClick={(e) => doubleClickHandler(e, board)}
+                                onDoubleClick={(e) => doubleClickHandler(e, board, item)}
                                 onDragOver={(e) => dragOverHandler(e, board)}
                                 onDragLeave={e => dragLeaveHandlear(e)}
                                 onDragStart={(e) => dragStartHandler(e, board, item)}
