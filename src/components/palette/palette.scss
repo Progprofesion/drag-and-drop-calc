@@ -28,7 +28,7 @@
             line-height: 44px;
             color: #111827;
             outline: none;
-            z-index: -1;
+            cursor: grab;
         }
     }
     &__operations {
@@ -90,7 +90,6 @@
             border-radius: 6px;
             cursor: grab;
             transition: 1.500ms;
-            z-index: -1;
         }
     }
     &__equally {
@@ -134,4 +133,8 @@
         border: 2px dashed #C4C4C4;
         border-radius: 6px;
     }
+}
+
+.eeeeeeeeeeeeee {
+    cursor: not-allowed;
 }
