@@ -27,7 +27,7 @@ const Pallete = () => {
 
     const [currentBoard, setCurrenBoard] = useState(null) as any
     const [currentItem, setCurrentItem] = useState(null) as any
-    const [grabb, setGrabb] = useState([{ id: 1, draggable: true }]) as any
+    const [disabled, setDisabled] = useState(false) as any
 
     const dragOverHandler: any = (e: any, board: any) => {
         e.preventDefault();
@@ -49,7 +49,6 @@ const Pallete = () => {
     }
     const dragLeaveHandlear: any = (e: any) => {
         e.target.style.borderTop = "none"
-        console.log(currentBoard.id)
     }
     const dragStartHandler: any = (e: any, board: any, item: any) => {
         setCurrenBoard(board)
@@ -57,15 +56,14 @@ const Pallete = () => {
     }
     const dragEndHandler: any = (e: any, board: any) => {
         e.target.style.borderBottom = "none"
-        if (currentBoard.id === 1) {
-            if (board.id === 1) {
-                e.target.style.opacity = "50%"
-                e.target.draggable = false
-                e.target.style.cursor = "not-allowed"
-                e.target.firstChild.style.cursor = "not-allowed"
-                e.target.querySelectorAll('.pallete__operations-buttons').forEach((node: any) => node.style.cursor = "not-allowed")
-                e.target.querySelectorAll('.pallete__dial-button').forEach((node: any) => node.style.cursor = "not-allowed")
-            }
+        if (currentBoard.id === 1 && disabled) {
+            e.target.style.opacity = "50%"
+            e.target.draggable = false
+            e.target.style.cursor = "not-allowed"
+            e.target.firstChild.style.cursor = "not-allowed"
+            e.target.querySelectorAll('.pallete__operations-buttons').forEach((node: any) => node.style.cursor = "not-allowed")
+            e.target.querySelectorAll('.pallete__dial-button').forEach((node: any) => node.style.cursor = "not-allowed")
+            setDisabled(false)
         }
 
     }
@@ -114,15 +112,13 @@ const Pallete = () => {
     const dropElementHandler = (e: any, board: any, item: any) => {
         e.preventDefault();
         e.stopPropagation();
+        // флаг для работы перетаскивания, только в доску для перетаскивания board.id === 2.
+        if (board.id === 2) {
+            setDisabled(true)
+        }
         if (board.id === 2) {
             board.items.push(currentItem)
-            // const currentIndex = currentBoard.items.indexOf(currentItem)
-            // currentBoard.items.splice(currentIndex, 0, 1)
         }
-        // if (currentBoard.id === 1) {
-        //     const currentIndex = currentBoard.items.indexOf(currentItem)
-        //     currentBoard.items.splice(currentIndex, 0, 1)
-        // }
         if (currentBoard.id === 2 && board.id === 2) {
             const currentIndex = currentBoard.items.indexOf(currentItem)
             currentBoard.items.splice(currentIndex, 1, 1)
