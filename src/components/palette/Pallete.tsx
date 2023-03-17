@@ -54,8 +54,8 @@ const Pallete = () => {
         setCurrenBoard(board)
         setCurrentItem(item)
     }
+
     const dragEndHandler: any = (e: any, board: any) => {
-        e.target.style.borderBottom = "none"
         if (board.id === 1 && disabled) {
             e.target.style.opacity = "50%"
             e.target.draggable = false
@@ -71,10 +71,16 @@ const Pallete = () => {
         e.target.childNodes.forEach((child: any) => {
             child.style.boxShadow = "none"
         })
+
+        e.target.childNodes.forEach((child: any) => {
+            child.style.boxShadow = "none"
+        })
     }
+
     const dropHandler: any = (e: any, board: any, item: any) => {
         e.preventDefault();
         e.stopPropagation();
+        // e.target.style.background = "aliceblue"
         if (currentBoard.id === 1) {
             const currentIndex = currentBoard.items.indexOf(currentItem)
             currentBoard.items.splice(currentIndex, 0, 1)
@@ -112,16 +118,25 @@ const Pallete = () => {
             }))
         }
         e.target.style.borderTop = "none"
-
     }
+
 
 
     const dropElementHandler = (e: any, board: any, item: any) => {
         e.preventDefault();
         e.stopPropagation();
-
+        // console.log(e.target.firstChild)
+        setTimeout(() => {
+            e.target.lastChild.style.boxShadow = "none"
+        }, 0)
+        // e.target.childNodes.forEach((item: any) => {
+        //     if (item) {
+        //         item.style.boxShadow = "none"
+        //     }
+        // })
+        // e.target.previousSibling.firstChild.style.background = "red"
+        // e.target.style.background = "red"
         if (currentBoard.id === 1) {
-            e.target.querySelectorAll('.pallete__dial-button').forEach((node: any) => node.style.cursor = "not-allowed")
             setDisabled(false)
         }
         // флаг для работы перетаскивания, только в доску для перетаскивания board.id === 2.
@@ -133,13 +148,13 @@ const Pallete = () => {
         }
         if (currentBoard.id === 2 && board.id === 2) {
             const currentIndex = currentBoard.items.indexOf(currentItem)
-            currentBoard.items.splice(currentIndex, 1, 1)
+            currentBoard.items.splice(currentIndex, 1)
         }
-
 
         setBoards(boards.map((b: any) => {
             if (b.id === board.id) {
                 return board
+
             }
             if (b.id === currentBoard.id) {
                 return currentBoard
@@ -151,6 +166,7 @@ const Pallete = () => {
             e.target.style.border = "none"
             e.target.style.zIndex = "1"
         }
+
 
     }
 
