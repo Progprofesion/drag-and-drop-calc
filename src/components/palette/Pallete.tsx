@@ -56,16 +56,21 @@ const Pallete = () => {
     }
     const dragEndHandler: any = (e: any, board: any) => {
         e.target.style.borderBottom = "none"
-        if (currentBoard.id === 1 && disabled) {
+        if (board.id === 1 && disabled) {
             e.target.style.opacity = "50%"
             e.target.draggable = false
             e.target.style.cursor = "not-allowed"
+            e.target.style.boxShadow = "none"
             e.target.firstChild.style.cursor = "not-allowed"
-            e.target.querySelectorAll('.pallete__operations-buttons').forEach((node: any) => node.style.cursor = "not-allowed")
+            e.target.querySelectorAll('.pallete__operations-buttons').forEach((node: any) => {
+                node.style.cursor = "not-allowed"
+            })
             e.target.querySelectorAll('.pallete__dial-button').forEach((node: any) => node.style.cursor = "not-allowed")
             setDisabled(false)
         }
-
+        e.target.childNodes.forEach((child: any) => {
+            child.style.boxShadow = "none"
+        })
     }
     const dropHandler: any = (e: any, board: any, item: any) => {
         e.preventDefault();
@@ -73,11 +78,11 @@ const Pallete = () => {
         if (currentBoard.id === 1) {
             const currentIndex = currentBoard.items.indexOf(currentItem)
             currentBoard.items.splice(currentIndex, 0, 1)
-
             // запрет на перетаскивание элементов в 1 доску
             if (board.id === 2) {
                 const dropIndex = board.items.indexOf(item)
                 board.items.splice(dropIndex, 0, currentItem)
+                // флаг для работы перетаскивания, при наведении на айтем во второй доске board.id === 2.
                 setDisabled(true)
             }
             setBoards(boards.map((b: any) => {
@@ -114,6 +119,11 @@ const Pallete = () => {
     const dropElementHandler = (e: any, board: any, item: any) => {
         e.preventDefault();
         e.stopPropagation();
+
+        if (currentBoard.id === 1) {
+            e.target.querySelectorAll('.pallete__dial-button').forEach((node: any) => node.style.cursor = "not-allowed")
+            setDisabled(false)
+        }
         // флаг для работы перетаскивания, только в доску для перетаскивания board.id === 2.
         if (board.id === 2) {
             setDisabled(true)
