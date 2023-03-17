@@ -73,10 +73,12 @@ const Pallete = () => {
         if (currentBoard.id === 1) {
             const currentIndex = currentBoard.items.indexOf(currentItem)
             currentBoard.items.splice(currentIndex, 0, 1)
+
             // запрет на перетаскивание элементов в 1 доску
             if (board.id === 2) {
                 const dropIndex = board.items.indexOf(item)
                 board.items.splice(dropIndex, 0, currentItem)
+                setDisabled(true)
             }
             setBoards(boards.map((b: any) => {
                 if (b.id === board.id) {
