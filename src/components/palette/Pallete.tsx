@@ -80,7 +80,6 @@ const Pallete = () => {
     const dropHandler: any = (e: any, board: any, item: any) => {
         e.preventDefault();
         e.stopPropagation();
-        // e.target.style.background = "aliceblue"
         if (currentBoard.id === 1) {
             const currentIndex = currentBoard.items.indexOf(currentItem)
             currentBoard.items.splice(currentIndex, 0, 1)
@@ -88,6 +87,9 @@ const Pallete = () => {
             if (board.id === 2) {
                 const dropIndex = board.items.indexOf(item)
                 board.items.splice(dropIndex, 0, currentItem)
+                setTimeout(() => {
+                    e.target.previousSibling.style.boxShadow = "none"
+                }, 0)
                 // флаг для работы перетаскивания, при наведении на айтем во второй доске board.id === 2.
                 setDisabled(true)
             }
@@ -125,17 +127,9 @@ const Pallete = () => {
     const dropElementHandler = (e: any, board: any, item: any) => {
         e.preventDefault();
         e.stopPropagation();
-        // console.log(e.target.firstChild)
         setTimeout(() => {
             e.target.lastChild.style.boxShadow = "none"
         }, 0)
-        // e.target.childNodes.forEach((item: any) => {
-        //     if (item) {
-        //         item.style.boxShadow = "none"
-        //     }
-        // })
-        // e.target.previousSibling.firstChild.style.background = "red"
-        // e.target.style.background = "red"
         if (currentBoard.id === 1) {
             setDisabled(false)
         }
