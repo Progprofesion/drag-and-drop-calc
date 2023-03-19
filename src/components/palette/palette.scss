@@ -9,6 +9,7 @@
         gap: 55px;
     }
     &__display {
+        position: relative;
         width: 240px;
         height: 60px;
         box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.06), 0px 4px 6px rgba(0, 0, 0, 0.1);
@@ -134,7 +135,11 @@
     &:nth-child(2) {
         border: 2px dashed #C4C4C4;
         border-radius: 6px;
+        &:hover {
+            z-index: -1;
+        }
     }
+
 }
 
 .eeeeeeeeeeeeee {

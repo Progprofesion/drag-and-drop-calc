@@ -32,9 +32,6 @@ const Pallete = () => {
     const dragOverHandler: any = (e: any, board: any) => {
         e.preventDefault();
         if (board && board.id === 2) {
-            if (e.target.className === "pallete__display") {
-                e.target.style.borderTop = "10px solid #5D5FEF"
-            }
             if (e.target.className === "pallete__operations") {
                 e.target.style.borderTop = "10px solid #5D5FEF"
             }
@@ -89,9 +86,12 @@ const Pallete = () => {
             if (board.id === 2) {
                 const dropIndex = board.items.indexOf(item)
                 board.items.splice(dropIndex, 0, currentItem)
-                setTimeout(() => {
-                    e.target.previousSibling.style.boxShadow = "none"
-                }, 0)
+                if (e.target.previousSibling) {
+                    setTimeout(() => {
+                        e.target.previousSibling.style.boxShadow = "none"
+                    }, 0)
+                }
+
                 // флаг для работы перетаскивания, при наведении на айтем во второй доске board.id === 2.
                 setDisabled(true)
             }
@@ -106,7 +106,7 @@ const Pallete = () => {
             }))
         }
 
-        if (currentBoard.id === 2 && board.id === 2) {
+        if (currentBoard.id === 2 && board.id === 2 && currentItem.id !== 1) {
             const currentIndex = currentBoard.items.indexOf(currentItem)
             currentBoard.items.splice(currentIndex, 1, 1)
             const dropIndex = board.items.indexOf(item)
@@ -129,36 +129,41 @@ const Pallete = () => {
     const dropElementHandler = (e: any, board: any) => {
         e.preventDefault();
         e.stopPropagation();
-        // if (currentBoard.id === 1) {
-        //     const currentIndex = currentBoard.items.indexOf(currentItem)
-        //     currentBoard.items.splice(currentIndex, 0, 1)
-        // }
-        setTimeout(() => {
-            e.target.childNodes.forEach((item: any) => {
-                item.style.boxShadow = "none"
-            })
-        }, 0)
-
         if (currentBoard.id === 1) {
             setDisabled(false)
         }
         // флаг для работы перетаскивания, только в доску для перетаскивания board.id === 2.
         if (board.id === 2) {
+            setTimeout(() => {
+                e.target.childNodes.forEach((item: any) => {
+                    item.style.boxShadow = "none"
+                })
+            }, 0)
             setDisabled(true)
         }
         if (board.id === 2) {
             if (currentItem.id === 1) {
                 board.items.unshift(currentItem)
+                setTimeout(() => {
+                    e.target.firstChild.firstChild.style.cursor = "not-allowed"
+                    e.target.firstChild.style.zIndex = "-1"
+                    e.target.firstChild.style.cursor = "not-allowed"
+                    e.target.firstChild.draggable = false
+
+                }, 0)
             }
             if (currentItem.id !== 1) {
                 board.items.push(currentItem)
+                // const currentIndex = currentBoard.items.indexOf(currentItem)
+                // board.items.splice(currentIndex, 0, currentItem)
+                console.log(board.items)
             }
 
         }
         // отмена копирования элементов в второй доске
         if (currentBoard.id === 2 && board.id === 2) {
             const currentIndex = currentBoard.items.indexOf(currentItem)
-            currentBoard.items.splice(currentIndex, 1, 1)
+            currentBoard.items.splice(currentIndex, 1)
         }
 
         setBoards(boards.map((b: any) => {
