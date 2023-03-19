@@ -61,7 +61,9 @@ const Pallete = () => {
             e.target.draggable = false
             e.target.style.cursor = "not-allowed"
             e.target.style.boxShadow = "none"
-            e.target.firstChild.style.cursor = "not-allowed"
+            e.target.querySelectorAll('.pallete__display-input').forEach((node: any) => {
+                node.style.cursor = "not-allowed"
+            })
             e.target.querySelectorAll('.pallete__operations-buttons').forEach((node: any) => {
                 node.style.cursor = "not-allowed"
             })
@@ -124,12 +126,19 @@ const Pallete = () => {
 
 
 
-    const dropElementHandler = (e: any, board: any, item: any) => {
+    const dropElementHandler = (e: any, board: any) => {
         e.preventDefault();
         e.stopPropagation();
+        // if (currentBoard.id === 1) {
+        //     const currentIndex = currentBoard.items.indexOf(currentItem)
+        //     currentBoard.items.splice(currentIndex, 0, 1)
+        // }
         setTimeout(() => {
-            e.target.lastChild.style.boxShadow = "none"
+            e.target.childNodes.forEach((item: any) => {
+                item.style.boxShadow = "none"
+            })
         }, 0)
+
         if (currentBoard.id === 1) {
             setDisabled(false)
         }
@@ -138,11 +147,18 @@ const Pallete = () => {
             setDisabled(true)
         }
         if (board.id === 2) {
-            board.items.push(currentItem)
+            if (currentItem.id === 1) {
+                board.items.unshift(currentItem)
+            }
+            if (currentItem.id !== 1) {
+                board.items.push(currentItem)
+            }
+
         }
+        // отмена копирования элементов в второй доске
         if (currentBoard.id === 2 && board.id === 2) {
             const currentIndex = currentBoard.items.indexOf(currentItem)
-            currentBoard.items.splice(currentIndex, 1)
+            currentBoard.items.splice(currentIndex, 1, 1)
         }
 
         setBoards(boards.map((b: any) => {
@@ -184,7 +200,7 @@ const Pallete = () => {
     const elements: any = boards.map((board: any) => {
         return <div
             onDragOver={(e) => dragOverHandler(e)}
-            onDrop={(e) => dropElementHandler(e, board, board.item)}
+            onDrop={(e) => dropElementHandler(e, board)}
             key={board.id}
             className="boardTest">
             {
