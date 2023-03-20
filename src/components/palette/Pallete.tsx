@@ -48,16 +48,23 @@ const Pallete = () => {
         }
 
     }
-    const dragLeaveHandlear: any = (e: any) => {
+    const dragLeaveHandlear: any = (e: any, board: any) => {
         e.target.style.borderTop = "none"
+        // при наведении саму на себя или на элементы багаеться.
+        if (board.id === 1) {
+            e.target.parentNode.style.zIndex = "-1"
+        }
+        if (board.id === 2) {
+            // e.target.parentNode.style.zIndex = "1"
+        }
     }
     const dragStartHandler: any = (e: any, board: any, item: any) => {
         setCurrenBoard(board)
         setCurrentItem(item)
 
-        if (board.id === 1) {
-            e.target.parentNode.style.zIndex = "-1"
-        }
+        // if (board.id === 1) {
+        //     e.target.parentNode.style.zIndex = "-1"
+        // }
         // if (board.id === 2) {
 
         //     e.target.parentNode.style.zIndex = "-1"
@@ -87,6 +94,10 @@ const Pallete = () => {
         e.target.childNodes.forEach((child: any) => {
             child.style.boxShadow = "none"
         })
+        if (board.id === 1) {
+            e.target.parentNode.style.zIndex = "1"
+        }
+        console.log(e.target)
     }
 
     const dropHandler: any = (e: any, board: any, item: any) => {
@@ -282,7 +293,7 @@ const Pallete = () => {
                                 onMouseUp={(e) => onUpHandler(e)}
                                 onDoubleClick={(e) => doubleClickHandler(e, board, item)}
                                 onDragOver={(e) => dragOverHandler(e, board)}
-                                onDragLeave={e => dragLeaveHandlear(e)}
+                                onDragLeave={e => dragLeaveHandlear(e, board)}
                                 onDragStart={(e) => dragStartHandler(e, board, item)}
                                 onDragEnd={(e) => dragEndHandler(e, board)}
                                 onDrop={(e) => dropHandler(e, board, item)}
@@ -301,7 +312,7 @@ const Pallete = () => {
                                 onMouseUp={(e) => onUpHandler(e)}
                                 onDoubleClick={(e) => doubleClickHandler(e, board, item)}
                                 onDragOver={(e) => dragOverHandler(e, board)}
-                                onDragLeave={e => dragLeaveHandlear(e)}
+                                onDragLeave={e => dragLeaveHandlear(e, board)}
                                 onDragStart={(e) => dragStartHandler(e, board, item)}
                                 onDragEnd={(e) => dragEndHandler(e, board)}
                                 onDrop={(e) => dropHandler(e, board, item)}
@@ -324,7 +335,7 @@ const Pallete = () => {
                                 onMouseUp={(e) => onUpHandler(e)}
                                 onDoubleClick={(e) => doubleClickHandler(e, board, item)}
                                 onDragOver={(e) => dragOverHandler(e, board)}
-                                onDragLeave={e => dragLeaveHandlear(e)}
+                                onDragLeave={e => dragLeaveHandlear(e, board)}
                                 onDragStart={(e) => dragStartHandler(e, board, item)}
                                 onDragEnd={(e) => dragEndHandler(e, board)}
                                 onDrop={(e) => dropHandler(e, board, item)}
@@ -346,7 +357,7 @@ const Pallete = () => {
                                 onMouseUp={(e) => onUpHandler(e)}
                                 onDoubleClick={(e) => doubleClickHandler(e, board, item)}
                                 onDragOver={(e) => dragOverHandler(e, board)}
-                                onDragLeave={e => dragLeaveHandlear(e)}
+                                onDragLeave={e => dragLeaveHandlear(e, board)}
                                 onDragStart={(e) => dragStartHandler(e, board, item)}
                                 onDragEnd={(e) => dragEndHandler(e, board)}
                                 onDrop={(e) => dropHandler(e, board, item)}
