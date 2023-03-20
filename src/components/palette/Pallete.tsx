@@ -25,12 +25,13 @@ const Pallete = () => {
         { id: 2, title: "board2", items: [] }
     ]) as any;
 
-    const boardTest = document.querySelector(".boardTest")
+    const boardTest = document.querySelectorAll(".boardTest")
 
     const [currentBoard, setCurrenBoard] = useState(null) as any
     const [currentItem, setCurrentItem] = useState(null) as any
     const [disabled, setDisabled] = useState(false) as any
     const [disabledBoard, setDisabledBoard] = useState(true) as any
+    const [boardBackground, setBoardBackground] = useState(false) as any
 
     const dragOverHandler: any = (e: any, board: any) => {
         e.preventDefault();
@@ -45,7 +46,10 @@ const Pallete = () => {
                 e.target.style.borderTop = "10px solid #5D5FEF"
             }
             // для смены высоты 
+            // e.target.parentNode.style.background = "#F0F9FF"
         }
+
+        // console.log(e.target)
 
     }
     const dragLeaveHandlear: any = (e: any, board: any) => {
@@ -54,25 +58,21 @@ const Pallete = () => {
         if (board.id === 1) {
             e.target.parentNode.style.zIndex = "-1"
         }
-        if (board.id === 2) {
-            // e.target.parentNode.style.zIndex = "1"
-        }
     }
     const dragStartHandler: any = (e: any, board: any, item: any) => {
         setCurrenBoard(board)
         setCurrentItem(item)
-
-        // if (board.id === 1) {
-        //     e.target.parentNode.style.zIndex = "-1"
-        // }
-        // if (board.id === 2) {
-
-        //     e.target.parentNode.style.zIndex = "-1"
-        // }
-
+        const board2: any = document.querySelectorAll(".boardTest")
+        if (boards[1].items.length === 0) {
+            board2[1].style.background = " #F0F9FF"
+        }
     }
 
     const dragEndHandler: any = (e: any, board: any) => {
+        const board2: any = document.querySelectorAll(".boardTest")
+        if (boards[1].items.length >= 0) {
+            board2[1].style.background = "none"
+        }
         if (board.id === 1 && disabled) {
             e.target.style.opacity = "50%"
             e.target.draggable = false
@@ -97,7 +97,6 @@ const Pallete = () => {
         if (board.id === 1) {
             e.target.parentNode.style.zIndex = "1"
         }
-        console.log(e.target)
     }
 
     const dropHandler: any = (e: any, board: any, item: any) => {
@@ -245,31 +244,13 @@ const Pallete = () => {
     }
 
     const onDownHandler = (e: any, board: any) => {
-        if (disabledBoard) {
-            // if (board && board.id === 1) {
-            // e.target.parentNode.style.zIndex = "-1"
-            // setDisabledBoard(true)
-        }
-        // if (boards.id) {
-        if (currentBoard && board.id === 1) {
-            // e.target.parentNode.style.zIndex = "-1"
-            // setDisabledBoard(true)
-        }
 
-        // if (currentBoard && board.id === 2) {
-        //     console.log(e.target)
-        //     e.target.parentNode.style.zIndex = "-1"
-        //     setDisabledBoard(true)
-        // }
-
-        // }
-        // console.log(e.target)
-        // }
     }
 
     const onUpHandler = (e: any) => {
         // console.log(disabled)
-        // e.target.parentNode.style.zIndex = "1"
+        // console.log(e.target)
+        // e.target.style.background = "#F0F9FF"
     }
 
     const onClickHandler = (e: any) => {
@@ -277,10 +258,26 @@ const Pallete = () => {
         // e.target.parentNode.style.zIndex = "1"
     }
 
+    const mouseEnterHandler = (e: any, board: any) => {
+        // const board2: any = document.querySelectorAll(".boardTest")
+        // console.log(e.target)
+        // if (boards[1].items.length > 0) {
+        //     board2[1].style.background = "none"
+        // }
+
+    }
+
+    const onOtherHandler = (e: any, board: any) => {
+        // console.log(e.target)
+
+    }
+
     const elements: any = boards.map((board: any) => {
         return <div
             onDragOver={(e) => dragOverHandler(e)}
             onDrop={(e) => dropElementHandler(e, board)}
+            onMouseEnter={(e) => mouseEnterHandler(e, board)}
+            onMouseLeave={(e) => onOtherHandler(e, board)}
             key={board.id}
             className="boardTest">
             {
