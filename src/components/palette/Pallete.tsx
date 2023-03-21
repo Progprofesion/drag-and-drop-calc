@@ -25,15 +25,15 @@ const Pallete = () => {
         { id: 2, title: "board2", items: [] }
     ]) as any;
 
-    const boardTest: any = document.querySelectorAll(".boardTest")
-    const input: any = document.querySelectorAll(".pallete__input")
+    const boardTest: any = document.querySelector(".boardTest")
+    const display: any = document.querySelectorAll(".pallete__display")
     const operations: any = document.querySelectorAll(".pallete__operations")
 
     const [currentBoard, setCurrenBoard] = useState(null) as any
     const [currentItem, setCurrentItem] = useState(null) as any
     const [disabled, setDisabled] = useState(false) as any
     const [disabledBoard, setDisabledBoard] = useState(true) as any
-    const [boardBackground, setBoardBackground] = useState(false) as any
+    const [dragOverDisplay, setDragOverDisplay] = useState(false) as any
     // console.log(boards[1].items)
 
     const dragOverHandler: any = (e: any, board: any) => {
@@ -41,55 +41,50 @@ const Pallete = () => {
         if (board && board.id === 2) {
             if (e.target.className === "pallete__operations") {
                 e.target.style.borderTop = "10px solid #5D5FEF"
-                // boardTest[1].style.zIndex = "1"
+                setDragOverDisplay(false)
             }
             if (e.target.className === "pallete__dial") {
                 e.target.style.borderTop = "10px solid #5D5FEF"
-                // boardTest[1].style.zIndex = "1"
+                setDragOverDisplay(false)
             }
             if (e.target.className === "pallete__equally") {
                 e.target.style.borderTop = "10px solid #5D5FEF"
-                // boardTest[1].style.zIndex = "1"
+                setDragOverDisplay(false)
             }
-            // if (e.target.className === "pallete__display") {
-            //     e.target.parentNode.style.zIndex = "-1"
-            //     boardTest[1].style.zIndex = "-1"
-            // }
-            // для смены высоты 
-            e.target.parentNode.style.zIndex = "-1"
-        }
+            if (board.id === 1) {
+                e.target.parentNode.style.zIndex = "-1"
+            }
+            if (e.target.className === "pallete__display") {
+                setDragOverDisplay(true)
 
-        // console.log(e.target)
+            }
+        }
 
     }
     const dragLeaveHandlear: any = (e: any, board: any) => {
         e.target.style.borderTop = "none"
         // при наведении саму на себя или на элементы багаеться.
         // console.log(e.target)
-        // if (board.id === 1) {
-        //     e.target.parentNode.style.zIndex = "-1"
-        // }
+
     }
     const dragStartHandler: any = (e: any, board: any, item: any) => {
         setCurrenBoard(board)
         setCurrentItem(item)
+
         const board2: any = document.querySelectorAll(".boardTest")
         if (boards[1].items.length === 0) {
             board2[1].style.background = " #F0F9FF"
         }
-        console.log(e.target.parentNode)
-        // e.target.parentNode.style.zIndex = "1"
         if (board.id === 1) {
-            // console.log(boards[1])
             e.target.parentNode.style.zIndex = "-1"
-            console.log(e.target.parentNode)
         }
         if (board.id === 2) {
-            // e.target.parentNode.style.zIndex = "-1"
+            boardTest.style.zIndex = "-1"
         }
     }
 
     const dragEndHandler: any = (e: any, board: any) => {
+
         const board2: any = document.querySelectorAll(".boardTest")
         if (boards[1].items.length >= 0) {
             board2[1].style.background = "none"
@@ -107,17 +102,13 @@ const Pallete = () => {
             })
             e.target.querySelectorAll('.pallete__dial-button').forEach((node: any) => node.style.cursor = "not-allowed")
             setDisabled(false)
+
         }
         e.target.childNodes.forEach((child: any) => {
             child.style.boxShadow = "none"
         })
-        e.target.childNodes.forEach((child: any) => {
-            child.style.boxShadow = "none"
-        })
-        if (board.id === 1) {
-            board2[0].style.zIndex = "-1"
-            e.target.parentNode.style.zIndex = "1"
-        }
+        e.target.parentNode.style.zIndex = "1"
+        boardTest.style.zIndex = "1"
     }
 
     const dropHandler: any = (e: any, board: any, item: any) => {
@@ -133,12 +124,7 @@ const Pallete = () => {
                         // возможно поможет для запрета наведения на инпут
                         e.target.previousSibling.style.boxShadow = "none"
                     }
-                    console.log(e.target.previousSibling)
                 }, 0)
-                // if (e.target.className === "operations") {
-                //     e.target.style.borderTop = "10px solid #5D5FEF"
-                //     boardTest[1].style.zIndex = "1"
-                // }
 
                 // флаг для работы перетаскивания, при наведении на айтем во второй доске board.id === 2.
                 setDisabled(true)
@@ -163,6 +149,7 @@ const Pallete = () => {
                     // нужно для отмены тени у инпута при аншифте на эелемент
                     e.target.parentElement.childNodes[0].style.boxShadow = "none"
                     e.target.parentElement.childNodes[0].style.cursor = "not-allowed"
+                    e.target.parentElement.childNodes[0].draggable = false
 
                 }, 0)
                 // флаг для работы перетаскивания, при наведении на айтем во второй доске board.id === 2.
@@ -171,12 +158,16 @@ const Pallete = () => {
 
         }
 
-        if (currentBoard.id === 2 && board.id === 2 && currentItem.id !== 1) {
-            const currentIndex = currentBoard.items.indexOf(currentItem)
-            // ?????????????????????????
-            currentBoard.items.splice(currentIndex, 1)
-            const dropIndex = board.items.indexOf(item)
-            board.items.splice(dropIndex, 0, currentItem)
+        if (currentBoard.id === 2 && board.id === 2) {
+            // смена позиции карточки в текущей доске
+            if (!dragOverDisplay) {
+                const currentIndex = currentBoard.items.indexOf(currentItem)
+                currentBoard.items.splice(currentIndex, 1)
+                const dropIndex = board.items.indexOf(item)
+                board.items.splice(dropIndex, 0, currentItem)
+                e.target.parentElement.childNodes[0].style.cursor = "not-allowed"
+            }
+
             setBoards(boards.map((b: any) => {
                 if (b.id === board.id) {
                     return board
@@ -195,31 +186,16 @@ const Pallete = () => {
     const dropElementHandler = (e: any, board: any) => {
         e.preventDefault();
         e.stopPropagation();
-        const dial = e.target.querySelector(".pallete__dial")
-        // e.target.previousSibling.style.zIndex = "1"
         if (currentBoard.id === 1) {
             setDisabled(false)
         }
         // флаг для работы перетаскивания, только в доску для перетаскивания board.id === 2.
         if (board.id === 2) {
-
-            // e.target.
-            // if (dial) {
             setTimeout(() => {
-                // console.log(dial)
-                if (dial) {
-                    dial.style.height = "237px"
-                    dial.style.marginTop = "0px"
-                    dial.style.paddingTop = "12px"
-                }
-                e.target.style.boxShadow = "none"
                 e.target.childNodes.forEach((item: any) => {
                     item.style.boxShadow = "none"
                 })
             }, 0)
-            // }
-
-
             setDisabled(true)
         }
         if (board.id === 2) {
@@ -227,14 +203,18 @@ const Pallete = () => {
                 board.items.unshift(currentItem)
                 setTimeout(() => {
                     e.target.firstChild.firstChild.style.cursor = "not-allowed"
-                    e.target.firstChild.style.zIndex = "-1"
+                    // e.target.firstChild.style.zIndex = "-1"
                     e.target.firstChild.style.cursor = "not-allowed"
                     e.target.firstChild.draggable = false
-
                 }, 0)
             }
             if (currentItem.id !== 1) {
                 board.items.push(currentItem)
+                setTimeout(() => {
+                    console.log(e.target.firstChild)
+                    e.target.firstChild.firstChild.style.cursor = "not-allowed"
+                    // e.target.firstChild.firstChild.draggable = false
+                }, 0)
             }
         }
         // отмена копирования элементов в второй доске
@@ -256,7 +236,6 @@ const Pallete = () => {
         e.target.style.borderBottom = "none"
         if (e.target.className === "boardTest") {
             e.target.style.border = "none"
-            // e.target.style.zIndex = "1"
         }
 
 
