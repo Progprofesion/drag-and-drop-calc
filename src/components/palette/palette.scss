@@ -35,6 +35,7 @@
         }
     }
     &__operations {
+        position: relative;
         display: flex;
         align-items: center;
         justify-content: center;
@@ -62,6 +63,7 @@
         }
     }
     &__dial {
+        position: relative;
         display: flex;
         justify-content: center;
         align-items: center;
@@ -96,6 +98,7 @@
         }
     }
     &__equally {
+        position: relative;
         display: flex;
         justify-content: center;
         align-items: center;
@@ -123,6 +126,13 @@
         height: 448px;
         // border: 2px dashed #C4C4C4;
         border-radius: 6px;
+    }
+    &__span {
+        display: none;
+        position: absolute;
+        top: -7px;
+        width: 244px;
+        border: 1px solid rgba(93, 95, 239, 1)
     }
 }
 
