@@ -34,6 +34,7 @@ const Pallete = () => {
     const [disabled, setDisabled] = useState(false) as any
     const [disabledShadow, setDisabledShadow] = useState(false) as any
     const [dragOverDisplay, setDragOverDisplay] = useState(false) as any
+    const [styleDabl, setStyleDabl] = useState(false) as any
     // console.log(boards[1].items)
 
     const dragOverHandler: any = (e: any, board: any) => {
@@ -101,6 +102,13 @@ const Pallete = () => {
         if (boards[1].items.length >= 0) {
             board2[1].style.background = "none"
         }
+
+        // if (board.id === 1 && disabledShadow) {
+        //     // e.target.style.boxShadow = "none"
+        //     // e.target.style.opacity = "50%"
+        //     setDisabledShadow(false)
+        // }
+
         if (board.id === 1 && disabled) {
             e.target.style.opacity = "50%"
             e.target.draggable = false
@@ -123,10 +131,7 @@ const Pallete = () => {
         })
         e.target.parentNode.style.zIndex = "1"
         boardTest.style.zIndex = "1"
-        if (board.id === 1 && disabledShadow) {
-            e.target.style.boxShadow = "none"
-            e.target.style.opacity = "50%"
-        }
+
     }
 
     const dropHandler: any = (e: any, board: any, item: any) => {
@@ -290,10 +295,49 @@ const Pallete = () => {
 
     const doubleClickHandler = (e: any, board: any, item: any) => {
         e.preventDefault()
+        const dial: any = document.querySelector(".pallete__dial")
+        const buttons: any = document.querySelectorAll(".pallete__dial-button")
+        const operations: NodeListOf<Element> = document.querySelectorAll(".pallete__operations")
+        const equally = document.querySelectorAll(".pallete__equally")
+        // setStyleDabl(true)
+        // console.log(boards[0].items.id)
+        // console.log(operations[0].parentNode)
+        if (board.id === 2 && item.id === 2) {
+            operations.forEach((item: any) => {
+                item.style.cursor = "grab"
+                item.style.opacity = "100%"
+                item.style.boxShadow = "0px 2px 4px rgba(0, 0, 0, 0.06), 0px 4px 6px rgba(0, 0, 0, 0.1)"
+                operations.forEach((item: any) => {
+                    item.draggable = true
+                })
+            })
+
+        }
+        if (board.id === 2 && item.id === 3) {
+            dial.style.cursor = "grab"
+            dial.style.opacity = "100%"
+            dial.draggable = "true"
+            dial.style.boxShadow = "0px 2px 4px rgba(0, 0, 0, 0.06), 0px 4px 6px rgba(0, 0, 0, 0.1)"
+            buttons.forEach((item: any) => {
+                item.style.cursor = "grab"
+
+            })
+
+        }
+        if (board.id === 2 && item.id === 4) {
+            equally.forEach((item: any) => {
+                item.style.cursor = "grab"
+                item.style.opacity = "100%"
+                item.draggable = "true"
+                item.style.boxShadow = "0px 2px 4px rgba(0, 0, 0, 0.06), 0px 4px 6px rgba(0, 0, 0, 0.1)"
+            })
+
+        }
+
+
         if (board.id === 2 && e.target.className !== "pallete__display") {
             const currentIndex = board.items.indexOf(item)
             board.items.splice(currentIndex, 1, 1)
-            console.log(e.target)
             setBoards(boards.map((b: any) => {
                 if (b.id === board.id) {
                     return board
