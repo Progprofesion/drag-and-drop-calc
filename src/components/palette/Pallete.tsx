@@ -103,11 +103,13 @@ const Pallete = () => {
             board2[1].style.background = "none"
         }
 
-        // if (board.id === 1 && disabledShadow) {
-        //     // e.target.style.boxShadow = "none"
-        //     // e.target.style.opacity = "50%"
-        //     setDisabledShadow(false)
-        // }
+        // для выключения карточки при дропе на инпут
+        if (board.id === 1 && dragOverDisplay) {
+            // console.log()
+            e.target.style.boxShadow = "none"
+            e.target.style.opacity = "50%"
+            setDisabledShadow(false)
+        }
 
         if (board.id === 1 && disabled) {
             e.target.style.opacity = "50%"
@@ -124,6 +126,13 @@ const Pallete = () => {
             if (e.target.className === "pallete__display") {
                 setDragOverDisplay(true)
             }
+            // console.log(boards[1].items.length)
+            // console.log(currentBoard.items.length)
+            // let arr = boards[1].items.length
+            // console.log(arr)
+            // if (boards[1].items.length < arr) {
+            //     setDisabled(false)
+            // }
             setDisabled(false)
         }
         e.target.childNodes.forEach((child: any) => {
@@ -137,6 +146,8 @@ const Pallete = () => {
     const dropHandler: any = (e: any, board: any, item: any) => {
         e.preventDefault();
         e.stopPropagation();
+        // ???????????????????????
+        // для выклюения карточки в 1 доске
         setDisabledShadow(true)
         if (e.target.className === "pallete__display") {
             e.target.firstChild.style.display = "none"
@@ -168,7 +179,8 @@ const Pallete = () => {
                     }
                 }, 0)
                 // флаг для работы перетаскивания, при наведении на айтем во второй доске board.id === 2.
-                setDisabled(true)
+                // ??????????????????????????????????????
+                // setDisabled(true)
             }
             if (e.target.className === "pallete__display") {
                 const dropIndex = board.items.indexOf(item)
@@ -188,8 +200,10 @@ const Pallete = () => {
 
 
         if (currentBoard.id === 1 && currentItem.id === 1) {
-            const currentIndex = currentBoard.items.indexOf(currentItem)
-            currentBoard.items.splice(currentIndex, 0, 1)
+            // ?????????????????????
+            // const currentIndex = currentBoard.items.indexOf(currentItem)
+            // currentBoard.items.splice(currentIndex, 0, 1)
+
             if (board.id === 2) {
                 board.items.unshift(currentItem)
                 setTimeout(() => {
@@ -200,14 +214,19 @@ const Pallete = () => {
 
                 }, 0)
                 // флаг для работы перетаскивания, при наведении на айтем во второй доске board.id === 2.
-                setDisabled(true)
+                // ?????????????????????????????
+                // setDisabled(true)
             }
 
         }
 
         if (currentBoard.id === 2 && board.id === 2) {
 
+            setTimeout(() => {
+                setDisabled(false)
 
+            }, 0)
+            console.log(disabled)
             if (e.target.className === "pallete__display") {
 
                 const currentIndex = currentBoard.items.indexOf(currentItem)
@@ -242,9 +261,6 @@ const Pallete = () => {
     const dropElementHandler = (e: any, board: any) => {
         e.preventDefault();
         e.stopPropagation();
-        if (currentBoard.id === 1) {
-            setDisabled(false)
-        }
         // флаг для работы перетаскивания, только в доску для перетаскивания board.id === 2.
         if (board.id === 2) {
             setTimeout(() => {
