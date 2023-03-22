@@ -35,6 +35,8 @@ const Pallete = () => {
     const [disabledShadow, setDisabledShadow] = useState(false) as any
     const [dragOverDisplay, setDragOverDisplay] = useState(false) as any
     const [styleDabl, setStyleDabl] = useState(false) as any
+    const [prevArrLength, setPrevArrLength] = useState<number>(0)
+    const [nextArrLength, setNextArrLength] = useState<number>(0)
     // console.log(boards[1].items)
 
     const dragOverHandler: any = (e: any, board: any) => {
@@ -85,12 +87,21 @@ const Pallete = () => {
         setCurrenBoard(board)
         setCurrentItem(item)
 
+        setPrevArrLength(boards[1].items.length)
+        console.log(prevArrLength)
+
         const board2: any = document.querySelectorAll(".boardTest")
         if (boards[1].items.length === 0) {
             board2[1].style.background = " #F0F9FF"
         }
         if (board.id === 1) {
             e.target.parentNode.style.zIndex = "-1"
+            // if (disabledShadow) {
+            //     e.target.style.opacity = "50%"
+            //     e.target.boxShadow = "none"
+            //     setDisabledShadow(false)
+            // }
+
         }
         if (board.id === 2) {
             boardTest.style.zIndex = "-1"
@@ -103,12 +114,13 @@ const Pallete = () => {
             board2[1].style.background = "none"
         }
 
-        // для выключения карточки при дропе на инпут
+        // для выключения карточки при дропе на инпутинпут
         if (board.id === 1 && dragOverDisplay) {
             // console.log()
             e.target.style.boxShadow = "none"
             e.target.style.opacity = "50%"
             setDisabledShadow(false)
+            setDragOverDisplay(false)
         }
 
         if (board.id === 1 && disabled) {
@@ -122,10 +134,21 @@ const Pallete = () => {
             e.target.querySelectorAll('.pallete__operations-buttons').forEach((node: any) => {
                 node.style.cursor = "not-allowed"
             })
+            e.target.querySelectorAll('.pallete__operations').forEach((node: any) => {
+                node.style.cursor = "not-allowed"
+                node.style.boxShadow = "none"
+                console.log(e.target)
+            })
             e.target.querySelectorAll('.pallete__dial-button').forEach((node: any) => node.style.cursor = "not-allowed")
             if (e.target.className === "pallete__display") {
                 setDragOverDisplay(true)
+                // console.log(e.target)
+                e.target.style.boxShadow = "none"
             }
+            // if (e.target.className === "boardTest") {
+            //     console.log(e.target)
+            //     setDragOverDisplay(true)
+            // }
             // console.log(boards[1].items.length)
             // console.log(currentBoard.items.length)
             // let arr = boards[1].items.length
@@ -146,6 +169,25 @@ const Pallete = () => {
     const dropHandler: any = (e: any, board: any, item: any) => {
         e.preventDefault();
         e.stopPropagation();
+        e.stopPropagation();
+        setNextArrLength(boards[1].items.length);
+
+        // let prevArrLength = boards[1].items.length;
+
+        // let nextArrLength = board.length
+        // console.log(prevArrLength)
+
+
+        // if (prevArrLength > nextArrLength) {
+        //     prevArrLength = prevArrLength
+        //     console.log(prevArrLength)
+        // }
+
+
+        // if (e.target.className === "pallete__dial") {
+        //     setDragOverDisplay(true)
+        //     e.target.style.boxShadow = "none"
+        // }
         // ???????????????????????
         // для выклюения карточки в 1 доске
         setDisabledShadow(true)
@@ -226,7 +268,7 @@ const Pallete = () => {
                 setDisabled(false)
 
             }, 0)
-            console.log(disabled)
+
             if (e.target.className === "pallete__display") {
 
                 const currentIndex = currentBoard.items.indexOf(currentItem)
@@ -260,7 +302,6 @@ const Pallete = () => {
 
     const dropElementHandler = (e: any, board: any) => {
         e.preventDefault();
-        e.stopPropagation();
         // флаг для работы перетаскивания, только в доску для перетаскивания board.id === 2.
         if (board.id === 2) {
             setTimeout(() => {
