@@ -64,6 +64,7 @@ const Pallete = () => {
                 e.target.parentNode.style.zIndex = "-1"
             }
 
+
         }
 
     }
@@ -88,7 +89,7 @@ const Pallete = () => {
         setCurrentItem(item)
 
         setPrevArrLength(boards[1].items.length)
-        console.log(prevArrLength)
+
 
         const board2: any = document.querySelectorAll(".boardTest")
         if (boards[1].items.length === 0) {
@@ -98,7 +99,7 @@ const Pallete = () => {
             e.target.parentNode.style.zIndex = "-1"
             // if (disabledShadow) {
             //     e.target.style.opacity = "50%"
-            //     e.target.boxShadow = "none"
+            //     e.target.style.boxShadow = "none"
             //     setDisabledShadow(false)
             // }
 
@@ -108,56 +109,67 @@ const Pallete = () => {
         }
     }
 
-    const dragEndHandler: any = (e: any, board: any) => {
+    const dragEndHandler: any = (e: any, board: any, item: any) => {
         const board2: any = document.querySelectorAll(".boardTest")
         if (boards[1].items.length >= 0) {
             board2[1].style.background = "none"
         }
 
         // для выключения карточки при дропе на инпутинпут
-        if (board.id === 1 && dragOverDisplay) {
-            // console.log()
-            e.target.style.boxShadow = "none"
-            e.target.style.opacity = "50%"
-            setDisabledShadow(false)
-            setDragOverDisplay(false)
-        }
+        // if (board.id === 1 && dragOverDisplay) {
+        //     // console.log()
+        //     e.target.style.boxShadow = "none"
+        //     e.target.style.opacity = "50%"
+        //     setDisabledShadow(false)
+        //     setDragOverDisplay(false)
+        // }
 
-        if (board.id === 1 && disabled) {
-            e.target.style.opacity = "50%"
-            e.target.draggable = false
-            e.target.style.cursor = "not-allowed"
-            e.target.style.boxShadow = "none"
-            e.target.querySelectorAll('.pallete__display-input').forEach((node: any) => {
-                node.style.cursor = "not-allowed"
-            })
-            e.target.querySelectorAll('.pallete__operations-buttons').forEach((node: any) => {
-                node.style.cursor = "not-allowed"
-            })
-            e.target.querySelectorAll('.pallete__operations').forEach((node: any) => {
-                node.style.cursor = "not-allowed"
-                node.style.boxShadow = "none"
-                console.log(e.target)
-            })
-            e.target.querySelectorAll('.pallete__dial-button').forEach((node: any) => node.style.cursor = "not-allowed")
-            if (e.target.className === "pallete__display") {
-                setDragOverDisplay(true)
-                // console.log(e.target)
+        boards[1].items.forEach((item2: any) => {
+            console.log(item2.id)
+            console.log(item.id)
+
+            if (item.id === item2.id && board.id === 1 && disabled) {
+
+
+                e.target.style.opacity = "50%"
+                e.target.draggable = false
+                e.target.style.cursor = "not-allowed"
                 e.target.style.boxShadow = "none"
+                e.target.querySelectorAll('.pallete__display-input').forEach((node: any) => {
+                    node.style.cursor = "not-allowed"
+                })
+                e.target.querySelectorAll('.pallete__operations-buttons').forEach((node: any) => {
+                    node.style.cursor = "not-allowed"
+                })
+                e.target.querySelectorAll('.pallete__operations').forEach((node: any) => {
+                    node.style.cursor = "not-allowed"
+                    node.style.boxShadow = "none"
+                    console.log(e.target)
+                })
+                e.target.querySelectorAll('.pallete__dial-button').forEach((node: any) => node.style.cursor = "not-allowed")
+                if (e.target.className === "pallete__display") {
+                    setDragOverDisplay(true)
+                    // console.log(e.target)
+                    e.target.style.boxShadow = "none"
+                }
+                // if (e.target.className === "boardTest") {
+                //     console.log(e.target)
+                //     setDragOverDisplay(true)
+                // }
+                // console.log(boards[1].items.length)
+                // console.log(currentBoard.items.length)
+                // let arr = boards[1].items.length
+                // console.log(arr)
+                // if (boards[1].items.length < arr) {
+                //     setDisabled(false)
+                // }
+                setDisabled(false)
+
+
+
             }
-            // if (e.target.className === "boardTest") {
-            //     console.log(e.target)
-            //     setDragOverDisplay(true)
-            // }
-            // console.log(boards[1].items.length)
-            // console.log(currentBoard.items.length)
-            // let arr = boards[1].items.length
-            // console.log(arr)
-            // if (boards[1].items.length < arr) {
-            //     setDisabled(false)
-            // }
-            setDisabled(false)
-        }
+        })
+
         e.target.childNodes.forEach((child: any) => {
             child.style.boxShadow = "none"
         })
@@ -171,6 +183,7 @@ const Pallete = () => {
         e.stopPropagation();
         e.stopPropagation();
         setNextArrLength(boards[1].items.length);
+        console.log(e.target)
 
         // let prevArrLength = boards[1].items.length;
 
@@ -453,7 +466,7 @@ const Pallete = () => {
                                 onDragOver={(e) => dragOverHandler(e, board)}
                                 onDragLeave={e => dragLeaveHandlear(e, board)}
                                 onDragStart={(e) => dragStartHandler(e, board, item)}
-                                onDragEnd={(e) => dragEndHandler(e, board)}
+                                onDragEnd={(e) => dragEndHandler(e, board, item)}
                                 onDrop={(e) => dropHandler(e, board, item)}
                                 draggable={true}
                                 key={item.id}
@@ -474,7 +487,7 @@ const Pallete = () => {
                                 onDragOver={(e) => dragOverHandler(e, board)}
                                 onDragLeave={e => dragLeaveHandlear(e, board)}
                                 onDragStart={(e) => dragStartHandler(e, board, item)}
-                                onDragEnd={(e) => dragEndHandler(e, board)}
+                                onDragEnd={(e) => dragEndHandler(e, board, item)}
                                 onDrop={(e) => dropHandler(e, board, item)}
                                 draggable={true}
                                 key={item.id}
@@ -499,7 +512,7 @@ const Pallete = () => {
                                 onDragOver={(e) => dragOverHandler(e, board)}
                                 onDragLeave={e => dragLeaveHandlear(e, board)}
                                 onDragStart={(e) => dragStartHandler(e, board, item)}
-                                onDragEnd={(e) => dragEndHandler(e, board)}
+                                onDragEnd={(e) => dragEndHandler(e, board, item)}
                                 onDrop={(e) => dropHandler(e, board, item)}
                                 draggable={true}
                                 key={item.id}
@@ -523,7 +536,7 @@ const Pallete = () => {
                                 onDragOver={(e) => dragOverHandler(e, board)}
                                 onDragLeave={e => dragLeaveHandlear(e, board)}
                                 onDragStart={(e) => dragStartHandler(e, board, item)}
-                                onDragEnd={(e) => dragEndHandler(e, board)}
+                                onDragEnd={(e) => dragEndHandler(e, board, item)}
                                 onDrop={(e) => dropHandler(e, board, item)}
                                 draggable={true}
                                 key={item.id}
