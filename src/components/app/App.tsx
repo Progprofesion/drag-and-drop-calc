@@ -8,7 +8,8 @@ const App = () => {
     return (
         <main className='app'>
             <div className="container">
-                <section className="main">
+                <section
+                    className="main">
                     <Hug />
                     <Pallete />
                     {/* <Canvas /> */}
