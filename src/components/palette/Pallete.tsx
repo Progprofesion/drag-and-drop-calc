@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+// import {useEffect} from 'react-redux';'
 // import { useSelector, useDispatch } from "react-redux";
 
 // import Canvas from '../canvas/Canvas';
@@ -34,7 +35,7 @@ const Pallete = () => {
     const [disabled, setDisabled] = useState(false) as any
     const [disabledShadow, setDisabledShadow] = useState(false) as any
     const [dragOverDisplay, setDragOverDisplay] = useState(false) as any
-    const [styleDabl, setStyleDabl] = useState(false) as any
+    const [disabledCurrenItem, setDisabledCurrenItem] = useState(false) as any
     const [prevArrLength, setPrevArrLength] = useState<number>(0)
     const [nextArrLength, setNextArrLength] = useState<number>(0)
     // console.log(boards[1].items)
@@ -66,6 +67,8 @@ const Pallete = () => {
 
 
         }
+
+
 
     }
     const dragLeaveHandlear: any = (e: any, board: any) => {
@@ -102,11 +105,20 @@ const Pallete = () => {
             //     e.target.style.boxShadow = "none"
             //     setDisabledShadow(false)
             // }
+            if (board.id === 1) {
+                setDisabledCurrenItem(true)
+            }
+            if (board.id === 2) {
+                setDisabledCurrenItem(false)
+            }
 
         }
         if (board.id === 2) {
             boardTest.style.zIndex = "-1"
         }
+
+
+
     }
 
     const dragEndHandler: any = (e: any, board: any, item: any) => {
@@ -114,6 +126,26 @@ const Pallete = () => {
         if (boards[1].items.length >= 0) {
             board2[1].style.background = "none"
         }
+
+
+
+
+        // if (e.target.className === "pallete__display") {
+
+        // }
+        // if (e.target.className === "pallete__operations") {
+
+        // }
+        // if (e.target.className === "pallete__dial") {
+
+        // }
+        // if (e.target.className === "pallete__equally") {
+
+        // }
+
+
+
+
 
         // для выключения карточки при дропе на инпутинпут
         // if (board.id === 1 && dragOverDisplay) {
@@ -124,51 +156,57 @@ const Pallete = () => {
         //     setDragOverDisplay(false)
         // }
 
-        boards[1].items.forEach((item2: any) => {
-            console.log(item2.id)
-            console.log(item.id)
 
-            if (item.id === item2.id && board.id === 1 && disabled) {
-
-
-                e.target.style.opacity = "50%"
-                e.target.draggable = false
-                e.target.style.cursor = "not-allowed"
+        if (board.id === 1 && disabled) {
+            e.target.style.opacity = "50%"
+            e.target.draggable = false
+            e.target.style.cursor = "not-allowed"
+            e.target.style.boxShadow = "none"
+            e.target.querySelectorAll('.pallete__display-input').forEach((node: any) => {
+                node.style.cursor = "not-allowed"
+            })
+            e.target.querySelectorAll('.pallete__operations-buttons').forEach((node: any) => {
+                node.style.cursor = "not-allowed"
+            })
+            e.target.querySelectorAll('.pallete__operations').forEach((node: any) => {
+                node.style.cursor = "not-allowed"
+                node.style.boxShadow = "none"
+            })
+            e.target.querySelectorAll('.pallete__dial-button').forEach((node: any) => node.style.cursor = "not-allowed")
+            if (e.target.className === "pallete__display") {
+                setDragOverDisplay(true)
+                // console.log(e.target)
                 e.target.style.boxShadow = "none"
-                e.target.querySelectorAll('.pallete__display-input').forEach((node: any) => {
-                    node.style.cursor = "not-allowed"
-                })
-                e.target.querySelectorAll('.pallete__operations-buttons').forEach((node: any) => {
-                    node.style.cursor = "not-allowed"
-                })
-                e.target.querySelectorAll('.pallete__operations').forEach((node: any) => {
-                    node.style.cursor = "not-allowed"
-                    node.style.boxShadow = "none"
-                    console.log(e.target)
-                })
-                e.target.querySelectorAll('.pallete__dial-button').forEach((node: any) => node.style.cursor = "not-allowed")
-                if (e.target.className === "pallete__display") {
-                    setDragOverDisplay(true)
-                    // console.log(e.target)
-                    e.target.style.boxShadow = "none"
-                }
-                // if (e.target.className === "boardTest") {
-                //     console.log(e.target)
-                //     setDragOverDisplay(true)
-                // }
-                // console.log(boards[1].items.length)
-                // console.log(currentBoard.items.length)
-                // let arr = boards[1].items.length
-                // console.log(arr)
-                // if (boards[1].items.length < arr) {
-                //     setDisabled(false)
-                // }
-                setDisabled(false)
-
-
-
             }
-        })
+            setDisabled(false)
+
+        }
+
+        if (board.id === 1 && !disabledCurrenItem) {
+            e.target.style.opacity = "50%"
+            e.target.draggable = false
+            e.target.style.cursor = "not-allowed"
+            e.target.style.boxShadow = "none"
+            e.target.querySelectorAll('.pallete__display-input').forEach((node: any) => {
+                node.style.cursor = "not-allowed"
+            })
+            e.target.querySelectorAll('.pallete__operations-buttons').forEach((node: any) => {
+                node.style.cursor = "not-allowed"
+            })
+            e.target.querySelectorAll('.pallete__operations').forEach((node: any) => {
+                node.style.cursor = "not-allowed"
+                node.style.boxShadow = "none"
+            })
+            e.target.querySelectorAll('.pallete__dial-button').forEach((node: any) => node.style.cursor = "not-allowed")
+            if (e.target.className === "pallete__display") {
+                setDragOverDisplay(true)
+                // console.log(e.target)
+                e.target.style.boxShadow = "none"
+            }
+
+        }
+
+
 
         e.target.childNodes.forEach((child: any) => {
             child.style.boxShadow = "none"
@@ -178,29 +216,39 @@ const Pallete = () => {
 
     }
 
+
     const dropHandler: any = (e: any, board: any, item: any) => {
         e.preventDefault();
         e.stopPropagation();
         e.stopPropagation();
-        setNextArrLength(boards[1].items.length);
-        console.log(e.target)
 
-        // let prevArrLength = boards[1].items.length;
 
-        // let nextArrLength = board.length
+        if (disabledCurrenItem) {
+            console.log(e.target)
+            setDisabledCurrenItem(false)
+        }
+
+        // setPrevArrLength(nextArrLength)
+        // setNextArrLength(boards[0].items.length)
         // console.log(prevArrLength)
+        // console.log(nextArrLength)
+        if (board.id === 2) {
+            // console.log(e.target)
+            // setPrevArrLength(nextArrLength)
+            // console.log(prevArrLength)
+            // console.log(nextArrLength)
+        }
+
+        // console.log(prevArrLength)
+        // console.log(nextArrLength)
 
 
-        // if (prevArrLength > nextArrLength) {
-        //     prevArrLength = prevArrLength
-        //     console.log(prevArrLength)
+        // if (prevArrLength < nextArrLength) {
+
         // }
 
 
-        // if (e.target.className === "pallete__dial") {
-        //     setDragOverDisplay(true)
-        //     e.target.style.boxShadow = "none"
-        // }
+
         // ???????????????????????
         // для выклюения карточки в 1 доске
         setDisabledShadow(true)
