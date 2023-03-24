@@ -38,7 +38,7 @@ const Pallete = () => {
     const [dragOverDisplay, setDragOverDisplay] = useState(false) as any
     const [disabledCurrenItem, setDisabledCurrenItem] = useState(false) as any
     const [disabledSpan, setDisabledSpan] = useState(false) as any
-
+    const [disabledLastChildPadding, setDisabledLastChildPadding] = useState(false) as any
 
     useEffect(() => {
         // setDisabledSpan(true)
@@ -75,7 +75,7 @@ const Pallete = () => {
             palleteWrapp.style.zIndex = "-1"
         }
     }
-    console.log(disabledSpan)
+    // console.log(disabledSpan)
 
     const dragOverHandler: any = (e: any, board: any) => {
         e.preventDefault();
@@ -87,7 +87,7 @@ const Pallete = () => {
             // if
             e.target.firstChild.firstChild.style.display = "block"
             // ?????????????????????????
-            e.target.firstChild.firstChild.style.top = "7px"
+            e.target.firstChild.firstChild.style.top = "-7px"
             // ?????????????????????????
             // setDisabledSpan(false)
         }
@@ -95,26 +95,26 @@ const Pallete = () => {
         // setTimeout(() => {
         // && boards[1].items.length < 4
         if (e.target.className === "pallete__wrapp" && e.target.lastChild && !disabledSpan) {
-            console.log(disabledSpan)
             // setDragOverDisplay(false)
             // if
             e.target.lastChild.firstChild.style.display = "block"
             // ?????????????????????????
             e.target.lastChild.firstChild.style.top = "unset"
             // ?????????????????????????
-            e.target.lastChild.firstChild.style.bottom = "-7px"
+            e.target.lastChild.firstChild.style.bottom = "7px"
             // setDisabledSpan(true)
         }
+
         // }, 0)
 
         if (board && board.id === 2) {
 
-            if (e.target.className === "pallete__display" && boards[1].items.length > 1) {
+            if (e.target.className === "pallete__display" && boards[1].items.length > 0) {
                 setDragOverDisplay(true)
                 setDisabledSpan(true)
                 e.target.firstChild.style.display = "block"
                 e.target.firstChild.style.top = "unset"
-                e.target.firstChild.style.bottom = "-7px"
+                e.target.firstChild.style.bottom = "7px"
 
                 // palleteIStina.childNodes.forEach((item: any) => {
                 //     console.log(item)
@@ -123,21 +123,21 @@ const Pallete = () => {
             }
             if (e.target.className === "pallete__operations" && boards[1].items.length > 1) {
                 e.target.firstChild.style.display = "block"
-                e.target.firstChild.style.top = "7px"
+                e.target.firstChild.style.top = "-7px"
                 setDragOverDisplay(false)
                 setDisabledSpan(false)
                 // palleteIStina.childNodes[1].lastChild.firstChild.style.display = "none"
             }
             if (e.target.className === "pallete__dial" && boards[1].items.length > 1) {
                 e.target.firstChild.style.display = "block"
-                e.target.firstChild.style.top = "7px"
+                e.target.firstChild.style.top = "-7px"
                 setDragOverDisplay(false)
                 setDisabledSpan(false)
                 // palleteIStina.childNodes[1].lastChild.firstChild.style.display = "none"
             }
             if (e.target.className === "pallete__equally" && boards[1].items.length > 1) {
                 e.target.firstChild.style.display = "block"
-                e.target.firstChild.style.top = "7px"
+                e.target.firstChild.style.top = "-7px"
                 setDragOverDisplay(false)
                 setDisabledSpan(false)
                 // palleteIStina.childNodes[1].lastChild.firstChild.style.display = "none"
@@ -178,10 +178,6 @@ const Pallete = () => {
 
         setDisabledSpan(false)
 
-        if (board.id !== 2 && e.target.lastChild) {
-            // e.target.lastChild.firstChild.style.display = "none"
-            // console.log(e.target)
-        }
         const board2: any = document.querySelectorAll(".pallete__wrapp")
         if (boards[1].items.length >= 0) {
             board2[1].style.background = "none"
@@ -232,25 +228,72 @@ const Pallete = () => {
     const dropHandler: any = (e: any, board: any, item: any) => {
         e.preventDefault();
         e.stopPropagation();
-        console.log(e.target)
+        // console.log(e.target)
+
+
+        setTimeout(() => {
+            const operationsCurrent: any = document.querySelectorAll(".pallete__operations")
+            const dialCurrent: any = document.querySelectorAll(".pallete__dial");
+            const equallyCurrent: any = document.querySelectorAll(".pallete__equally");
+            const displayCurrent: any = document.querySelectorAll(".pallete__display");
+
+            //-------------------------- стили для расширения карточки
+
+            e.target.parentNode.style.height = "448px"
+            // console.log(boards)
+            // if(item.id === board.l)
+            if (board.items.length >= 4) {
+                console.log(e.target.parentNode)
+                e.target.parentNode.style.height = "448px"
+                // e.target.style.marginTop = "-1px"
+                // e.target.style.paddingBottom = "0px"
+                setDisabledLastChildPadding(true)
+            }
+
+
+            // DISPLAY
+            if (currentItem.id === 1 && boards[1].items.length <= 4) {
+                console.log(e.target)
+                displayCurrent[1].style.marginTop = "0px"
+                displayCurrent[1].style.paddingBottom = "12px"
+                displayCurrent[1].style.height = "72px"
+            }
+
+            // OPERATIONS
+            if (currentItem.id === 2 && boards[1].items.length <= 4) {
+                operationsCurrent[1].style.marginTop = "0px"
+                operationsCurrent[1].style.paddingBottom = "12px"
+                operationsCurrent[1].style.height = "68px"
+            }
+
+            // DIAL 
+            if (currentItem.id === 3 && boards[1].items.length <= 4) {
+                dialCurrent[1].style.marginTop = "0px"
+                dialCurrent[1].style.paddingBottom = "12px"
+                dialCurrent[1].style.height = "237px"
+            }
+
+            // EQUALLY 
+            if (currentItem.id === 4 && boards[1].items.length <= 4) {
+                equallyCurrent[1].style.marginTop = "0px"
+                equallyCurrent[1].style.paddingBottom = "12px"
+                equallyCurrent[1].style.height = "84px"
+            }
+        }, 0)
+
         if (e.target.className === "pallete__display") {
             e.target.firstChild.style.display = "none"
 
         }
         if (e.target.className === "pallete__operations") {
             e.target.firstChild.style.display = "none"
-            // e.target.style.marginTop = "0px"
-            // e.target.style.height = "68px"
         }
         if (e.target.className === "pallete__dial") {
             e.target.firstChild.style.display = "none"
-            // e.target.style.marginTop = "0px"
-            // e.target.style.height = "237px"
+
         }
         if (e.target.className === "pallete__qually") {
             e.target.firstChild.style.display = "none"
-            // e.target.style.marginTop = "0px"
-            // e.target.style.height = "84px"
         }
 
         if (e.target.firstChild) {
@@ -319,19 +362,20 @@ const Pallete = () => {
             if (e.target.className === "pallete__display") {
 
                 const currentIndex = currentBoard.items.indexOf(currentItem)
-                currentBoard.items.splice(currentIndex, 1, 1)
+                currentBoard.items.splice(currentIndex, 1)
                 const dropIndex = board.items.indexOf(item)
                 board.items.splice(dropIndex + 1, 0, currentItem)
             }
 
+            // ????????????????????????????????????
+            // if (e.target.className !== "pallete__display" && currentItem.id !== 1) {
+            //     const currentIndex = currentBoard.items.indexOf(currentItem)
+            //     currentBoard.items.splice(currentIndex, 1, 1)
+            //     const dropIndex = board.items.indexOf(item)
+            //     board.items.splice(dropIndex + 1, 0, currentItem)
+            // }
 
-            if (e.target.className !== "pallete__display" && currentItem.id !== 1) {
 
-                const currentIndex = currentBoard.items.indexOf(currentItem)
-                currentBoard.items.splice(currentIndex, 1, 1)
-                const dropIndex = board.items.indexOf(item)
-                board.items.splice(dropIndex + 1, 0, currentItem)
-            }
             // смена позиции карточки в текущей доске
             if (!dragOverDisplay) {
                 const currentIndex = currentBoard.items.indexOf(currentItem)
@@ -350,68 +394,56 @@ const Pallete = () => {
                 return b
             }))
         }
-
-        // if (currentBoard.id === 2 && board.id === 2 && currentItem.id !== 1) {
-        //     const currentIndex = currentBoard.items.indexOf(currentItem)
-        //     currentBoard.items.splice(currentIndex, 1, 1)
-        //     const dropIndex = board.items.indexOf(item)
-        //     board.items.splice(dropIndex, 0, currentItem)
-        //     setBoards(boards.map((b: any) => {
-        //         if (b.id === board.id) {
-        //             return board
-        //         }
-        //         if (b.id === currentBoard.id) {
-        //             return currentBoard
-        //         }
-        //         return b
-        //     }))
-        // }
-        // e.target.style.borderTop = "none"
     }
 
 
 
     const dropElementHandler = (e: any, board: any) => {
         e.preventDefault();
-        // e.stopPropagation();
-        // const operations: any = document.querySelectorAll(".pallete__operations")
-        // setTimeout(() => {
-        // console.log(e.target.childNodes)
-        // console.log(currentItem)
-        // console.log(e.target)
-        // if (currentItem.id === 2) {
+        e.stopPropagation();
         setTimeout(() => {
             const operationsCurrent: any = document.querySelectorAll(".pallete__operations")
             const dialCurrent: any = document.querySelectorAll(".pallete__dial");
             const equallyCurrent: any = document.querySelectorAll(".pallete__equally");
+            const displayCurrent: any = document.querySelectorAll(".pallete__display");
 
-            //-------------------------- стили для расширения карточки 
+            //-------------------------- стили для расширения карточки
+
+            if (board.items.length > 2) {
+
+                e.target.style.maxHeight = "448px"
+                e.target.lastChild.style.marginTop = "-1px"
+                e.target.lastChild.style.paddingBottom = "0px"
+            }
+
+            // DISPLAY
+            if (currentItem.id === 1 && boards[1].items.length < 4) {
+                displayCurrent[1].style.marginTop = "0px"
+                displayCurrent[1].style.paddingBottom = "12px"
+                displayCurrent[1].style.height = "72px"
+            }
 
             // OPERATIONS
-            if (currentItem.id === 2) {
+            if (currentItem.id === 2 && boards[1].items.length < 4) {
                 operationsCurrent[1].style.marginTop = "0px"
-                operationsCurrent[1].style.paddingTop = "12px"
+                operationsCurrent[1].style.paddingBottom = "12px"
                 operationsCurrent[1].style.height = "68px"
             }
 
             // DIAL 
-            if (currentItem.id === 3) {
+            if (currentItem.id === 3 && boards[1].items.length < 4) {
                 dialCurrent[1].style.marginTop = "0px"
-                dialCurrent[1].style.paddingTop = "12px"
+                dialCurrent[1].style.paddingBottom = "12px"
                 dialCurrent[1].style.height = "237px"
             }
 
             // EQUALLY 
-            if (currentItem.id === 4) {
+            if (currentItem.id === 4 && boards[1].items.length < 4) {
                 equallyCurrent[1].style.marginTop = "0px"
-                equallyCurrent[1].style.paddingTop = "12px"
+                equallyCurrent[1].style.paddingBottom = "12px"
                 equallyCurrent[1].style.height = "84px"
             }
-
-
         }, 0)
-        // }
-
 
         e.target.childNodes.forEach((item: any) => {
             item.firstChild.style.display = "none"
