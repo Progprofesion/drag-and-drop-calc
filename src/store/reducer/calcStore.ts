@@ -24,7 +24,7 @@ const initialState = cardsAdapter.getInitialState({
     ]
 }) as UserSliceInterface
 
-const reducerDb = createSlice({
+const calcStore = createSlice({
     name: 'db',
     initialState,
     reducers: {
@@ -40,8 +40,8 @@ const reducerDb = createSlice({
     }
 });
 
-export const { setDb, setCurrenBoard, setCurrentItem } = reducerDb.actions;
+export const { setDb, setCurrenBoard, setCurrentItem } = calcStore.actions;
 
 export const { selectAll } = cardsAdapter.getSelectors((state: any) => state.storage)
 
-export default reducerDb.reducer;
+export default calcStore.reducer;

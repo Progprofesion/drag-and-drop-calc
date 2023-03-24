@@ -2,16 +2,13 @@ import { useState, useEffect } from "react";
 // import {useEffect} from 'react-redux';'
 // import { useSelector, useDispatch } from "react-redux";
 
-// import Canvas from '../canvas/Canvas';
 
 // import { RootState } from "@/store";
 
-// import { setDb, setCurrenBoard, setCurrentItem } from "../../store/reducer/reducerDb";
+// import { setDb, setCurrenBoard, setCurrentItem } from "../../store/reducer/calcStore";
 
 import './palette.scss';
-import '../canvas/canvas.scss';
 
-import './board.scss';
 
 const Pallete = () => {
 
@@ -26,75 +23,42 @@ const Pallete = () => {
         { id: 2, title: "board2", items: [] }
     ]) as any;
 
-    const boardTest: any = document.querySelector(".boardTest")
-    const display: any = document.querySelectorAll(".pallete__display")
-    const operations: any = document.querySelectorAll(".pallete__operations")
+
+    const pallete: any = document.querySelector(".pallete");
+    const palleteWrapp: any = document.querySelector(".pallete__wrapp");
+    const display: any = document.querySelectorAll(".pallete__display");
+    const operations: any = document.querySelectorAll(".pallete__operations");
+    const dial: any = document.querySelectorAll(".pallete__dial");
+    const equally: any = document.querySelectorAll(".pallete__equally");
 
     const [currentBoard, setCurrenBoard] = useState(null) as any
     const [currentItem, setCurrentItem] = useState(null) as any
     const [disabled, setDisabled] = useState(false) as any
-    const [disabledShadow, setDisabledShadow] = useState(false) as any
+
     const [dragOverDisplay, setDragOverDisplay] = useState(false) as any
     const [disabledCurrenItem, setDisabledCurrenItem] = useState(false) as any
-    const [prevArrLength, setPrevArrLength] = useState<number>(0)
-    const [nextArrLength, setNextArrLength] = useState<number>(0)
-
-    // Selection.removeAllRanges()
+    const [disabledSpan, setDisabledSpan] = useState(false) as any
 
 
-    const dragOverHandler: any = (e: any, board: any) => {
+    useEffect(() => {
+        // setDisabledSpan(true)
+    }, [])
 
-        e.preventDefault();
-        if (board && board.id === 2) {
-            if (e.target.className === "pallete__display") {
-                setDragOverDisplay(true)
-                e.target.firstChild.style.display = "block"
-                e.target.firstChild.style.top = "unset"
-                e.target.firstChild.style.bottom = "-6px"
-            }
-            if (e.target.className === "pallete__operations") {
-                e.target.firstChild.style.display = "block"
-                setDragOverDisplay(false)
-            }
-            if (e.target.className === "pallete__dial") {
-                e.target.firstChild.style.display = "block"
-                setDragOverDisplay(false)
-            }
-            if (e.target.className === "pallete__equally") {
-                e.target.firstChild.style.display = "block"
-                setDragOverDisplay(false)
-            }
-            if (board.id === 1) {
-                e.target.parentNode.style.zIndex = "-1"
-            }
-        }
-    }
-
-    const dragLeaveHandlear: any = (e: any, board: any) => {
-        e.target.style.borderTop = "none"
-        if (e.target.className === "pallete__display") {
-            setDragOverDisplay(true)
-            e.target.firstChild.style.display = "none"
-        }
-        if (e.target.className === "pallete__operations") {
-            e.target.firstChild.style.display = "none"
-        }
-        if (e.target.className === "pallete__dial") {
-            e.target.firstChild.style.display = "none"
-        }
-        if (e.target.className === "pallete__equally") {
-            e.target.firstChild.style.display = "none"
-        }
-    }
 
     const dragStartHandler: any = (e: any, board: any, item: any) => {
         setCurrenBoard(board)
         setCurrentItem(item)
 
-        const board2: any = document.querySelectorAll(".boardTest")
+        const board2: any = document.querySelectorAll(".pallete__wrapp")
 
         if (boards[1].items.length === 0) {
             board2[1].style.background = " #F0F9FF"
+        }
+
+
+        if (board.id === 1 && e.target.className === "pallete__display") {
+            setDisabledSpan(true)
+
         }
 
         if (board.id === 1) {
@@ -108,12 +72,117 @@ const Pallete = () => {
         }
 
         if (board.id === 2) {
-            boardTest.style.zIndex = "-1"
+            palleteWrapp.style.zIndex = "-1"
+        }
+    }
+    console.log(disabledSpan)
+
+    const dragOverHandler: any = (e: any, board: any) => {
+        e.preventDefault();
+
+
+        if (e.target.className === "pallete__wrapp" && e.target.lastChild && disabledSpan) {
+            console.log(disabledSpan)
+            // setDragOverDisplay(false)
+            // if
+            e.target.firstChild.firstChild.style.display = "block"
+            // ?????????????????????????
+            e.target.firstChild.firstChild.style.top = "7px"
+            // ?????????????????????????
+            // setDisabledSpan(false)
+        }
+
+        // setTimeout(() => {
+        // && boards[1].items.length < 4
+        if (e.target.className === "pallete__wrapp" && e.target.lastChild && !disabledSpan) {
+            console.log(disabledSpan)
+            // setDragOverDisplay(false)
+            // if
+            e.target.lastChild.firstChild.style.display = "block"
+            // ?????????????????????????
+            e.target.lastChild.firstChild.style.top = "unset"
+            // ?????????????????????????
+            e.target.lastChild.firstChild.style.bottom = "-7px"
+            // setDisabledSpan(true)
+        }
+        // }, 0)
+
+        if (board && board.id === 2) {
+
+            if (e.target.className === "pallete__display" && boards[1].items.length > 1) {
+                setDragOverDisplay(true)
+                setDisabledSpan(true)
+                e.target.firstChild.style.display = "block"
+                e.target.firstChild.style.top = "unset"
+                e.target.firstChild.style.bottom = "-7px"
+
+                // palleteIStina.childNodes.forEach((item: any) => {
+                //     console.log(item)
+                // })
+                // palleteIStina.childNodes[1].lastChild.firstChild.style.display = "none"
+            }
+            if (e.target.className === "pallete__operations" && boards[1].items.length > 1) {
+                e.target.firstChild.style.display = "block"
+                e.target.firstChild.style.top = "7px"
+                setDragOverDisplay(false)
+                setDisabledSpan(false)
+                // palleteIStina.childNodes[1].lastChild.firstChild.style.display = "none"
+            }
+            if (e.target.className === "pallete__dial" && boards[1].items.length > 1) {
+                e.target.firstChild.style.display = "block"
+                e.target.firstChild.style.top = "7px"
+                setDragOverDisplay(false)
+                setDisabledSpan(false)
+                // palleteIStina.childNodes[1].lastChild.firstChild.style.display = "none"
+            }
+            if (e.target.className === "pallete__equally" && boards[1].items.length > 1) {
+                e.target.firstChild.style.display = "block"
+                e.target.firstChild.style.top = "7px"
+                setDragOverDisplay(false)
+                setDisabledSpan(false)
+                // palleteIStina.childNodes[1].lastChild.firstChild.style.display = "none"
+            }
+            if (board.id === 1) {
+                e.target.parentNode.style.zIndex = "-1"
+            }
         }
     }
 
+    const dragLeaveHandlear: any = (e: any, board: any) => {
+        // e.target.style.borderTop = "none"
+        if (e.target.firstChild) {
+            e.target.firstChild.style.display = "none"
+        }
+
+        if (e.target.className === "pallete__display") {
+            setDragOverDisplay(true)
+            e.target.firstChild.style.display = "none"
+        }
+        if (e.target.className === "pallete__operations") {
+            e.target.firstChild.style.display = "none"
+        }
+        if (e.target.className === "pallete__dial") {
+            e.target.firstChild.style.display = "none"
+        }
+        if (e.target.className === "pallete__equally") {
+            e.target.firstChild.style.display = "none"
+
+        }
+
+
+    }
+
+
+
     const dragEndHandler: any = (e: any, board: any, item: any) => {
-        const board2: any = document.querySelectorAll(".boardTest")
+
+        setDisabledSpan(false)
+
+        if (board.id !== 2 && e.target.lastChild) {
+            // e.target.lastChild.firstChild.style.display = "none"
+            // console.log(e.target)
+        }
+        const board2: any = document.querySelectorAll(".pallete__wrapp")
         if (boards[1].items.length >= 0) {
             board2[1].style.background = "none"
         }
@@ -147,32 +216,47 @@ const Pallete = () => {
         })
 
         e.target.parentNode.style.zIndex = "1"
-        boardTest.style.zIndex = "1"
+        palleteWrapp.style.zIndex = "1"
+
+
+        // setTimeout(() => {
+        //     e.target.childNodes.forEach((item: any) => {
+        //         console.log(item.firstChild)
+        //         item.firstChild.style.display = "none"
+        //     })
+        // }, 0)
+
+
     }
 
     const dropHandler: any = (e: any, board: any, item: any) => {
         e.preventDefault();
         e.stopPropagation();
-        if (disabledCurrenItem) {
-            setDisabledCurrenItem(false)
-        }
-        // ???????????????????????
-        // для выклюения карточки в 1 доске
-        setDisabledShadow(true)
+        console.log(e.target)
         if (e.target.className === "pallete__display") {
             e.target.firstChild.style.display = "none"
+
         }
         if (e.target.className === "pallete__operations") {
             e.target.firstChild.style.display = "none"
+            // e.target.style.marginTop = "0px"
+            // e.target.style.height = "68px"
         }
         if (e.target.className === "pallete__dial") {
             e.target.firstChild.style.display = "none"
+            // e.target.style.marginTop = "0px"
+            // e.target.style.height = "237px"
         }
         if (e.target.className === "pallete__qually") {
             e.target.firstChild.style.display = "none"
+            // e.target.style.marginTop = "0px"
+            // e.target.style.height = "84px"
         }
 
-        e.target.firstChild.style.display = "none"
+        if (e.target.firstChild) {
+            e.target.firstChild.style.display = "none"
+        }
+
 
         if (currentBoard.id === 1 && currentItem.id !== 1) {
             setDisabled(true)
@@ -239,6 +323,15 @@ const Pallete = () => {
                 const dropIndex = board.items.indexOf(item)
                 board.items.splice(dropIndex + 1, 0, currentItem)
             }
+
+
+            if (e.target.className !== "pallete__display" && currentItem.id !== 1) {
+
+                const currentIndex = currentBoard.items.indexOf(currentItem)
+                currentBoard.items.splice(currentIndex, 1, 1)
+                const dropIndex = board.items.indexOf(item)
+                board.items.splice(dropIndex + 1, 0, currentItem)
+            }
             // смена позиции карточки в текущей доске
             if (!dragOverDisplay) {
                 const currentIndex = currentBoard.items.indexOf(currentItem)
@@ -257,13 +350,73 @@ const Pallete = () => {
                 return b
             }))
         }
-        e.target.style.borderTop = "none"
+
+        // if (currentBoard.id === 2 && board.id === 2 && currentItem.id !== 1) {
+        //     const currentIndex = currentBoard.items.indexOf(currentItem)
+        //     currentBoard.items.splice(currentIndex, 1, 1)
+        //     const dropIndex = board.items.indexOf(item)
+        //     board.items.splice(dropIndex, 0, currentItem)
+        //     setBoards(boards.map((b: any) => {
+        //         if (b.id === board.id) {
+        //             return board
+        //         }
+        //         if (b.id === currentBoard.id) {
+        //             return currentBoard
+        //         }
+        //         return b
+        //     }))
+        // }
+        // e.target.style.borderTop = "none"
     }
 
 
 
     const dropElementHandler = (e: any, board: any) => {
         e.preventDefault();
+        // e.stopPropagation();
+        // const operations: any = document.querySelectorAll(".pallete__operations")
+        // setTimeout(() => {
+        // console.log(e.target.childNodes)
+        // console.log(currentItem)
+        // console.log(e.target)
+        // if (currentItem.id === 2) {
+        setTimeout(() => {
+            const operationsCurrent: any = document.querySelectorAll(".pallete__operations")
+            const dialCurrent: any = document.querySelectorAll(".pallete__dial");
+            const equallyCurrent: any = document.querySelectorAll(".pallete__equally");
+
+            //-------------------------- стили для расширения карточки 
+
+            // OPERATIONS
+            if (currentItem.id === 2) {
+                operationsCurrent[1].style.marginTop = "0px"
+                operationsCurrent[1].style.paddingTop = "12px"
+                operationsCurrent[1].style.height = "68px"
+            }
+
+            // DIAL 
+            if (currentItem.id === 3) {
+                dialCurrent[1].style.marginTop = "0px"
+                dialCurrent[1].style.paddingTop = "12px"
+                dialCurrent[1].style.height = "237px"
+            }
+
+            // EQUALLY 
+            if (currentItem.id === 4) {
+                equallyCurrent[1].style.marginTop = "0px"
+                equallyCurrent[1].style.paddingTop = "12px"
+                equallyCurrent[1].style.height = "84px"
+            }
+
+
+        }, 0)
+        // }
+
+
+        e.target.childNodes.forEach((item: any) => {
+            item.firstChild.style.display = "none"
+        })
+
         // флаг для работы перетаскивания, только в доску для перетаскивания board.id === 2.
         if (board.id === 2) {
             setTimeout(() => {
@@ -305,12 +458,17 @@ const Pallete = () => {
             }
             return b
         }))
-        e.target.style.borderBottom = "none"
-        if (e.target.className === "boardTest") {
+
+
+        if (e.target.className === "pallete__wrapp") {
             e.target.style.border = "none"
+            // ???????????????????????????
+            // setTimeout(() => {
+            //     console.log(e.target.lastChild.firstChild)
+            //     // e.target.lastChild.firstChild.style.display = "block"
+            // }, 0)
         }
     }
-
 
     const doubleClickHandler = (e: any, board: any, item: any) => {
         e.preventDefault()
@@ -377,7 +535,7 @@ const Pallete = () => {
             onDragOver={(e) => dragOverHandler(e)}
             onDrop={(e) => dropElementHandler(e, board)}
             key={board.id}
-            className="boardTest">
+            className="pallete__wrapp">
             {
                 board.items.map((item: any) => {
                     switch (item.type) {
@@ -466,12 +624,11 @@ const Pallete = () => {
 
     return (
 
-        <section className="pallet">
-            <div className="pallete__wrapp">
-                {elements}
-            </div>
+        <section className="pallete">
+            {elements}
         </section>
     )
 }
 
 export default Pallete
+

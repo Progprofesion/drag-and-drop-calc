@@ -1,10 +1,10 @@
 import { configureStore } from '@reduxjs/toolkit';
 
-import reducerDb from './reducer/reducerDb';
+import calcStore from './reducer/calcStore';
 
 const store = configureStore({
     reducer: {
-        reducerDb,
+        calcStore,
     },
     middleware: getDefaultMiddleware => getDefaultMiddleware({
         serializableCheck: false,

@@ -1,13 +1,9 @@
 .pallete {
-    width: 243px;
-    height: 448px;
-    &__wrapp {
-        display: grid;
-        justify-content: space-between;
-        max-width: 540px;
-        grid-template-columns: 245px 245px;
-        gap: 55px;
-    }
+    display: grid;
+    justify-content: space-between;
+    max-width: 540px;
+    grid-template-columns: 245px 245px;
+    gap: 55px;
     &__display {
         position: relative;
         width: 240px;
@@ -132,23 +128,17 @@
         position: absolute;
         top: -7px;
         width: 244px;
+        height: 1px;
         border: 1px solid rgba(93, 95, 239, 1)
     }
 }
 
 
-.wrappTest {
-    cursor: grab;
-}
 
-.boardTest {
+.pallete__wrapp {
     &:nth-child(2) {
         border: 2px dashed #C4C4C4;
         border-radius: 6px;
     }
 
-}
-
-.eeeeeeeeeeeeee {
-    cursor: not-allowed;
 }

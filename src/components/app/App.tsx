@@ -1,6 +1,5 @@
 import Hug from '../hug/Hug';
 import Pallete from '../palette/Pallete';
-import Canvas from '../canvas/Canvas';
 
 import './app.scss'
 
@@ -12,7 +11,6 @@ const App = () => {
                     className="main">
                     <Hug />
                     <Pallete />
-                    {/* <Canvas /> */}
                 </section>
 
             </div>
