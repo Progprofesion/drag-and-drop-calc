@@ -109,16 +109,16 @@ const Pallete = () => {
 
         // ?????????????????????????????????????????????
 
-        // if (e.target.className === "pallete__wrapp" && e.target.lastChild && !disabledSpan) {
-        //     // setDragOverDisplay(false)
-        //     // if
-        //     e.target.lastChild.firstChild.style.display = "block"
-        //     // ?????????????????????????
-        //     e.target.lastChild.firstChild.style.top = "unset"
-        //     // ?????????????????????????
-        //     e.target.lastChild.firstChild.style.bottom = "7px"
-        //     setDisabledSpan(false)
-        // }
+        if (e.target.className === "pallete__wrapp" && e.target.lastChild && !disabledSpan) {
+            // setDragOverDisplay(false)
+            // if
+            e.target.lastChild.firstChild.style.display = "block"
+            // ?????????????????????????
+            e.target.lastChild.firstChild.style.top = "unset"
+            // ?????????????????????????
+            e.target.lastChild.firstChild.style.bottom = "7px"
+            setDisabledSpan(false)
+        }
         if (e.target.className !== "pallete__wrapp" && e.target.lastChild && disabledSpan) {
 
             // setDragOverDisplay(false)
@@ -137,15 +137,9 @@ const Pallete = () => {
         if (board && board.id === 2) {
 
             if (e.target.className === "pallete__display" && boards[1].items.length > 0 && !disabledSpan) {
-                // setDragOverDisplay(true)
-                // setDisabledSpan(true)
                 e.target.firstChild.style.display = "block"
                 e.target.firstChild.style.top = "unset"
                 e.target.firstChild.style.bottom = "5px"
-                // palleteIStina.childNodes.forEach((item: any) => {
-                //     console.log(item)
-                // })
-                // palleteIStina.childNodes[1].lastChild.firstChild.style.display = "none"
             }
 
 
@@ -401,12 +395,10 @@ const Pallete = () => {
             }, 0)
 
             if (e.target.className === "pallete__display") {
-
                 const currentIndex = currentBoard.items.indexOf(currentItem)
                 currentBoard.items.splice(currentIndex, 1)
                 const dropIndex = board.items.indexOf(item)
                 board.items.splice(dropIndex + 1, 0, currentItem)
-                console.log(e.target)
             }
 
             // ????????????????????????????????????
