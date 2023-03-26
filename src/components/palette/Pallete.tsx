@@ -80,10 +80,10 @@ const Pallete = () => {
     const dragOverHandler: any = (e: any, board: any) => {
         e.preventDefault();
 
-
+        //  две практически одинаковые функции_________
         if (e.target.className === "pallete__wrapp" && e.target.lastChild && disabledSpan) {
-            console.log(disabledSpan)
-            // setDragOverDisplay(false)
+            // console.log(disabledSpan)
+
             // if
             e.target.firstChild.firstChild.style.display = "block"
             // ?????????????????????????
@@ -92,50 +92,78 @@ const Pallete = () => {
             // setDisabledSpan(false)
         }
 
-        // setTimeout(() => {
-        // && boards[1].items.length < 4
-        if (e.target.className === "pallete__wrapp" && e.target.lastChild && !disabledSpan) {
-            // setDragOverDisplay(false)
-            // if
-            e.target.lastChild.firstChild.style.display = "block"
+        if (e.target.className !== "pallete__wrapp" && e.target.lastChild) {
+            // console.log(disabledSpan)
+
+            if (e.target.firstChild.firstChild) {
+                e.target.firstChild.firstChild.style.display = "block"
+                // ?????????????????????????
+                e.target.firstChild.firstChild.style.top = "-7px"
+            }
+
             // ?????????????????????????
-            e.target.lastChild.firstChild.style.top = "unset"
-            // ?????????????????????????
-            e.target.lastChild.firstChild.style.bottom = "7px"
-            // setDisabledSpan(true)
+            // setDisabledSpan(false)
         }
 
+
+
+        // ?????????????????????????????????????????????
+
+        // if (e.target.className === "pallete__wrapp" && e.target.lastChild && !disabledSpan) {
+        //     // setDragOverDisplay(false)
+        //     // if
+        //     e.target.lastChild.firstChild.style.display = "block"
+        //     // ?????????????????????????
+        //     e.target.lastChild.firstChild.style.top = "unset"
+        //     // ?????????????????????????
+        //     e.target.lastChild.firstChild.style.bottom = "7px"
+        //     setDisabledSpan(false)
+        // }
+        if (e.target.className !== "pallete__wrapp" && e.target.lastChild && disabledSpan) {
+
+            // setDragOverDisplay(false)
+            // if
+            e.target.parentNode.firstChild.firstChild.style.display = "block"
+            // ?????????????????????????
+            e.target.parentNode.firstChild.firstChild.style.top = "-7px"
+            // ?????????????????????????
+            // e.target.parentNode.firstChild.firstChild.style.bottom = "7px"
+            // setDisabledSpan(false)
+
+        }
+        // _________________________________
         // }, 0)
 
         if (board && board.id === 2) {
 
-            if (e.target.className === "pallete__display" && boards[1].items.length > 0) {
-                setDragOverDisplay(true)
-                setDisabledSpan(true)
+            if (e.target.className === "pallete__display" && boards[1].items.length > 0 && !disabledSpan) {
+                // setDragOverDisplay(true)
+                // setDisabledSpan(true)
                 e.target.firstChild.style.display = "block"
                 e.target.firstChild.style.top = "unset"
-                e.target.firstChild.style.bottom = "7px"
-
+                e.target.firstChild.style.bottom = "5px"
                 // palleteIStina.childNodes.forEach((item: any) => {
                 //     console.log(item)
                 // })
                 // palleteIStina.childNodes[1].lastChild.firstChild.style.display = "none"
             }
-            if (e.target.className === "pallete__operations" && boards[1].items.length > 1) {
+
+
+            if (e.target.className === "pallete__operations" && boards[1].items.length > 1 && !disabledSpan) {
                 e.target.firstChild.style.display = "block"
                 e.target.firstChild.style.top = "-7px"
                 setDragOverDisplay(false)
                 setDisabledSpan(false)
                 // palleteIStina.childNodes[1].lastChild.firstChild.style.display = "none"
             }
-            if (e.target.className === "pallete__dial" && boards[1].items.length > 1) {
+            if (e.target.className === "pallete__dial" && boards[1].items.length > 1 && !disabledSpan) {
                 e.target.firstChild.style.display = "block"
                 e.target.firstChild.style.top = "-7px"
                 setDragOverDisplay(false)
                 setDisabledSpan(false)
                 // palleteIStina.childNodes[1].lastChild.firstChild.style.display = "none"
             }
-            if (e.target.className === "pallete__equally" && boards[1].items.length > 1) {
+            if (e.target.className === "pallete__equally" && boards[1].items.length > 1 && !disabledSpan) {
                 e.target.firstChild.style.display = "block"
                 e.target.firstChild.style.top = "-7px"
                 setDragOverDisplay(false)
@@ -150,13 +178,20 @@ const Pallete = () => {
 
     const dragLeaveHandlear: any = (e: any, board: any) => {
         // e.target.style.borderTop = "none"
-        if (e.target.firstChild) {
-            e.target.firstChild.style.display = "none"
+        // if (e.target.firstChild.firstChild) {
+        //     console.log(e.target)
+        //     e.target.firstChild.firstChild.style.display = "none"
+        // }
+
+        if (e.target.className === "pallete__wrapp") {
+            // setDragOverDisplay(true)
+            e.target.firstChild.firstChild.style.display = "none"
         }
 
         if (e.target.className === "pallete__display") {
-            setDragOverDisplay(true)
+            // setDragOverDisplay(true)
             e.target.firstChild.style.display = "none"
+
         }
         if (e.target.className === "pallete__operations") {
             e.target.firstChild.style.display = "none"
@@ -182,6 +217,11 @@ const Pallete = () => {
         if (boards[1].items.length >= 0) {
             board2[1].style.background = "none"
         }
+
+        // убирает место дропа
+        board2[1].childNodes.forEach((item: any) => {
+            item.firstChild.style.display = "none"
+        })
 
         if (board.id === 1 && disabled) {
             e.target.style.opacity = "50%"
@@ -243,7 +283,7 @@ const Pallete = () => {
             // console.log(boards)
             // if(item.id === board.l)
             if (board.items.length >= 4) {
-                console.log(e.target.parentNode)
+                // console.log(e.target.parentNode)
                 e.target.parentNode.style.height = "448px"
                 // e.target.style.marginTop = "-1px"
                 // e.target.style.paddingBottom = "0px"
@@ -253,7 +293,6 @@ const Pallete = () => {
 
             // DISPLAY
             if (currentItem.id === 1 && boards[1].items.length <= 4) {
-                console.log(e.target)
                 displayCurrent[1].style.marginTop = "0px"
                 displayCurrent[1].style.paddingBottom = "12px"
                 displayCurrent[1].style.height = "72px"
@@ -301,6 +340,23 @@ const Pallete = () => {
         }
 
 
+        if (currentBoard.id === 1 && currentItem.id === 1) {
+            setDisabled(true)
+            if (board.id === 2) {
+                board.items.unshift(currentItem)
+                setTimeout(() => {
+                    // нужно для отмены тени у инпута при аншифте на эелемент
+                    e.target.parentElement.childNodes[0].style.boxShadow = "none"
+                    e.target.parentElement.childNodes[0].style.cursor = "not-allowed"
+                    e.target.parentElement.childNodes[0].draggable = false
+
+                }, 0)
+            }
+
+
+        }
+
+
         if (currentBoard.id === 1 && currentItem.id !== 1) {
             setDisabled(true)
             // запрет на перетаскивание элементов в 1 доску
@@ -320,10 +376,10 @@ const Pallete = () => {
                     }
                 }, 0)
             }
-
             if (e.target.className === "pallete__display") {
                 const dropIndex = board.items.indexOf(item)
                 board.items.splice(dropIndex + 1, 0, currentItem)
+
             }
 
             setBoards(boards.map((b: any) => {
@@ -335,21 +391,6 @@ const Pallete = () => {
                 }
                 return b
             }))
-        }
-
-        if (currentBoard.id === 1 && currentItem.id === 1) {
-            setDisabled(true)
-            if (board.id === 2) {
-                board.items.unshift(currentItem)
-                setTimeout(() => {
-                    // нужно для отмены тени у инпута при аншифте на эелемент
-                    e.target.parentElement.childNodes[0].style.boxShadow = "none"
-                    e.target.parentElement.childNodes[0].style.cursor = "not-allowed"
-                    e.target.parentElement.childNodes[0].draggable = false
-
-                }, 0)
-            }
-
         }
 
         if (currentBoard.id === 2 && board.id === 2) {
@@ -365,6 +406,7 @@ const Pallete = () => {
                 currentBoard.items.splice(currentIndex, 1)
                 const dropIndex = board.items.indexOf(item)
                 board.items.splice(dropIndex + 1, 0, currentItem)
+                console.log(e.target)
             }
 
             // ????????????????????????????????????
@@ -377,7 +419,7 @@ const Pallete = () => {
 
 
             // смена позиции карточки в текущей доске
-            if (!dragOverDisplay) {
+            if (e.target.className !== "pallete__display") {
                 const currentIndex = currentBoard.items.indexOf(currentItem)
                 currentBoard.items.splice(currentIndex, 1)
                 const dropIndex = board.items.indexOf(item)
@@ -409,40 +451,50 @@ const Pallete = () => {
 
             //-------------------------- стили для расширения карточки
 
+            e.target.childNodes.forEach((item: any) => {
+                // console.log(item)
+                item.style.paddingBottom = "12px"
+                item.style.marginTop = "0px"
+
+                // DISPLAY
+                if (currentItem.id === 1) {
+                    displayCurrent[1].style.marginTop = "0px"
+                    // displayCurrent[1].style.paddingBottom = "12px"
+                    displayCurrent[1].style.height = "72px"
+                }
+
+                // OPERATIONS
+                if (currentItem.id === 2) {
+                    operationsCurrent[1].style.marginTop = "0px"
+                    // operationsCurrent[1].style.paddingBottom = "12px"
+                    operationsCurrent[1].style.height = "68px"
+                }
+
+                // DIAL 
+                if (currentItem.id === 3) {
+                    dialCurrent[1].style.marginTop = "0px"
+                    // dialCurrent[1].style.paddingBottom = "12px"
+                    dialCurrent[1].style.height = "237px"
+                    // console.log(boards[1].items.length)
+                }
+
+                // EQUALLY 
+                if (currentItem.id === 4) {
+                    equallyCurrent[1].style.marginTop = "0px"
+                    // equallyCurrent[1].style.paddingBottom = "12px"
+                    equallyCurrent[1].style.height = "84px"
+                }
+
+            })
+
+
             if (board.items.length > 2) {
 
                 e.target.style.maxHeight = "448px"
-                e.target.lastChild.style.marginTop = "-1px"
-                e.target.lastChild.style.paddingBottom = "0px"
+                // e.target.lastChild.style.marginTop = "-1px"
+                // e.target.lastChild.style.paddingBottom = "0px"
             }
 
-            // DISPLAY
-            if (currentItem.id === 1 && boards[1].items.length < 4) {
-                displayCurrent[1].style.marginTop = "0px"
-                displayCurrent[1].style.paddingBottom = "12px"
-                displayCurrent[1].style.height = "72px"
-            }
-
-            // OPERATIONS
-            if (currentItem.id === 2 && boards[1].items.length < 4) {
-                operationsCurrent[1].style.marginTop = "0px"
-                operationsCurrent[1].style.paddingBottom = "12px"
-                operationsCurrent[1].style.height = "68px"
-            }
-
-            // DIAL 
-            if (currentItem.id === 3 && boards[1].items.length < 4) {
-                dialCurrent[1].style.marginTop = "0px"
-                dialCurrent[1].style.paddingBottom = "12px"
-                dialCurrent[1].style.height = "237px"
-            }
-
-            // EQUALLY 
-            if (currentItem.id === 4 && boards[1].items.length < 4) {
-                equallyCurrent[1].style.marginTop = "0px"
-                equallyCurrent[1].style.paddingBottom = "12px"
-                equallyCurrent[1].style.height = "84px"
-            }
         }, 0)
 
         e.target.childNodes.forEach((item: any) => {
@@ -546,7 +598,7 @@ const Pallete = () => {
 
         if (board.id === 2 && e.target.className !== "pallete__display") {
             const currentIndex = board.items.indexOf(item)
-            board.items.splice(currentIndex, 1, 1)
+            board.items.splice(currentIndex, 1)
             setBoards(boards.map((b: any) => {
                 if (b.id === board.id) {
                     return board
@@ -566,6 +618,7 @@ const Pallete = () => {
         return <div
             onDragOver={(e) => dragOverHandler(e)}
             onDrop={(e) => dropElementHandler(e, board)}
+            onDragLeave={e => dragLeaveHandlear(e, board)}
             key={board.id}
             className="pallete__wrapp">
             {
