@@ -105,10 +105,6 @@ const Pallete = () => {
             // setDisabledSpan(false)
         }
 
-
-
-        // ?????????????????????????????????????????????
-
         if (e.target.className === "pallete__wrapp" && e.target.lastChild && !disabledSpan) {
             // setDragOverDisplay(false)
             // if
@@ -180,6 +176,8 @@ const Pallete = () => {
         if (e.target.className === "pallete__wrapp") {
             // setDragOverDisplay(true)
             e.target.firstChild.firstChild.style.display = "none"
+            // console.log(e.target.lastChild)
+            e.target.lastChild.firstChild.style.display = "none"
         }
 
         if (e.target.className === "pallete__display") {
