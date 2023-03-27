@@ -1,16 +1,20 @@
 import { useState, useEffect } from "react";
+import { useGetProductsQuery } from "../api/apiSlice";
 // import {useEffect} from 'react-redux';'
 // import { useSelector, useDispatch } from "react-redux";
-
-
 // import { RootState } from "@/store";
 
-// import { setDb, setCurrenBoard, setCurrentItem } from "../../store/reducer/calcStore";
 
 import './palette.scss';
 
 
 const Pallete = () => {
+
+    const {
+        data: products = [],
+        isSuccess
+    } = useGetProductsQuery(null);
+    console.log(products)
 
     const [boards, setBoards] = useState([
         {

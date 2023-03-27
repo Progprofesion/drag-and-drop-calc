@@ -39,7 +39,6 @@ const dropStore = createSlice({
         }
     }
 });
-
 export const { setDropDb, setCurrenBoard, setCurrentItem } = dropStore.actions;
 
 export const { selectAll } = cardsAdapter.getSelectors((state: any) => state.storage)
