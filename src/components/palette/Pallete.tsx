@@ -27,37 +27,14 @@ const Pallete = () => {
 
     const dataClone = JSON.parse(JSON.stringify(dropState))
 
-
-
     useEffect(() => {
         dispatch(setDropDb(data))
         dispatch(setCurrentBoard(currentBoard))
         dispatch(setCurrentItem(currentItem))
     }, [isSuccess])
 
-    // Object.defineProperty(currentBoard, 3, { configurable: true });
-
-    const [boards, setBoards] = useState([
-        {
-            id: 1, title: "board1", items: [
-                { id: 1, title: "input", type: "input" },
-                { id: 2, title: "operations", type: "operations", operations: [{ titleOperations: "/" }, { titleOperations: "x" }, { titleOperations: "-" }, { titleOperations: "+" }] },
-                { id: 3, title: "dial", type: "dial", numbers: [{ titleNumbers: "7" }, { titleNumbers: "8" }, { titleNumbers: "9" }, { titleNumbers: "4" }, { titleNumbers: "5" }, { titleNumbers: "6" }, { titleNumbers: "1" }, { titleNumbers: "2" }, { titleNumbers: "3" }, { titleNumbers: "0" }, { titleNumbers: "," }] },
-                { id: 4, title: "equally", type: "equally", titleEqually: "=" }]
-        },
-        { id: 2, title: "board2", items: [] }
-    ]) as any;
-
-
-    const pallete: any = document.querySelector(".pallete");
     const palleteWrapp: any = document.querySelector(".pallete__wrapp");
-    const display: any = document.querySelectorAll(".pallete__display");
-    const operations: any = document.querySelectorAll(".pallete__operations");
-    const dial: any = document.querySelectorAll(".pallete__dial");
-    const equally: any = document.querySelectorAll(".pallete__equally");
 
-    // const [currentBoard, setCurrenBoard] = useState(null) as any
-    // const [currentItem, setCurrentItem] = useState(null) as any
     const [disabled, setDisabled] = useState(false) as any
 
     const [dragOverDisplay, setDragOverDisplay] = useState(false) as any
@@ -79,7 +56,6 @@ const Pallete = () => {
 
         if (board.id === 1 && e.target.className === "pallete__display") {
             setDisabledSpan(true)
-
         }
 
         if (board.id === 1) {
@@ -267,15 +243,6 @@ const Pallete = () => {
         e.target.parentNode.style.zIndex = "1"
         palleteWrapp.style.zIndex = "1"
 
-
-        // setTimeout(() => {
-        //     e.target.childNodes.forEach((item: any) => {
-        //         console.log(item.firstChild)
-        //         item.firstChild.style.display = "none"
-        //     })
-        // }, 0)
-
-
     }
 
     const dropHandler: any = (e: any, board: any, item: any) => {
@@ -357,10 +324,6 @@ const Pallete = () => {
             setDisabled(true)
             if (board.id === 2) {
                 board.items.unshift(currentItem)
-
-
-
-                console.log(board)
                 setTimeout(() => {
                     // нужно для отмены тени у инпута при аншифте на эелемент
                     e.target.parentElement.childNodes[0].style.boxShadow = "none"
@@ -381,8 +344,6 @@ const Pallete = () => {
                     return b
                 }
                 )))
-
-
         }
 
 
@@ -431,7 +392,7 @@ const Pallete = () => {
             }, 0)
 
             if (e.target.className === "pallete__display") {
-                const currentIndex = currentBoard.items.indexOf(currentItem)
+                const currentIndex = currentBoard.items.indexOf(currentItem as never)
                 board.items.splice(currentIndex, 1, 1)
                 const dropIndex = board.items.indexOf(item)
                 board.items.splice(dropIndex + 1, 0, currentItem)
@@ -439,7 +400,7 @@ const Pallete = () => {
 
             // смена позиции карточки в текущей доске
             if (e.target.className !== "pallete__display") {
-                const currentIndex = currentBoard.items.indexOf(currentItem)
+                const currentIndex = currentBoard.items.indexOf(currentItem as never);
                 board.items.splice(currentIndex, 1)
                 const dropIndex = board.items.indexOf(item)
                 board.items.splice(dropIndex, 0, currentItem)
@@ -559,7 +520,7 @@ const Pallete = () => {
         }
         // отмена копирования элементов в второй доске
         if (currentBoard.id === 2 && board.id === 2) {
-            const currentIndex = currentBoard.items.indexOf(currentItem)
+            const currentIndex = currentBoard.items.indexOf(currentItem as never);
             board.items.splice(currentIndex, 1)
         }
 

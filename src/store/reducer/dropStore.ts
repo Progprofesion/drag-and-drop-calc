@@ -2,9 +2,14 @@ import { createSlice, createAsyncThunk, createEntityAdapter } from "@reduxjs/too
 import { useHttp } from "src/hooks/http.hook";
 
 interface IdropSlice {
-    dropState: any,
-    currentBoard: any,
-    currentItem: any
+    dropState: [],
+    currentBoard: {
+        id: number
+        items: []
+    },
+    currentItem: {
+        id: number
+    }
 }
 
 const cardsAdapter = createEntityAdapter();
@@ -12,9 +17,12 @@ const cardsAdapter = createEntityAdapter();
 const initialState = cardsAdapter.getInitialState({
     dropState: [],
     currentBoard: {
-        id: 0
+        id: 0,
+        items: []
     },
-    currentItem: {}
+    currentItem: {
+        id: 0,
+    }
 
 }) as IdropSlice;
 
