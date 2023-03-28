@@ -3,15 +3,17 @@ import { useHttp } from "src/hooks/http.hook";
 
 interface IdropSlice {
     dropState: any,
-    currentBoard: {},
-    currentItem: {}
+    currentBoard: any,
+    currentItem: any
 }
 
 const cardsAdapter = createEntityAdapter();
 
 const initialState = cardsAdapter.getInitialState({
     dropState: [],
-    currentBoard: {},
+    currentBoard: {
+        id: 0
+    },
     currentItem: {}
 
 }) as IdropSlice;
@@ -31,7 +33,7 @@ const dropStore = createSlice({
         setDropDb: (state, action) => {
             state.dropState = action.payload;
         },
-        setCurrenBoard: (state, action) => {
+        setCurrentBoard: (state, action) => {
             state.currentBoard = action.payload
         },
         setCurrentItem: (state, action) => {
@@ -39,7 +41,7 @@ const dropStore = createSlice({
         }
     }
 });
-export const { setDropDb, setCurrenBoard, setCurrentItem } = dropStore.actions;
+export const { setDropDb, setCurrentBoard, setCurrentItem } = dropStore.actions;
 
 export const { selectAll } = cardsAdapter.getSelectors((state: any) => state.storage)
 

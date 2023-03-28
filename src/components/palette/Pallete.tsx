@@ -3,6 +3,7 @@ import { useGetDropDbQuery } from "../api/apiSlice";
 import { useSelector, useDispatch } from 'react-redux';
 
 import { RootState } from 'src/store/index';
+import { setDropDb, setCurrentBoard, setCurrentItem } from "src/store/reducer/dropStore";
 // import {useEffect} from 'react-redux';
 // import { useSelector, useDispatch } from "react-redux";
 // import { RootState } from "@/store";
@@ -14,12 +15,27 @@ import './palette.scss';
 const Pallete = () => {
 
     const {
-        data: products = [],
+        data = [],
         isSuccess
     } = useGetDropDbQuery(null);
-    console.log(products)
 
     const dispatch = useDispatch();
+
+    const dropState = useSelector((state: RootState) => state.dropStore.dropState);
+    const currentBoard = useSelector((state: RootState) => state.dropStore.currentBoard);
+    const currentItem = useSelector((state: RootState) => state.dropStore.currentItem);
+
+    const dataClone = JSON.parse(JSON.stringify(dropState))
+
+
+
+    useEffect(() => {
+        dispatch(setDropDb(data))
+        dispatch(setCurrentBoard(currentBoard))
+        dispatch(setCurrentItem(currentItem))
+    }, [isSuccess])
+
+    // Object.defineProperty(currentBoard, 3, { configurable: true });
 
     const [boards, setBoards] = useState([
         {
@@ -40,8 +56,8 @@ const Pallete = () => {
     const dial: any = document.querySelectorAll(".pallete__dial");
     const equally: any = document.querySelectorAll(".pallete__equally");
 
-    const [currentBoard, setCurrenBoard] = useState(null) as any
-    const [currentItem, setCurrentItem] = useState(null) as any
+    // const [currentBoard, setCurrenBoard] = useState(null) as any
+    // const [currentItem, setCurrentItem] = useState(null) as any
     const [disabled, setDisabled] = useState(false) as any
 
     const [dragOverDisplay, setDragOverDisplay] = useState(false) as any
@@ -49,18 +65,14 @@ const Pallete = () => {
     const [disabledSpan, setDisabledSpan] = useState(false) as any
     const [disabledLastChildPadding, setDisabledLastChildPadding] = useState(false) as any
 
-    // useEffect(() => {
-    //     // setDisabledSpan(true)
-    // }, [])
-
 
     const dragStartHandler: any = (e: any, board: any, item: any) => {
-        setCurrenBoard(board)
-        setCurrentItem(item)
+        dispatch(setCurrentBoard(board))
+        dispatch(setCurrentItem(item))
 
         const board2: any = document.querySelectorAll(".pallete__wrapp")
 
-        if (boards[1].items.length === 0) {
+        if (dataClone[1].items.length === 0) {
             board2[1].style.background = " #F0F9FF"
         }
 
@@ -141,28 +153,28 @@ const Pallete = () => {
 
         if (board && board.id === 2) {
 
-            if (e.target.className === "pallete__display" && boards[1].items.length > 0 && !disabledSpan) {
+            if (e.target.className === "pallete__display" && dataClone[1].items.length > 0 && !disabledSpan) {
                 e.target.firstChild.style.display = "block"
                 e.target.firstChild.style.top = "unset"
                 e.target.firstChild.style.bottom = "5px"
             }
 
 
-            if (e.target.className === "pallete__operations" && boards[1].items.length > 1 && !disabledSpan) {
+            if (e.target.className === "pallete__operations" && dataClone[1].items.length > 1 && !disabledSpan) {
                 e.target.firstChild.style.display = "block"
                 e.target.firstChild.style.top = "-7px"
                 setDragOverDisplay(false)
                 setDisabledSpan(false)
                 // palleteIStina.childNodes[1].lastChild.firstChild.style.display = "none"
             }
-            if (e.target.className === "pallete__dial" && boards[1].items.length > 1 && !disabledSpan) {
+            if (e.target.className === "pallete__dial" && dataClone[1].items.length > 1 && !disabledSpan) {
                 e.target.firstChild.style.display = "block"
                 e.target.firstChild.style.top = "-7px"
                 setDragOverDisplay(false)
                 setDisabledSpan(false)
                 // palleteIStina.childNodes[1].lastChild.firstChild.style.display = "none"
             }
-            if (e.target.className === "pallete__equally" && boards[1].items.length > 1 && !disabledSpan) {
+            if (e.target.className === "pallete__equally" && dataClone[1].items.length > 1 && !disabledSpan) {
                 e.target.firstChild.style.display = "block"
                 e.target.firstChild.style.top = "-7px"
                 setDragOverDisplay(false)
@@ -182,7 +194,7 @@ const Pallete = () => {
         //     e.target.firstChild.firstChild.style.display = "none"
         // }
 
-        if (e.target.className === "pallete__wrapp") {
+        if (e.target.className === "pallete__wrapp" && e.target.firstChild) {
             // setDragOverDisplay(true)
             e.target.firstChild.firstChild.style.display = "none"
             // console.log(e.target.lastChild)
@@ -215,7 +227,7 @@ const Pallete = () => {
         setDisabledSpan(false)
 
         const board2: any = document.querySelectorAll(".pallete__wrapp")
-        if (boards[1].items.length >= 0) {
+        if (dataClone[1].items.length >= 0) {
             board2[1].style.background = "none"
         }
 
@@ -281,7 +293,7 @@ const Pallete = () => {
             //-------------------------- стили для расширения карточки
 
             e.target.parentNode.style.height = "448px"
-            // console.log(boards)
+            // console.log(dataClone)
             // if(item.id === board.l)
             if (board.items.length >= 4) {
                 // console.log(e.target.parentNode)
@@ -293,28 +305,28 @@ const Pallete = () => {
 
 
             // DISPLAY
-            if (currentItem.id === 1 && boards[1].items.length <= 4) {
+            if (currentItem.id === 1 && dataClone[1].items.length <= 4) {
                 displayCurrent[1].style.marginTop = "0px"
                 displayCurrent[1].style.paddingBottom = "12px"
                 displayCurrent[1].style.height = "72px"
             }
 
             // OPERATIONS
-            if (currentItem.id === 2 && boards[1].items.length <= 4) {
+            if (currentItem.id === 2 && dataClone[1].items.length <= 4) {
                 operationsCurrent[1].style.marginTop = "0px"
                 operationsCurrent[1].style.paddingBottom = "12px"
                 operationsCurrent[1].style.height = "68px"
             }
 
             // DIAL 
-            if (currentItem.id === 3 && boards[1].items.length <= 4) {
+            if (currentItem.id === 3 && dataClone[1].items.length <= 4) {
                 dialCurrent[1].style.marginTop = "0px"
                 dialCurrent[1].style.paddingBottom = "12px"
                 dialCurrent[1].style.height = "237px"
             }
 
             // EQUALLY 
-            if (currentItem.id === 4 && boards[1].items.length <= 4) {
+            if (currentItem.id === 4 && dataClone[1].items.length <= 4) {
                 equallyCurrent[1].style.marginTop = "0px"
                 equallyCurrent[1].style.paddingBottom = "12px"
                 equallyCurrent[1].style.height = "84px"
@@ -370,7 +382,6 @@ const Pallete = () => {
             if (board.id === 2 && e.target.className !== "pallete__display") {
                 const dropIndex = board.items.indexOf(item)
                 board.items.splice(dropIndex, 0, currentItem)
-
                 setTimeout(() => {
                     if (e.target.previousSibling) {
                         e.target.previousSibling.style.boxShadow = "none"
@@ -383,15 +394,17 @@ const Pallete = () => {
 
             }
 
-            setBoards(boards.map((b: any) => {
-                if (b.id === board.id) {
-                    return board
+            dispatch(setDropDb(
+                dataClone.map((b: any) => {
+                    if (b.id === board.id) {
+                        return board
+                    }
+                    if (b.id === currentBoard.id) {
+                        return currentBoard
+                    }
+                    return b
                 }
-                if (b.id === currentBoard.id) {
-                    return currentBoard
-                }
-                return b
-            }))
+                )))
         }
 
         if (currentBoard.id === 2 && board.id === 2) {
@@ -401,39 +414,60 @@ const Pallete = () => {
 
             }, 0)
 
-            if (e.target.className === "pallete__display") {
-                const currentIndex = currentBoard.items.indexOf(currentItem)
-                currentBoard.items.splice(currentIndex, 1)
-                const dropIndex = board.items.indexOf(item)
-                board.items.splice(dropIndex + 1, 0, currentItem)
-            }
-
-            // ????????????????????????????????????
-            // if (e.target.className !== "pallete__display" && currentItem.id !== 1) {
+            // if (e.target.className === "pallete__display") {
             //     const currentIndex = currentBoard.items.indexOf(currentItem)
-            //     currentBoard.items.splice(currentIndex, 1, 1)
+            //     currentBoard.items.splice(currentIndex, 1)
             //     const dropIndex = board.items.indexOf(item)
             //     board.items.splice(dropIndex + 1, 0, currentItem)
             // }
 
+            // ????????????????????????????????????
+            // if (e.target.className !== "pallete__display" && currentItem.id !== 1) {
+            //     const currentIndex = board.items.indexOf(currentItem)
+            //     board.items.splice(currentIndex, 1, 1)
+            //     const dropIndex = board.items.indexOf(item)
+            //     board.items.splice(dropIndex, 0, currentItem)
+            // }
+
+
+            // смена позиции карточки в текущей доске
+            // if (e.target.className !== "pallete__display") {
+            //     const currentIndex = board.items.indexOf(currentItem)
+            //     board.items.splice(currentIndex, 1)
+            //     // const dropIndex = board.items.indexOf(currentItem)
+            //     // board.items.splice(dropIndex, 0, currentItem)
+            // }
+
+
+
+            if (e.target.className === "pallete__display") {
+                const currentIndex = currentBoard.items.indexOf(currentItem)
+                board.items.splice(currentIndex, 1, 1)
+                const dropIndex = board.items.indexOf(item)
+                board.items.splice(dropIndex + 1, 0, currentItem)
+            }
 
             // смена позиции карточки в текущей доске
             if (e.target.className !== "pallete__display") {
                 const currentIndex = currentBoard.items.indexOf(currentItem)
-                currentBoard.items.splice(currentIndex, 1)
+                board.items.splice(currentIndex, 1)
                 const dropIndex = board.items.indexOf(item)
                 board.items.splice(dropIndex, 0, currentItem)
             }
 
-            setBoards(boards.map((b: any) => {
-                if (b.id === board.id) {
-                    return board
+
+
+            dispatch(setDropDb(
+                dataClone.map((b: any) => {
+                    if (b.id === board.id) {
+                        return board
+                    }
+                    if (b.id === currentBoard.id) {
+                        return currentBoard
+                    }
+                    return b
                 }
-                if (b.id === currentBoard.id) {
-                    return currentBoard
-                }
-                return b
-            }))
+                )))
         }
     }
 
@@ -512,35 +546,44 @@ const Pallete = () => {
         if (board.id === 2) {
             if (currentItem.id === 1) {
                 board.items.unshift(currentItem)
-                setTimeout(() => {
-                    e.target.firstChild.firstChild.style.cursor = "not-allowed"
-                    e.target.firstChild.style.cursor = "not-allowed"
-                    e.target.firstChild.draggable = false
-                }, 0)
+                if (e.target.firstChild) {
+                    setTimeout(() => {
+                        e.target.firstChild.firstChild.style.cursor = "not-allowed"
+                        e.target.firstChild.style.cursor = "not-allowed"
+                        e.target.firstChild.draggable = false
+                    }, 0)
+                }
+
             }
             if (currentItem.id !== 1) {
                 board.items.push(currentItem)
-                setTimeout(() => {
-                    e.target.firstChild.firstChild.style.cursor = "not-allowed"
-                }, 0)
+                if (e.target.firstChild) {
+                    setTimeout(() => {
+                        e.target.firstChild.firstChild.style.cursor = "not-allowed"
+                    }, 0)
+                }
+
             }
+
+
         }
         // отмена копирования элементов в второй доске
         if (currentBoard.id === 2 && board.id === 2) {
             const currentIndex = currentBoard.items.indexOf(currentItem)
-            currentBoard.items.splice(currentIndex, 1)
+            board.items.splice(currentIndex, 1)
         }
 
-        setBoards(boards.map((b: any) => {
-            if (b.id === board.id) {
-                return board
-
+        dispatch(setDropDb(
+            dataClone.map((b: any) => {
+                if (b.id === board.id) {
+                    return board
+                }
+                if (b.id === currentBoard.id) {
+                    return currentBoard
+                }
+                return b
             }
-            if (b.id === currentBoard.id) {
-                return currentBoard
-            }
-            return b
-        }))
+            )))
 
 
         if (e.target.className === "pallete__wrapp") {
@@ -598,22 +641,24 @@ const Pallete = () => {
         if (board.id === 2 && e.target.className !== "pallete__display") {
             const currentIndex = board.items.indexOf(item)
             board.items.splice(currentIndex, 1)
-            setBoards(boards.map((b: any) => {
-                if (b.id === board.id) {
-                    return board
+            dispatch(setDropDb(
+                dataClone.map((b: any) => {
+                    if (b.id === board.id) {
+                        return board
+                    }
+                    if (b.id === currentBoard.id) {
+                        return currentBoard
+                    }
+                    return b
                 }
-                if (b.id === currentBoard.id) {
-                    return currentBoard
-                }
-                return b
-            }))
+                )))
         }
     }
 
 
 
 
-    const elements: any = boards.map((board: any) => {
+    const elements: any = dataClone.map((board: any) => {
         return <div
             onDragOver={(e) => dragOverHandler(e)}
             onDrop={(e) => dropElementHandler(e, board)}
