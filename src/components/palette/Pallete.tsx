@@ -1,6 +1,9 @@
 import { useState, useEffect } from "react";
-import { useGetProductsQuery } from "../api/apiSlice";
-// import {useEffect} from 'react-redux';'
+import { useGetDropDbQuery } from "../api/apiSlice";
+import { useSelector, useDispatch } from 'react-redux';
+
+import { RootState } from 'src/store/index';
+// import {useEffect} from 'react-redux';
 // import { useSelector, useDispatch } from "react-redux";
 // import { RootState } from "@/store";
 
@@ -13,8 +16,10 @@ const Pallete = () => {
     const {
         data: products = [],
         isSuccess
-    } = useGetProductsQuery(null);
+    } = useGetDropDbQuery(null);
     console.log(products)
+
+    const dispatch = useDispatch();
 
     const [boards, setBoards] = useState([
         {
@@ -44,9 +49,9 @@ const Pallete = () => {
     const [disabledSpan, setDisabledSpan] = useState(false) as any
     const [disabledLastChildPadding, setDisabledLastChildPadding] = useState(false) as any
 
-    useEffect(() => {
-        // setDisabledSpan(true)
-    }, [])
+    // useEffect(() => {
+    //     // setDisabledSpan(true)
+    // }, [])
 
 
     const dragStartHandler: any = (e: any, board: any, item: any) => {

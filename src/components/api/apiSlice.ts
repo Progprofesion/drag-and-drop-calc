@@ -5,11 +5,11 @@ export const apiSlice = createApi({
     baseQuery: fetchBaseQuery({ baseUrl: 'https://my-json-server.typicode.com/Progprofesion/test-task-sy' }),
     tagTypes: ['dropDb'],
     endpoints: builder => ({
-        getProducts: builder.query({
+        getDropDb: builder.query({
             query: () => '/dropDb',
             providesTags: ['dropDb']
         }),
-        getProductsId: builder.query({
+        getCalckDb: builder.query({
             query: (id) => `/dropDb/${id}`
         })
     })
@@ -17,4 +17,4 @@ export const apiSlice = createApi({
 
 
 
-export const { useGetProductsQuery, useGetProductsIdQuery } = apiSlice;
+export const { useGetDropDbQuery, useGetCalckDbQuery } = apiSlice;
