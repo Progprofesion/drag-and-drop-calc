@@ -305,7 +305,7 @@ const Pallete = () => {
 
 
             // DISPLAY
-            if (currentItem.id === 1 && dataClone[1].items.length <= 4) {
+            if (currentItem.id === 1 && dataClone[1].items.length <= 4 && displayCurrent[1]) {
                 displayCurrent[1].style.marginTop = "0px"
                 displayCurrent[1].style.paddingBottom = "12px"
                 displayCurrent[1].style.height = "72px"
@@ -353,10 +353,14 @@ const Pallete = () => {
         }
 
 
-        if (currentBoard.id === 1 && currentItem.id === 1) {
+        if (currentItem.id === 1) {
             setDisabled(true)
             if (board.id === 2) {
                 board.items.unshift(currentItem)
+
+
+
+                console.log(board)
                 setTimeout(() => {
                     // нужно для отмены тени у инпута при аншифте на эелемент
                     e.target.parentElement.childNodes[0].style.boxShadow = "none"
@@ -365,6 +369,18 @@ const Pallete = () => {
 
                 }, 0)
             }
+
+            dispatch(setDropDb(
+                dataClone.map((b: any) => {
+                    if (b.id === board.id) {
+                        return board
+                    }
+                    if (b.id === currentBoard.id) {
+                        return currentBoard
+                    }
+                    return b
+                }
+                )))
 
 
         }
@@ -413,32 +429,6 @@ const Pallete = () => {
                 setDisabled(false)
 
             }, 0)
-
-            // if (e.target.className === "pallete__display") {
-            //     const currentIndex = currentBoard.items.indexOf(currentItem)
-            //     currentBoard.items.splice(currentIndex, 1)
-            //     const dropIndex = board.items.indexOf(item)
-            //     board.items.splice(dropIndex + 1, 0, currentItem)
-            // }
-
-            // ????????????????????????????????????
-            // if (e.target.className !== "pallete__display" && currentItem.id !== 1) {
-            //     const currentIndex = board.items.indexOf(currentItem)
-            //     board.items.splice(currentIndex, 1, 1)
-            //     const dropIndex = board.items.indexOf(item)
-            //     board.items.splice(dropIndex, 0, currentItem)
-            // }
-
-
-            // смена позиции карточки в текущей доске
-            // if (e.target.className !== "pallete__display") {
-            //     const currentIndex = board.items.indexOf(currentItem)
-            //     board.items.splice(currentIndex, 1)
-            //     // const dropIndex = board.items.indexOf(currentItem)
-            //     // board.items.splice(dropIndex, 0, currentItem)
-            // }
-
-
 
             if (e.target.className === "pallete__display") {
                 const currentIndex = currentBoard.items.indexOf(currentItem)
