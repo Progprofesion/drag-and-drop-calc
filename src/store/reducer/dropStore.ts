@@ -10,6 +10,7 @@ interface IdropSlice {
     currentItem: {
         id: number
     }
+    disabledDrop: boolean
 }
 
 const cardsAdapter = createEntityAdapter();
@@ -22,7 +23,8 @@ const initialState = cardsAdapter.getInitialState({
     },
     currentItem: {
         id: 0,
-    }
+    },
+    disabledDrop: false
 
 }) as IdropSlice;
 
@@ -46,10 +48,17 @@ const dropStore = createSlice({
         },
         setCurrentItem: (state, action) => {
             state.currentItem = action.payload
+        },
+        setDisabledDrop: (state, action) => {
+            state.disabledDrop = action.payload
         }
     }
 });
-export const { setDropDb, setCurrentBoard, setCurrentItem } = dropStore.actions;
+export const {
+    setDropDb,
+    setCurrentBoard,
+    setCurrentItem,
+    setDisabledDrop } = dropStore.actions;
 
 export const { selectAll } = cardsAdapter.getSelectors((state: any) => state.storage)
 

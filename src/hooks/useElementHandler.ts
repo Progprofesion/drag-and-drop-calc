@@ -1,7 +1,8 @@
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from 'src/store/index';
 import { setDropDb } from "src/store/reducer/dropStore";
+import { setDisabledDrop } from "src/store/reducer/dropStore";
 
 
 const useElementHandler = () => {
@@ -9,9 +10,6 @@ const useElementHandler = () => {
     const dropState = useSelector((state: RootState) => state.dropStore.dropState);
     const currentBoard = useSelector((state: RootState) => state.dropStore.currentBoard);
     const currentItem = useSelector((state: RootState) => state.dropStore.currentItem);
-
-    const [disabled, setDisabled] = useState(false) as any
-
 
     const dataClone = JSON.parse(JSON.stringify(dropState))
     const dispatch = useDispatch();
@@ -84,12 +82,11 @@ const useElementHandler = () => {
                     item.style.boxShadow = "none"
                 })
             }, 0)
-            setDisabled(true)
+            dispatch(setDisabledDrop(true))
         }
         if (board.id === 2) {
 
             if (currentItem.id === 1) {
-                console.log(board)
                 board.items.unshift(currentItem)
                 setTimeout(() => {
                     e.target.firstChild.firstChild.style.cursor = "not-allowed"

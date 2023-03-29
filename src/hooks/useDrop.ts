@@ -2,6 +2,7 @@ import { useState } from "react"
 import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from 'src/store/index';
 import { setDropDb } from "src/store/reducer/dropStore";
+import { setDisabledDrop } from "src/store/reducer/dropStore";
 
 
 const useDrop = () => {
@@ -9,17 +10,15 @@ const useDrop = () => {
     const dropState = useSelector((state: RootState) => state.dropStore.dropState);
     const currentBoard = useSelector((state: RootState) => state.dropStore.currentBoard);
     const currentItem = useSelector((state: RootState) => state.dropStore.currentItem);
+    const disabledDrop = useSelector((state: RootState) => state.dropStore.disabledDrop);
 
     const dataClone = JSON.parse(JSON.stringify(dropState))
     const dispatch = useDispatch();
 
-    const [disabled, setDisabled] = useState(false) as any
 
     const dropHandler: any = (e: any, board: any, item: any) => {
         e.preventDefault();
         e.stopPropagation();
-        // console.log(e.target)
-
 
         setTimeout(() => {
             const operationsCurrent: any = document.querySelectorAll(".pallete__operations")
@@ -90,7 +89,8 @@ const useDrop = () => {
 
 
         if (currentItem.id === 1) {
-            setDisabled(true)
+            dispatch(setDisabledDrop(true))
+            console.log(disabledDrop)
             if (board.id === 2) {
                 board.items.unshift(currentItem as never)
                 setTimeout(() => {
@@ -118,7 +118,7 @@ const useDrop = () => {
 
 
         if (currentBoard.id === 1 && currentItem.id !== 1) {
-            setDisabled(true)
+            dispatch(setDisabledDrop(true))
             // запрет на перетаскивание элементов в 1 доску
             setTimeout(() => {
                 e.target.parentNode.childNodes.forEach((item: any) => {
@@ -128,7 +128,7 @@ const useDrop = () => {
 
             if (board.id === 2 && e.target.className !== "pallete__display") {
                 const dropIndex = board.items.indexOf(item)
-                board.items.splice(dropIndex, 1, currentItem)
+                board.items.splice(dropIndex, 0, currentItem)
                 setTimeout(() => {
                     if (e.target.previousSibling) {
                         e.target.previousSibling.style.boxShadow = "none"
@@ -136,10 +136,8 @@ const useDrop = () => {
                 }, 0)
             }
             if (e.target.className === "pallete__display") {
-                console.log(e.target)
                 const dropIndex = board.items.indexOf(item)
                 board.items.splice(dropIndex + 1, 0, currentItem)
-
             }
 
             dispatch(setDropDb(
@@ -158,7 +156,7 @@ const useDrop = () => {
         if (currentBoard.id === 2 && board.id === 2) {
 
             setTimeout(() => {
-                setDisabled(false)
+                dispatch(setDisabledDrop(false))
 
             }, 0)
 

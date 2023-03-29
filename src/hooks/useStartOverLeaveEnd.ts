@@ -1,8 +1,8 @@
 import { EventType } from "@testing-library/react";
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from 'src/store/index';
-import { setCurrentBoard, setCurrentItem } from "src/store/reducer/dropStore";
+import { setCurrentBoard, setCurrentItem, setDisabledDrop } from "src/store/reducer/dropStore";
 
 
 type QuerySelectorAll = (selector: string) => NodeListOf<Element>;
@@ -64,14 +64,12 @@ const useStartOverLeaveEnd = () => {
     const palleteWrapp: HTMLDivElement | null = document.querySelector(".pallete__wrapp");
 
     const dropState = useSelector((state: RootState) => state.dropStore.dropState);
-    const currentBoard = useSelector((state: RootState) => state.dropStore.currentBoard);
+    const disabledDrop = useSelector((state: RootState) => state.dropStore.disabledDrop);
 
     const dataClone = JSON.parse(JSON.stringify(dropState))
     const dispatch = useDispatch();
 
-    const [disabled, setDisabled] = useState<boolean>(false)
     const [disabledSpan, setDisabledSpan] = useState<boolean>(false)
-
 
     const dragStartHandler: any = (e: TuseStartOverLeaveEnd, board: TuseStartOverLeaveEnd, item: TuseStartOverLeaveEnd) => {
         dispatch(setCurrentBoard(board))
@@ -85,6 +83,7 @@ const useStartOverLeaveEnd = () => {
 
 
         if (board.id === 1 && e.target.className === "pallete__display") {
+            // подсветка для инпута в начало массива
             setDisabledSpan(true)
         }
 
@@ -96,7 +95,6 @@ const useStartOverLeaveEnd = () => {
             palleteWrapp!.style.zIndex = "-1"
         }
     }
-    // console.log(disabledSpan)
 
     const dragOverHandler: any = (e: TuseStartOverLeaveEnd, board: { id: number }) => {
         e.preventDefault();
@@ -107,13 +105,7 @@ const useStartOverLeaveEnd = () => {
             e.target.firstChild.firstChild.style.top = "-7px"
         }
 
-        // if (e.target.className !== "pallete__wrapp" && e.target.lastChild) {
 
-        //     if (e.target.firstChild.firstChild) {
-        //         e.target.firstChild.firstChild.style.display = "block"
-        //         e.target.firstChild.firstChild.style.top = "-7px"
-        //     }
-        // }
 
         if (e.target.className === "pallete__wrapp" && e.target.lastChild && !disabledSpan) {
             e.target.lastChild.firstChild.style.display = "block"
@@ -125,6 +117,11 @@ const useStartOverLeaveEnd = () => {
             e.target.parentNode.firstChild.firstChild.style.display = "block"
             e.target.parentNode.firstChild.firstChild.style.top = "-7px"
 
+        }
+
+        if (e.target.className !== "pallete__wrapp" && e.target.firstChild && !disabledSpan && e.target.className !== "pallete__display") {
+            e.target.firstChild.style.display = "block"
+            e.target.firstChild.style.top = "-7px"
         }
 
 
@@ -199,7 +196,7 @@ const useStartOverLeaveEnd = () => {
             item.firstChild.style.display = "none"
         })
 
-        if (board.id === 1) {
+        if (board.id === 1 && disabledDrop) {
             e.target.style.opacity = "50%"
             e.target.draggable = false
             e.target.style.cursor = "not-allowed"
@@ -218,7 +215,7 @@ const useStartOverLeaveEnd = () => {
             if (e.target.className === "pallete__display") {
                 e.target.style.boxShadow = "none"
             }
-            setDisabled(false)
+            dispatch(setDisabledDrop(false))
 
         }
 
