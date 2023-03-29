@@ -5,16 +5,26 @@ import { RootState } from 'src/store/index';
 import { setCurrentBoard, setCurrentItem, setDisabledDrop } from "src/store/reducer/dropStore";
 
 
-type QuerySelectorAll = (selector: string) => NodeListOf<Element>;
+type TchildNodes = {
+    style: {
+        boxShadow: string
+        cursor: string
+    }
+    draggable: boolean
+}
 
-type TuseStartOverLeaveEnd = {
+type TQuerySelectorAll = (selector: string) => NodeListOf<Element>;
+
+export type TuseStartOverLeaveEnd = {
     e: EventType
     target: {
         className: {}
         parentNode: {
             style: {
                 zIndex: string
+                height: string
             }
+            childNodes: []
             firstChild: {
                 firstChild: {
                     style: {
@@ -22,6 +32,15 @@ type TuseStartOverLeaveEnd = {
                         top: string
                     }
                 }
+            }
+        }
+        parentElement: {
+            childNodes: TchildNodes[]
+
+        }
+        previousSibling: {
+            style: {
+                boxShadow: string
             }
         }
         lastChild: {
@@ -52,11 +71,12 @@ type TuseStartOverLeaveEnd = {
             boxShadow: string
         }
         draggable: boolean
-        querySelectorAll: QuerySelectorAll
+        querySelectorAll: TQuerySelectorAll
         childNodes: []
     }
     id: number
     preventDefault: () => void
+    stopPropagation: () => void
 }
 
 const useStartOverLeaveEnd = () => {
@@ -161,7 +181,6 @@ const useStartOverLeaveEnd = () => {
 
         if (e.target.className === "pallete__wrapp" && e.target.firstChild) {
             e.target.firstChild.firstChild.style.display = "none"
-            // e.target.lastChild.firstChild.style.display = "none"
         }
 
         if (e.target.className === "pallete__display") {
@@ -176,10 +195,7 @@ const useStartOverLeaveEnd = () => {
         }
         if (e.target.className === "pallete__equally") {
             e.target.firstChild.style.display = "none"
-
         }
-
-
     }
 
     const dragEndHandler: any = (e: TuseStartOverLeaveEnd, board: { id: number }) => {
@@ -216,7 +232,6 @@ const useStartOverLeaveEnd = () => {
                 e.target.style.boxShadow = "none"
             }
             dispatch(setDisabledDrop(false))
-
         }
 
         e.target.childNodes.forEach((child: { style: { boxShadow: string } }) => {

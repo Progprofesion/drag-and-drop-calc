@@ -3,7 +3,11 @@ import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from 'src/store/index';
 import { setDropDb } from "src/store/reducer/dropStore";
 import { setDisabledDrop } from "src/store/reducer/dropStore";
+import { TuseStartOverLeaveEnd } from "./useStartOverLeaveEnd"
 
+interface TuseDrop {
+
+}
 
 const useDrop = () => {
 
@@ -16,7 +20,7 @@ const useDrop = () => {
     const dispatch = useDispatch();
 
 
-    const dropHandler: any = (e: any, board: any, item: any) => {
+    const dropHandler: any = (e: TuseStartOverLeaveEnd, board: any, item: any): void => {
         e.preventDefault();
         e.stopPropagation();
 
@@ -40,28 +44,28 @@ const useDrop = () => {
 
 
             // DISPLAY
-            if (currentItem.id === 1 && dataClone[1].items.length <= 4 && displayCurrent[1]) {
+            if (currentItem.id === 1 && displayCurrent[1]) {
                 displayCurrent[1].style.marginTop = "0px"
                 displayCurrent[1].style.paddingBottom = "12px"
                 displayCurrent[1].style.height = "72px"
             }
 
             // OPERATIONS
-            if (currentItem.id === 2 && dataClone[1].items.length <= 4) {
+            if (currentItem.id === 2) {
                 operationsCurrent[1].style.marginTop = "0px"
                 operationsCurrent[1].style.paddingBottom = "12px"
                 operationsCurrent[1].style.height = "68px"
             }
 
             // DIAL 
-            if (currentItem.id === 3 && dataClone[1].items.length <= 4) {
+            if (currentItem.id === 3) {
                 dialCurrent[1].style.marginTop = "0px"
                 dialCurrent[1].style.paddingBottom = "12px"
                 dialCurrent[1].style.height = "237px"
             }
 
             // EQUALLY 
-            if (currentItem.id === 4 && dataClone[1].items.length <= 4) {
+            if (currentItem.id === 4) {
                 equallyCurrent[1].style.marginTop = "0px"
                 equallyCurrent[1].style.paddingBottom = "12px"
                 equallyCurrent[1].style.height = "84px"
