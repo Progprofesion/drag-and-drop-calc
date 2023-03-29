@@ -17,6 +17,7 @@ type TQuerySelectorAll = (selector: string) => NodeListOf<Element>;
 
 export type TuseStartOverLeaveEnd = {
     e: EventType
+    items: []
     target: {
         className: {}
         parentNode: {

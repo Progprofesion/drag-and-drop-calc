@@ -20,15 +20,15 @@ const useDrop = () => {
     const dispatch = useDispatch();
 
 
-    const dropHandler: any = (e: TuseStartOverLeaveEnd, board: any, item: any): void => {
+    const dropHandler: any = (e: TuseStartOverLeaveEnd, board: TuseStartOverLeaveEnd, item: TuseStartOverLeaveEnd): void => {
         e.preventDefault();
         e.stopPropagation();
 
         setTimeout(() => {
-            const operationsCurrent: any = document.querySelectorAll(".pallete__operations")
-            const dialCurrent: any = document.querySelectorAll(".pallete__dial");
-            const equallyCurrent: any = document.querySelectorAll(".pallete__equally");
-            const displayCurrent: any = document.querySelectorAll(".pallete__display");
+            const operationsCurrent = document.querySelectorAll<HTMLElement>(".pallete__operations")
+            const dialCurrent = document.querySelectorAll<HTMLElement>(".pallete__dial");
+            const equallyCurrent = document.querySelectorAll<HTMLElement>(".pallete__equally");
+            const displayCurrent = document.querySelectorAll<HTMLElement>(".pallete__display");
 
             //-------------------------- стили для расширения карточки
 
@@ -94,7 +94,6 @@ const useDrop = () => {
 
         if (currentItem.id === 1) {
             dispatch(setDisabledDrop(true))
-            console.log(disabledDrop)
             if (board.id === 2) {
                 board.items.unshift(currentItem as never)
                 setTimeout(() => {
@@ -108,7 +107,7 @@ const useDrop = () => {
 
 
             dispatch(setDropDb(
-                dataClone.map((b: any) => {
+                dataClone.map((b: { id: number }) => {
                     if (b.id === board.id) {
                         return board
                     }
@@ -125,14 +124,14 @@ const useDrop = () => {
             dispatch(setDisabledDrop(true))
             // запрет на перетаскивание элементов в 1 доску
             setTimeout(() => {
-                e.target.parentNode.childNodes.forEach((item: any) => {
+                e.target.parentNode.childNodes.forEach((item: { style: { boxShadow: string } }) => {
                     item.style.boxShadow = "none"
                 })
             })
 
             if (board.id === 2 && e.target.className !== "pallete__display") {
-                const dropIndex = board.items.indexOf(item)
-                board.items.splice(dropIndex, 0, currentItem)
+                const dropIndex = board.items.indexOf(item as never)
+                board.items.splice(dropIndex, 0, currentItem as never)
                 setTimeout(() => {
                     if (e.target.previousSibling) {
                         e.target.previousSibling.style.boxShadow = "none"
@@ -140,12 +139,12 @@ const useDrop = () => {
                 }, 0)
             }
             if (e.target.className === "pallete__display") {
-                const dropIndex = board.items.indexOf(item)
-                board.items.splice(dropIndex + 1, 0, currentItem)
+                const dropIndex = board.items.indexOf(item as never)
+                board.items.splice(dropIndex + 1, 0, currentItem as never)
             }
 
             dispatch(setDropDb(
-                dataClone.map((b: any) => {
+                dataClone.map((b: { id: number }) => {
                     if (b.id === board.id) {
                         return board
                     }
@@ -166,23 +165,23 @@ const useDrop = () => {
 
             if (e.target.className === "pallete__display") {
                 const currentIndex = currentBoard.items.indexOf(currentItem as never)
-                board.items.splice(currentIndex, 1, 1)
-                const dropIndex = board.items.indexOf(item)
-                board.items.splice(dropIndex + 1, 0, currentItem)
+                board.items.splice(currentIndex, 1, 1 as never)
+                const dropIndex = board.items.indexOf(item as never)
+                board.items.splice(dropIndex + 1, 0, currentItem as never)
             }
 
             // смена позиции карточки в текущей доске
             if (e.target.className !== "pallete__display") {
                 const currentIndex = currentBoard.items.indexOf(currentItem as never);
                 board.items.splice(currentIndex, 1)
-                const dropIndex = board.items.indexOf(item)
-                board.items.splice(dropIndex, 0, currentItem)
+                const dropIndex = board.items.indexOf(item as never)
+                board.items.splice(dropIndex, 0, currentItem as never)
             }
 
 
 
             dispatch(setDropDb(
-                dataClone.map((b: any) => {
+                dataClone.map((b: { id: number }) => {
                     if (b.id === board.id) {
                         return board
                     }
