@@ -40,7 +40,7 @@ const Pallete = () => {
     const elements: any = dataClone.map((board: any) => {
         return <div
             onDragOver={(e) => dragOverHandler(e)}
-            onDrop={(e) => dropElementHandler(e, board)}
+            onDrop={(e: any) => dropElementHandler(e, board)}
             onDragLeave={e => dragLeaveHandlear(e, board)}
             key={board.id}
             className="pallete__wrapp">
@@ -50,7 +50,7 @@ const Pallete = () => {
                         case 'input':
                             return <div
                                 // onMouseDown={(e) => e.preventDefault()}
-                                onDoubleClick={(e) => doubleClickHandler(e, board, item)}
+                                onDoubleClick={(e: any) => doubleClickHandler(e, board, item)}
                                 onDragOver={(e) => dragOverHandler(e, board)}
                                 onDragLeave={e => dragLeaveHandlear(e, board)}
                                 onDragStart={(e) => dragStartHandler(e, board, item)}
@@ -67,7 +67,7 @@ const Pallete = () => {
                             </div>;
                         case 'operations':
                             return <div
-                                onDoubleClick={(e) => doubleClickHandler(e, board, item)}
+                                onDoubleClick={(e: any) => doubleClickHandler(e, board, item)}
                                 onDragOver={(e) => dragOverHandler(e, board)}
                                 onDragLeave={e => dragLeaveHandlear(e, board)}
                                 onDragStart={(e) => dragStartHandler(e, board, item)}
@@ -88,7 +88,7 @@ const Pallete = () => {
                             </div>
                         case 'dial':
                             return <div
-                                onDoubleClick={(e) => doubleClickHandler(e, board, item)}
+                                onDoubleClick={(e: any) => doubleClickHandler(e, board, item)}
                                 onDragOver={(e) => dragOverHandler(e, board)}
                                 onDragLeave={e => dragLeaveHandlear(e, board)}
                                 onDragStart={(e) => dragStartHandler(e, board, item)}
@@ -108,7 +108,7 @@ const Pallete = () => {
                             </div>
                         case 'equally':
                             return <div
-                                onDoubleClick={(e) => doubleClickHandler(e, board, item)}
+                                onDoubleClick={(e: any) => doubleClickHandler(e, board, item)}
                                 onDragOver={(e) => dragOverHandler(e, board)}
                                 onDragLeave={e => dragLeaveHandlear(e, board)}
                                 onDragStart={(e) => dragStartHandler(e, board, item)}

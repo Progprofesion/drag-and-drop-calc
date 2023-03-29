@@ -5,9 +5,6 @@ import { setDropDb } from "src/store/reducer/dropStore";
 import { setDisabledDrop } from "src/store/reducer/dropStore";
 import { TuseStartOverLeaveEnd } from "./useStartOverLeaveEnd"
 
-interface TuseDrop {
-
-}
 
 const useDrop = () => {
 

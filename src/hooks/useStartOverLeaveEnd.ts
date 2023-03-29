@@ -54,15 +54,18 @@ export type TuseStartOverLeaveEnd = {
             }
         }
         firstChild: {
+            draggable: boolean
             style: {
                 display: string
                 top: string
                 bottom: string
+                cursor: string
             }
             firstChild: {
                 style: {
                     display: string
                     top: string
+                    cursor: string
                 }
             }
         }
@@ -70,6 +73,9 @@ export type TuseStartOverLeaveEnd = {
             opacity: string
             cursor: string
             boxShadow: string
+            maxHeight: string
+            border: string
+            width: string
         }
         draggable: boolean
         querySelectorAll: TQuerySelectorAll

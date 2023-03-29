@@ -5,6 +5,20 @@ import { setDropDb } from "src/store/reducer/dropStore";
 import { setDisabledDrop } from "src/store/reducer/dropStore";
 import { TuseStartOverLeaveEnd } from "./useStartOverLeaveEnd"
 
+type Theigth = {
+    style: {
+        paddingBottom: string
+        marginTop: string
+        boxShadow: string
+    }
+    firstChild: {
+        style: {
+            display: string
+
+        }
+    }
+}
+
 const useElementHandler = () => {
 
     const dropState = useSelector((state: RootState) => state.dropStore.dropState);
@@ -14,18 +28,18 @@ const useElementHandler = () => {
     const dataClone = JSON.parse(JSON.stringify(dropState))
     const dispatch = useDispatch();
 
-    const dropElementHandler = (e: any, board: any): void => {
+    const dropElementHandler = (e: TuseStartOverLeaveEnd, board: TuseStartOverLeaveEnd): void => {
         e.preventDefault();
         e.stopPropagation();
         setTimeout(() => {
-            const operationsCurrent: any = document.querySelectorAll(".pallete__operations")
-            const dialCurrent: any = document.querySelectorAll(".pallete__dial");
-            const equallyCurrent: any = document.querySelectorAll(".pallete__equally");
-            const displayCurrent: any = document.querySelectorAll(".pallete__display");
+            const operationsCurrent = document.querySelectorAll<HTMLElement>(".pallete__operations")
+            const dialCurrent = document.querySelectorAll<HTMLElement>(".pallete__dial");
+            const equallyCurrent = document.querySelectorAll<HTMLElement>(".pallete__equally");
+            const displayCurrent = document.querySelectorAll<HTMLElement>(".pallete__display");
 
             //-------------------------- стили для расширения карточки
 
-            e.target.childNodes.forEach((item: any) => {
+            e.target.childNodes.forEach((item: Theigth) => {
                 // console.log(item)
                 item.style.paddingBottom = "12px"
                 item.style.marginTop = "0px"
@@ -71,14 +85,14 @@ const useElementHandler = () => {
 
         }, 0)
 
-        e.target.childNodes.forEach((item: any) => {
+        e.target.childNodes.forEach((item: Theigth) => {
             item.firstChild.style.display = "none"
         })
 
         // флаг для работы перетаскивания, только в доску для перетаскивания board.id === 2.
         if (board.id === 2) {
             setTimeout(() => {
-                e.target.childNodes.forEach((item: any) => {
+                e.target.childNodes.forEach((item: Theigth) => {
                     item.style.boxShadow = "none"
                 })
             }, 0)
@@ -87,7 +101,7 @@ const useElementHandler = () => {
         if (board.id === 2) {
 
             if (currentItem.id === 1) {
-                board.items.unshift(currentItem)
+                board.items.unshift(currentItem as never)
                 setTimeout(() => {
                     e.target.firstChild.firstChild.style.cursor = "not-allowed"
                     e.target.firstChild.style.cursor = "not-allowed"
@@ -96,7 +110,7 @@ const useElementHandler = () => {
 
             }
             if (currentItem.id !== 1) {
-                board.items.push(currentItem)
+                board.items.push(currentItem as never)
 
                 // ????????????????
                 // if (e.target.firstChild) {
@@ -116,7 +130,7 @@ const useElementHandler = () => {
         }
 
         dispatch(setDropDb(
-            dataClone.map((b: any) => {
+            dataClone.map((b: { id: number }) => {
                 if (b.id === board.id) {
                     return board
                 }
