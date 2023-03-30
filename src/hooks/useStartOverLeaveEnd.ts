@@ -3,7 +3,7 @@ import { useState, useEffect } from "react"
 import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from 'src/store/index';
 import { setCurrentBoard, setCurrentItem, setDisabledDrop } from "src/store/reducer/dropStore";
-
+import { TuseDelete } from "src/hooks/useDelete";
 
 type TchildNodes = {
     style: {
@@ -16,7 +16,9 @@ type TchildNodes = {
 type TQuerySelectorAll = (selector: string) => NodeListOf<Element>;
 
 export type TuseStartOverLeaveEnd = {
+    type: string
     e: EventType
+    id: number
     items: []
     target: {
         className: {}
@@ -66,6 +68,7 @@ export type TuseStartOverLeaveEnd = {
                     display: string
                     top: string
                     cursor: string
+                    bottom: string
                 }
             }
         }
@@ -76,15 +79,16 @@ export type TuseStartOverLeaveEnd = {
             maxHeight: string
             border: string
             width: string
+            display: string
         }
         draggable: boolean
         querySelectorAll: TQuerySelectorAll
         childNodes: []
     }
-    id: number
     preventDefault: () => void
     stopPropagation: () => void
 }
+
 
 const useStartOverLeaveEnd = () => {
 
@@ -98,7 +102,7 @@ const useStartOverLeaveEnd = () => {
 
     const [disabledSpan, setDisabledSpan] = useState<boolean>(false)
 
-    const dragStartHandler: any = (e: TuseStartOverLeaveEnd, board: TuseStartOverLeaveEnd, item: TuseStartOverLeaveEnd) => {
+    const dragStartHandler = (e: TuseStartOverLeaveEnd, board: TuseStartOverLeaveEnd, item: TuseStartOverLeaveEnd): void => {
         dispatch(setCurrentBoard(board))
         dispatch(setCurrentItem(item))
 
@@ -123,13 +127,14 @@ const useStartOverLeaveEnd = () => {
         }
     }
 
-    const dragOverHandler: any = (e: TuseStartOverLeaveEnd, board: { id: number }) => {
+    const dragOverHandler = (e: TuseStartOverLeaveEnd, board: { id: number }) => {
         e.preventDefault();
-
-        //  две практически одинаковые функции_________
+        console.log(e.target)
+        //  два практически одинаковых условия_________
         if (e.target.className === "pallete__wrapp" && e.target.lastChild && disabledSpan) {
             e.target.firstChild.firstChild.style.display = "block"
             e.target.firstChild.firstChild.style.top = "-7px"
+            e.target.firstChild.firstChild.style.bottom = "unset"
         }
 
 
@@ -146,46 +151,51 @@ const useStartOverLeaveEnd = () => {
 
         }
 
-        if (e.target.className !== "pallete__wrapp" && e.target.firstChild && !disabledSpan && e.target.className !== "pallete__display") {
-            e.target.firstChild.style.display = "block"
-            e.target.firstChild.style.top = "-7px"
-        }
+        // if (e.target.className !== "pallete__wrapp" && e.target.firstChild && !disabledSpan && e.target.className !== "pallete__display") {
+        //     e.target.firstChild.style.display = "block"
+        //     e.target.firstChild.style.top = "-7px"
+        // }
 
 
         if (board && board.id === 2) {
+            if (e.target.className === "pallete__span" && dataClone[1].items.length > 0 && !disabledSpan) {
+                e.target.style.display = "block"
+                console.log(e.target)
+
+            }
 
             if (e.target.className === "pallete__display" && dataClone[1].items.length > 0 && !disabledSpan) {
                 e.target.firstChild.style.display = "block"
                 e.target.firstChild.style.top = "unset"
-                e.target.firstChild.style.bottom = "5px"
+                e.target.firstChild.style.bottom = "6px"
+
             }
 
 
             if (e.target.className === "pallete__operations" && dataClone[1].items.length > 1 && !disabledSpan) {
                 e.target.firstChild.style.display = "block"
-                e.target.firstChild.style.top = "-7px"
+                e.target.firstChild.style.top = "-8px"
+                e.target.firstChild.style.bottom = "unset"
                 setDisabledSpan(false)
 
             }
             if (e.target.className === "pallete__dial" && dataClone[1].items.length > 1 && !disabledSpan) {
                 e.target.firstChild.style.display = "block"
                 e.target.firstChild.style.top = "-7px"
+                e.target.firstChild.style.bottom = "unset"
                 setDisabledSpan(false)
             }
             if (e.target.className === "pallete__equally" && dataClone[1].items.length > 1 && !disabledSpan) {
                 e.target.firstChild.style.display = "block"
                 e.target.firstChild.style.top = "-7px"
+                e.target.firstChild.style.bottom = "unset"
                 setDisabledSpan(false)
             }
-            // if (board.id === 1) {
-            // e.target.parentNode.style.zIndex = "-1"
-            // }
         }
 
     }
 
     const dragLeaveHandlear: any = (e: TuseStartOverLeaveEnd) => {
-
         if (e.target.className === "pallete__wrapp" && e.target.firstChild) {
             e.target.firstChild.firstChild.style.display = "none"
         }

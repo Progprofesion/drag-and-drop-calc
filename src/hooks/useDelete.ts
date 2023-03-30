@@ -6,7 +6,7 @@ export interface TuseDelete {
     preventDefault: () => void;
     id: number
     target: {
-        className: string
+        className: {}
     }
     items: []
 }
@@ -41,7 +41,7 @@ const useDelete = () => {
                 item.style.cursor = "grab"
                 item.style.opacity = "100%"
                 item.style.boxShadow = "0px 2px 4px rgba(0, 0, 0, 0.06), 0px 4px 6px rgba(0, 0, 0, 0.1)"
-                operations.forEach((item: any) => {
+                operations.forEach((item: { draggable: boolean }) => {
                     item.draggable = true
                 })
             })

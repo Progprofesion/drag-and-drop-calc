@@ -1,3 +1,4 @@
+import { EventType } from "@testing-library/react";
 import { ReactNode, useEffect } from "react";
 import { useGetDropDbQuery } from "../api/apiSlice";
 import { useSelector, useDispatch } from 'react-redux';
@@ -11,14 +12,27 @@ import useStartOverLeaveEnd from "src/hooks/useStartOverLeaveEnd";
 import useDelete from "src/hooks/useDelete";
 
 import { TuseStartOverLeaveEnd } from "src/hooks/useStartOverLeaveEnd";
+import { TuseDelete } from "src/hooks/useDelete";
 
 import './palette.scss';
 
-interface Tpallete {
+type Tpallete = {
     key: number
     type: string
     props: {}
 }
+
+
+type Tdrop = {
+    e: EventType
+    target: {}
+    type: string
+    items: []
+    id: number
+    preventDefault: () => void
+    stopPropagation: () => void
+}
+
 
 const Pallete = () => {
 
@@ -49,7 +63,7 @@ const Pallete = () => {
 
     const elements: Tpallete = dataClone.map((board: TuseStartOverLeaveEnd) => {
         return <div
-            onDragOver={(e) => dragOverHandler(e)}
+            onDragOver={(e: any) => dragOverHandler(e, board)}
             onDrop={(e: any) => dropElementHandler(e, board)}
             onDragLeave={e => dragLeaveHandlear(e, board)}
             key={board.id}
@@ -60,16 +74,19 @@ const Pallete = () => {
                         case 'input':
                             return <div
                                 // onMouseDown={(e) => e.preventDefault()}
-                                onDoubleClick={(e: any) => doubleClickHandler(e, board as any, item)}
-                                onDragOver={(e) => dragOverHandler(e, board)}
+                                onDoubleClick={(e: any) => doubleClickHandler(e, board, item)}
+                                onDragOver={(e) => dragOverHandler(e as any, board)}
                                 onDragLeave={e => dragLeaveHandlear(e, board)}
-                                onDragStart={(e) => dragStartHandler(e, board, item)}
+                                onDragStart={(e: any) => dragStartHandler(e, board, item)}
                                 onDragEnd={(e) => dragEndHandler(e, board, item)}
                                 onDrop={(e) => dropHandler(e, board, item)}
                                 draggable={true}
                                 key={item.id}
                                 className="pallete__display">
-                                <span className="pallete__span"></span>
+                                <span className="pallete__span">
+                                    <div></div>
+                                    <div></div>
+                                </span>
                                 <input
                                     placeholder="0"
                                     type="tel"
@@ -78,15 +95,18 @@ const Pallete = () => {
                         case 'operations':
                             return <div
                                 onDoubleClick={(e: any) => doubleClickHandler(e, board as any, item)}
-                                onDragOver={(e) => dragOverHandler(e, board)}
+                                onDragOver={(e) => dragOverHandler(e as any, board)}
                                 onDragLeave={e => dragLeaveHandlear(e, board)}
-                                onDragStart={(e) => dragStartHandler(e, board, item)}
+                                onDragStart={(e: any) => dragStartHandler(e, board, item)}
                                 onDragEnd={(e) => dragEndHandler(e, board, item)}
                                 onDrop={(e) => dropHandler(e, board, item)}
                                 draggable={true}
                                 key={item.id}
                                 className="pallete__operations">
-                                <span className="pallete__span"></span>
+                                <span className="pallete__span">
+                                    <div></div>
+                                    <div></div>
+                                </span>
                                 <div
                                     className="pallete__operations-wrapp">
                                     {item.operations?.map(((item: any) =>
@@ -99,15 +119,18 @@ const Pallete = () => {
                         case 'dial':
                             return <div
                                 onDoubleClick={(e: any) => doubleClickHandler(e, board as any, item)}
-                                onDragOver={(e) => dragOverHandler(e, board)}
+                                onDragOver={(e) => dragOverHandler(e as any, board)}
                                 onDragLeave={e => dragLeaveHandlear(e, board)}
-                                onDragStart={(e) => dragStartHandler(e, board, item)}
+                                onDragStart={(e: any) => dragStartHandler(e, board, item)}
                                 onDragEnd={(e) => dragEndHandler(e, board, item)}
                                 onDrop={(e) => dropHandler(e, board, item)}
                                 draggable={true}
                                 key={item.id}
                                 className="pallete__dial">
-                                <span className="pallete__span"></span>
+                                <span className="pallete__span">
+                                    <div></div>
+                                    <div></div>
+                                </span>
                                 <div className="pallete__dial-wrapp">
                                     {item.numbers?.map((item: any) =>
                                         <button
@@ -119,15 +142,18 @@ const Pallete = () => {
                         case 'equally':
                             return <div
                                 onDoubleClick={(e: any) => doubleClickHandler(e, board as any, item)}
-                                onDragOver={(e) => dragOverHandler(e, board)}
+                                onDragOver={(e) => dragOverHandler(e as any, board)}
                                 onDragLeave={e => dragLeaveHandlear(e, board)}
-                                onDragStart={(e) => dragStartHandler(e, board, item)}
+                                onDragStart={(e: any) => dragStartHandler(e, board, item)}
                                 onDragEnd={(e) => dragEndHandler(e, board, item)}
                                 onDrop={(e) => dropHandler(e, board, item)}
                                 draggable={true}
                                 key={item.id}
                                 className="pallete__equally">
-                                <span className="pallete__span"></span>
+                                <span className="pallete__span">
+                                    <div></div>
+                                    <div></div>
+                                </span>
                                 <div className="pallete__equally-wrapp">{item.titleEqually}</div>
                             </div>
                         default:

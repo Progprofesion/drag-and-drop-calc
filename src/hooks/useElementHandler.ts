@@ -41,35 +41,35 @@ const useElementHandler = () => {
 
             e.target.childNodes.forEach((item: Theigth) => {
                 // console.log(item)
-                item.style.paddingBottom = "12px"
+                // item.style.paddingBottom = "12px"
                 item.style.marginTop = "0px"
 
                 // DISPLAY
                 if (currentItem.id === 1) {
                     displayCurrent[1].style.marginTop = "0px"
-                    // displayCurrent[1].style.paddingBottom = "12px"
+                    displayCurrent[1].style.paddingBottom = "12px"
                     displayCurrent[1].style.height = "72px"
                 }
 
                 // OPERATIONS
                 if (currentItem.id === 2) {
                     operationsCurrent[1].style.marginTop = "0px"
-                    // operationsCurrent[1].style.paddingBottom = "12px"
+                    operationsCurrent[1].style.paddingBottom = "12px"
                     operationsCurrent[1].style.height = "68px"
                 }
 
                 // DIAL 
                 if (currentItem.id === 3) {
                     dialCurrent[1].style.marginTop = "0px"
-                    // dialCurrent[1].style.paddingBottom = "12px"
-                    dialCurrent[1].style.height = "237px"
+                    dialCurrent[1].style.paddingBottom = "12px"
+                    dialCurrent[1].style.height = "236px"
                     // console.log(boards[1].items.length)
                 }
 
                 // EQUALLY 
                 if (currentItem.id === 4) {
                     equallyCurrent[1].style.marginTop = "0px"
-                    // equallyCurrent[1].style.paddingBottom = "12px"
+                    equallyCurrent[1].style.paddingBottom = "12px"
                     equallyCurrent[1].style.height = "84px"
                 }
 
