@@ -26,7 +26,6 @@
             text-align: right;
             font-size: 36px;
             font-weight: 800;
-            line-height: 44px;
             color: #111827;
             outline: none;
             z-index: -1;
@@ -54,6 +53,7 @@
         &-buttons {
             width: 52px;
             height: 48px;
+            font-weight: 500;
             background: #FFFFFF;
             border: 1px solid #E2E3E5;
             border-radius: 6px;

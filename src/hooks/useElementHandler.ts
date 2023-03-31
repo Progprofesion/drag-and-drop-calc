@@ -28,7 +28,7 @@ const useElementHandler = () => {
     const dataClone = JSON.parse(JSON.stringify(dropState))
     const dispatch = useDispatch();
 
-    const dropElementHandler = (e: TuseStartOverLeaveEnd, board: TuseStartOverLeaveEnd): void => {
+    const dropElementHandler = (e: React.DragEvent<HTMLDivElement>, board: TuseStartOverLeaveEnd): void => {
         e.preventDefault();
         e.stopPropagation();
         setTimeout(() => {
@@ -39,10 +39,10 @@ const useElementHandler = () => {
 
             //-------------------------- стили для расширения карточки
 
-            e.target.childNodes.forEach((item: Theigth) => {
+            (e.target as HTMLElement).childNodes.forEach((item: ChildNode) => {
                 // console.log(item)
                 // item.style.paddingBottom = "12px"
-                item.style.marginTop = "0px"
+                (item as HTMLElement).style.marginTop = "0px"
 
                 // DISPLAY
                 if (currentItem.id === 1) {
@@ -78,34 +78,36 @@ const useElementHandler = () => {
 
             if (board.items.length > 2) {
 
-                e.target.style.maxHeight = "448px"
+                (e.target as HTMLElement).style.maxHeight = "448px"
                 // e.target.lastChild.style.marginTop = "-1px"
                 // e.target.lastChild.style.paddingBottom = "0px"
             }
 
-        }, 0)
+        }, 0);
 
-        e.target.childNodes.forEach((item: Theigth) => {
-            item.firstChild.style.display = "none"
+        (e.target as HTMLElement).childNodes.forEach((item: ChildNode) => {
+            (item.firstChild as HTMLElement).style.display = "none"
         })
 
         // флаг для работы перетаскивания, только в доску для перетаскивания board.id === 2.
         if (board.id === 2) {
             setTimeout(() => {
-                e.target.childNodes.forEach((item: Theigth) => {
-                    item.style.boxShadow = "none"
+                (e.target as HTMLElement).childNodes.forEach((item: ChildNode) => {
+                    (item as HTMLElement).style.boxShadow = "none"
                 })
             }, 0)
             dispatch(setDisabledDrop(true))
-        }
+        };
+
         if (board.id === 2) {
 
             if (currentItem.id === 1) {
-                board.items.unshift(currentItem as never)
+                board.items.unshift(currentItem as never);
                 setTimeout(() => {
-                    e.target.firstChild.firstChild.style.cursor = "not-allowed"
-                    e.target.firstChild.style.cursor = "not-allowed"
-                    e.target.firstChild.draggable = false
+                    (((e.target as HTMLElement).firstChild as HTMLElement).firstChild as HTMLElement).style.cursor = "not-allowed";
+                    ((e.target as HTMLElement).firstChild as HTMLElement).style.cursor = "not-allowed";
+                    ((e.target as HTMLElement).firstChild as HTMLElement).draggable = false;
+
                 }, 0)
 
             }
@@ -142,9 +144,9 @@ const useElementHandler = () => {
             )))
 
 
-        if (e.target.className === "pallete__wrapp") {
-            e.target.style.border = "none"
-            e.target.style.width = "240px"
+        if ((e.target as HTMLElement).className === "pallete__wrapp") {
+            (e.target as HTMLElement).style.border = "none";
+            (e.target as HTMLElement).style.width = "240px";
         }
     }
 

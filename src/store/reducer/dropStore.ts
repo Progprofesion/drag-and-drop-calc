@@ -11,6 +11,7 @@ interface IdropSlice {
         id: number
     }
     disabledDrop: boolean
+    hugState: boolean
 }
 
 const cardsAdapter = createEntityAdapter();
@@ -24,8 +25,8 @@ const initialState = cardsAdapter.getInitialState({
     currentItem: {
         id: 0,
     },
-    disabledDrop: false
-
+    disabledDrop: false,
+    hugState: false
 }) as IdropSlice;
 
 export const fetchFilters = createAsyncThunk(
@@ -51,6 +52,9 @@ const dropStore = createSlice({
         },
         setDisabledDrop: (state, action) => {
             state.disabledDrop = action.payload
+        },
+        setHugState: (state, action) => {
+            state.hugState = action.payload
         }
     }
 });
@@ -58,7 +62,8 @@ export const {
     setDropDb,
     setCurrentBoard,
     setCurrentItem,
-    setDisabledDrop } = dropStore.actions;
+    setDisabledDrop,
+    setHugState } = dropStore.actions;
 
 export const { selectAll } = cardsAdapter.getSelectors((state: any) => state.storage)
 

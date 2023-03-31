@@ -6,18 +6,58 @@ import { setDisabledDrop } from "src/store/reducer/dropStore";
 import { TuseStartOverLeaveEnd } from "./useStartOverLeaveEnd"
 
 
+type TchildNodes = {
+    style: {
+        boxShadow: string
+        cursor: string
+    }
+    draggable: boolean
+}
+
+type test = {
+    ParentNode: any
+}
+
+interface TdropHandler {
+    preventDefault: () => void;
+    stopPropagation: () => void;
+    target: {
+        parentNode: {
+            style: {
+                height: string
+            }
+            childNodes: []
+        }
+        previousSibling: {
+            style: {
+                boxShadow: string
+            }
+        }
+        className: string
+        firstChild: {
+            style: {
+                display: string
+            }
+        }
+        parentElement: {
+            childNodes: Array<TchildNodes>
+        }
+    }
+
+}
+
+
 const useDrop = () => {
 
     const dropState = useSelector((state: RootState) => state.dropStore.dropState);
     const currentBoard = useSelector((state: RootState) => state.dropStore.currentBoard);
     const currentItem = useSelector((state: RootState) => state.dropStore.currentItem);
-    const disabledDrop = useSelector((state: RootState) => state.dropStore.disabledDrop);
 
     const dataClone = JSON.parse(JSON.stringify(dropState))
     const dispatch = useDispatch();
 
 
-    const dropHandler: any = (e: TuseStartOverLeaveEnd, board: TuseStartOverLeaveEnd, item: TuseStartOverLeaveEnd): void => {
+    const dropHandler = (e: TdropHandler, board: TuseStartOverLeaveEnd, item: TuseStartOverLeaveEnd): void => {
         e.preventDefault();
         e.stopPropagation();
 
@@ -167,8 +207,7 @@ const useDrop = () => {
                 board.items.splice(dropIndex + 1, 0, currentItem as never)
             }
 
-            // смена позиции карточки в текущей доске
-            if (e.target.className !== "pallete__display") {
+            if (e.target.className !== "pallete__display" && item.id !== currentItem.id) {
                 const currentIndex = currentBoard.items.indexOf(currentItem as never);
                 board.items.splice(currentIndex, 1)
                 const dropIndex = board.items.indexOf(item as never)

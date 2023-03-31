@@ -29,7 +29,7 @@ const useDelete = () => {
 
     const dispatch = useDispatch();
 
-    const doubleClickHandler = (e: TuseDelete, board: TuseDelete, item: TuseDelete) => {
+    const doubleClickHandler = (e: React.MouseEvent, board: TuseDelete, item: { id: number }) => {
         e.preventDefault()
         const dial = document.querySelector<HTMLElement>(".pallete__dial")
         const buttons = document.querySelectorAll<HTMLElement>(".pallete__dial-button")
@@ -71,7 +71,7 @@ const useDelete = () => {
         }
 
 
-        if (board.id === 2 && e.target.className !== "pallete__display") {
+        if (board.id === 2 && e.currentTarget.className !== "pallete__display") {
             const currentIndex = board.items.indexOf(item as never)
             board.items.splice(currentIndex, 1)
             dispatch(setDropDb(
