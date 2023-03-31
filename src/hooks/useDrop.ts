@@ -57,7 +57,7 @@ const useDrop = () => {
     const dispatch = useDispatch();
 
 
-    const dropHandler = (e: TdropHandler, board: TuseStartOverLeaveEnd, item: TuseStartOverLeaveEnd): void => {
+    const dropHandler = (e: React.DragEvent<HTMLElement>, board: TuseStartOverLeaveEnd, item: TuseStartOverLeaveEnd): void => {
         e.preventDefault();
         e.stopPropagation();
 
@@ -68,15 +68,9 @@ const useDrop = () => {
             const displayCurrent = document.querySelectorAll<HTMLElement>(".pallete__display");
 
             //-------------------------- стили для расширения карточки
-
-            e.target.parentNode.style.height = "448px"
-            // console.log(dataClone)
-            // if(item.id === board.l)
+            ((e.target as HTMLElement).parentNode as HTMLElement).style.height = "448px";
             if (board.items.length >= 4) {
-                // console.log(e.target.parentNode)
-                e.target.parentNode.style.height = "448px"
-                // e.target.style.marginTop = "-1px"
-                // e.target.style.paddingBottom = "0px"
+                ((e.target as HTMLElement).parentNode as HTMLElement).style.height = "448px"
             }
 
 
@@ -109,23 +103,23 @@ const useDrop = () => {
             }
         }, 0)
 
-        if (e.target.className === "pallete__display") {
-            e.target.firstChild.style.display = "none"
+        if ((e.target as HTMLElement).className === "pallete__display") {
+            ((e.target as HTMLElement).firstChild as HTMLElement).style.display = "none"
 
         }
-        if (e.target.className === "pallete__operations") {
-            e.target.firstChild.style.display = "none"
+        if ((e.target as HTMLElement).className === "pallete__operations") {
+            ((e.target as HTMLElement).firstChild as HTMLElement).style.display = "none"
         }
-        if (e.target.className === "pallete__dial") {
-            e.target.firstChild.style.display = "none"
+        if ((e.target as HTMLElement).className === "pallete__dial") {
+            ((e.target as HTMLElement).firstChild as HTMLElement).style.display = "none"
 
         }
-        if (e.target.className === "pallete__qually") {
-            e.target.firstChild.style.display = "none"
+        if ((e.target as HTMLElement).className === "pallete__qually") {
+            ((e.target as HTMLElement).firstChild as HTMLElement).style.display = "none"
         }
 
-        if (e.target.firstChild) {
-            e.target.firstChild.style.display = "none"
+        if (((e.target as HTMLElement).firstChild as HTMLElement)) {
+            ((e.target as HTMLElement).firstChild as HTMLElement).style.display = "none"
         }
 
 
@@ -134,9 +128,12 @@ const useDrop = () => {
             if (board.id === 2) {
                 board.items.unshift(currentItem as never)
                 setTimeout(() => {
-                    e.target.parentElement.childNodes[0].style.boxShadow = "none"
-                    e.target.parentElement.childNodes[0].style.cursor = "not-allowed"
-                    e.target.parentElement.childNodes[0].draggable = false
+                    (((e.target as HTMLElement).parentElement as HTMLElement).childNodes[0] as
+                        HTMLElement).style.boxShadow = "none";
+                    (((e.target as HTMLElement).parentElement as HTMLElement).childNodes[0] as
+                        HTMLElement).style.cursor = "not-allowed";
+                    (((e.target as HTMLElement).parentElement as HTMLElement).childNodes[0] as
+                        HTMLElement).draggable = false;
 
                     // нужно для отмены тени у инпута при аншифте на эелемент
                 }, 0)
@@ -161,21 +158,21 @@ const useDrop = () => {
             dispatch(setDisabledDrop(true))
             // запрет на перетаскивание элементов в 1 доску
             setTimeout(() => {
-                e.target.parentNode.childNodes.forEach((item: { style: { boxShadow: string } }) => {
-                    item.style.boxShadow = "none"
+                (e.target as HTMLElement).parentNode!.childNodes.forEach((item: ChildNode) => {
+                    (item as HTMLElement).style.boxShadow = "none"
                 })
             })
 
-            if (board.id === 2 && e.target.className !== "pallete__display") {
+            if (board.id === 2 && (e.target as HTMLElement).className !== "pallete__display") {
                 const dropIndex = board.items.indexOf(item as never)
                 board.items.splice(dropIndex, 0, currentItem as never)
                 setTimeout(() => {
-                    if (e.target.previousSibling) {
-                        e.target.previousSibling.style.boxShadow = "none"
+                    if ((e.target as HTMLElement).previousSibling) {
+                        ((e.target as HTMLElement).previousSibling as HTMLElement).style.boxShadow = "none"
                     }
                 }, 0)
             }
-            if (e.target.className === "pallete__display") {
+            if ((e.target as HTMLElement).className === "pallete__display") {
                 const dropIndex = board.items.indexOf(item as never)
                 board.items.splice(dropIndex + 1, 0, currentItem as never)
             }
@@ -200,14 +197,14 @@ const useDrop = () => {
 
             }, 0)
 
-            if (e.target.className === "pallete__display") {
+            if ((e.target as HTMLElement).className === "pallete__display") {
                 const currentIndex = currentBoard.items.indexOf(currentItem as never)
                 board.items.splice(currentIndex, 1, 1 as never)
                 const dropIndex = board.items.indexOf(item as never)
                 board.items.splice(dropIndex + 1, 0, currentItem as never)
             }
 
-            if (e.target.className !== "pallete__display" && item.id !== currentItem.id) {
+            if ((e.target as HTMLElement).className !== "pallete__display" && item.id !== currentItem.id) {
                 const currentIndex = currentBoard.items.indexOf(currentItem as never);
                 board.items.splice(currentIndex, 1)
                 const dropIndex = board.items.indexOf(item as never)

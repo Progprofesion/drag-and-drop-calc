@@ -5,19 +5,12 @@ import { setDropDb } from "src/store/reducer/dropStore";
 import { setDisabledDrop } from "src/store/reducer/dropStore";
 import { TuseStartOverLeaveEnd } from "./useStartOverLeaveEnd"
 
-type Theigth = {
-    style: {
-        paddingBottom: string
-        marginTop: string
-        boxShadow: string
-    }
-    firstChild: {
-        style: {
-            display: string
-
-        }
-    }
+type TboardElementHandler = {
+    id: number
+    length?: number
+    items: []
 }
+
 
 const useElementHandler = () => {
 
@@ -28,7 +21,7 @@ const useElementHandler = () => {
     const dataClone = JSON.parse(JSON.stringify(dropState))
     const dispatch = useDispatch();
 
-    const dropElementHandler = (e: React.DragEvent<HTMLDivElement>, board: TuseStartOverLeaveEnd): void => {
+    const dropElementHandler = (e: React.DragEvent<HTMLDivElement>, board: TboardElementHandler): void => {
         e.preventDefault();
         e.stopPropagation();
         setTimeout(() => {
@@ -40,8 +33,6 @@ const useElementHandler = () => {
             //-------------------------- стили для расширения карточки
 
             (e.target as HTMLElement).childNodes.forEach((item: ChildNode) => {
-                // console.log(item)
-                // item.style.paddingBottom = "12px"
                 (item as HTMLElement).style.marginTop = "0px"
 
                 // DISPLAY
@@ -63,7 +54,6 @@ const useElementHandler = () => {
                     dialCurrent[1].style.marginTop = "0px"
                     dialCurrent[1].style.paddingBottom = "12px"
                     dialCurrent[1].style.height = "236px"
-                    // console.log(boards[1].items.length)
                 }
 
                 // EQUALLY 
@@ -79,8 +69,6 @@ const useElementHandler = () => {
             if (board.items.length > 2) {
 
                 (e.target as HTMLElement).style.maxHeight = "448px"
-                // e.target.lastChild.style.marginTop = "-1px"
-                // e.target.lastChild.style.paddingBottom = "0px"
             }
 
         }, 0);
@@ -113,18 +101,9 @@ const useElementHandler = () => {
             }
             if (currentItem.id !== 1) {
                 board.items.push(currentItem as never)
-
-                // ????????????????
-                // if (e.target.firstChild) {
-                //     // setTimeout(() => {
-                //     // e.target.firstChild.firstChild.style.cursor = "not-allowed"
-                //     // }, 0)
-                // }
-
             }
-
-
         }
+
         // отмена копирования элементов в второй доске
         if (currentBoard.id === 2 && board.id === 2) {
             const currentIndex = currentBoard.items.indexOf(currentItem as never);
@@ -149,8 +128,6 @@ const useElementHandler = () => {
             (e.target as HTMLElement).style.width = "240px";
         }
     }
-
-
 
     return { dropElementHandler }
 }

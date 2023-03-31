@@ -73,7 +73,7 @@ const Pallete = () => {
     const elements: Tpallete = dataClone.map((board: TuseStartOverLeaveEnd) => {
         return <div
             onDragOver={(e) => dragOverHandler(e, board)}
-            onDrop={(e: any) => dropElementHandler(e, board)}
+            onDrop={(e) => dropElementHandler(e, board)}
             onDragLeave={e => dragLeaveHandlear(e, board)}
             key={board.id}
             className="pallete__wrapp">
