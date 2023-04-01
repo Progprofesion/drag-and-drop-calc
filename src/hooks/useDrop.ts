@@ -3,49 +3,11 @@ import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from 'src/store/index';
 import { setDropDb } from "src/store/reducer/dropStore";
 import { setDisabledDrop } from "src/store/reducer/dropStore";
-import { TuseStartOverLeaveEnd } from "./useStartOverLeaveEnd"
 
-
-type TchildNodes = {
-    style: {
-        boxShadow: string
-        cursor: string
-    }
-    draggable: boolean
+type TDrop = {
+    items: []
+    id: number
 }
-
-type test = {
-    ParentNode: any
-}
-
-interface TdropHandler {
-    preventDefault: () => void;
-    stopPropagation: () => void;
-    target: {
-        parentNode: {
-            style: {
-                height: string
-            }
-            childNodes: []
-        }
-        previousSibling: {
-            style: {
-                boxShadow: string
-            }
-        }
-        className: string
-        firstChild: {
-            style: {
-                display: string
-            }
-        }
-        parentElement: {
-            childNodes: Array<TchildNodes>
-        }
-    }
-
-}
-
 
 const useDrop = () => {
 
@@ -57,7 +19,7 @@ const useDrop = () => {
     const dispatch = useDispatch();
 
 
-    const dropHandler = (e: React.DragEvent<HTMLElement>, board: TuseStartOverLeaveEnd, item: TuseStartOverLeaveEnd): void => {
+    const dropHandler = (e: React.DragEvent<HTMLElement>, board: TDrop, item: { id: number }): void => {
         e.preventDefault();
         e.stopPropagation();
 
@@ -67,12 +29,12 @@ const useDrop = () => {
             const equallyCurrent = document.querySelectorAll<HTMLElement>(".pallete__equally");
             const displayCurrent = document.querySelectorAll<HTMLElement>(".pallete__display");
 
-            //-------------------------- стили для расширения карточки
+            //-------------------------- 
+            // Стили для расширения карточки. Нужно для фикса подсветки дропа при наведении в пустое место, между карточек.
             ((e.target as HTMLElement).parentNode as HTMLElement).style.height = "448px";
             if (board.items.length >= 4) {
                 ((e.target as HTMLElement).parentNode as HTMLElement).style.height = "448px"
             }
-
 
             // DISPLAY
             if (currentItem.id === 1 && displayCurrent[1]) {
@@ -127,6 +89,7 @@ const useDrop = () => {
             dispatch(setDisabledDrop(true))
             if (board.id === 2) {
                 board.items.unshift(currentItem as never)
+                // нужно для отмены тени у инпута при аншифте на эелемент
                 setTimeout(() => {
                     (((e.target as HTMLElement).parentElement as HTMLElement).childNodes[0] as
                         HTMLElement).style.boxShadow = "none";
@@ -135,10 +98,9 @@ const useDrop = () => {
                     (((e.target as HTMLElement).parentElement as HTMLElement).childNodes[0] as
                         HTMLElement).draggable = false;
 
-                    // нужно для отмены тени у инпута при аншифте на эелемент
+
                 }, 0)
             }
-
 
             dispatch(setDropDb(
                 dataClone.map((b: { id: number }) => {

@@ -1,10 +1,10 @@
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from 'src/store/index';
-import { setDropDb, setCurrentBoard, setCurrentItem } from "src/store/reducer/dropStore";
+import { setDropDb } from "src/store/reducer/dropStore";
 
 export interface TuseDelete {
     preventDefault: () => void;
-    id: number
+    id?: number
     target: {
         className: {}
     }

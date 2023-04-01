@@ -3,12 +3,11 @@ import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from 'src/store/index';
 import { setDropDb } from "src/store/reducer/dropStore";
 import { setDisabledDrop } from "src/store/reducer/dropStore";
-import { TuseStartOverLeaveEnd } from "./useStartOverLeaveEnd"
 
 type TboardElementHandler = {
     id: number
     length?: number
-    items: []
+    items?: []
 }
 
 
@@ -66,7 +65,7 @@ const useElementHandler = () => {
             })
 
 
-            if (board.items.length > 2) {
+            if (board.items!.length > 2) {
 
                 (e.target as HTMLElement).style.maxHeight = "448px"
             }
@@ -90,7 +89,7 @@ const useElementHandler = () => {
         if (board.id === 2) {
 
             if (currentItem.id === 1) {
-                board.items.unshift(currentItem as never);
+                board.items!.unshift(currentItem as never);
                 setTimeout(() => {
                     (((e.target as HTMLElement).firstChild as HTMLElement).firstChild as HTMLElement).style.cursor = "not-allowed";
                     ((e.target as HTMLElement).firstChild as HTMLElement).style.cursor = "not-allowed";
@@ -100,14 +99,14 @@ const useElementHandler = () => {
 
             }
             if (currentItem.id !== 1) {
-                board.items.push(currentItem as never)
+                board.items!.push(currentItem as never)
             }
         }
 
         // отмена копирования элементов в второй доске
         if (currentBoard.id === 2 && board.id === 2) {
             const currentIndex = currentBoard.items.indexOf(currentItem as never);
-            board.items.splice(currentIndex, 1)
+            board.items!.splice(currentIndex, 1)
         }
 
         dispatch(setDropDb(

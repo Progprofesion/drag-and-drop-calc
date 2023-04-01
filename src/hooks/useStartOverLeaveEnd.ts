@@ -1,153 +1,13 @@
-import { EventType } from "@testing-library/react";
-import { useState, useEffect } from "react"
+import { useState } from "react"
 import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from 'src/store/index';
 import { setCurrentBoard, setCurrentItem, setDisabledDrop } from "src/store/reducer/dropStore";
-import { TuseDelete } from "src/hooks/useDelete";
-
-type TchildNodes = {
-    style: {
-        boxShadow: string
-        cursor: string
-    }
-    draggable: boolean
-}
 
 type TNodeElement = {
     style: {
         cursor: string
         boxShadow: string
     }
-}
-
-
-
-export type TdragOverHandler = {
-    preventDefault: () => void
-    target: {
-        style: {
-            display: string
-        }
-        className: string
-        lastChild: {
-            firstChild: {
-                style: {
-                    display: string
-                    top: string
-                    bottom: string
-                }
-            }
-        }
-        firstChild: {
-            style: {
-                bottom: string
-                display: string
-                top: string
-            }
-            firstChild: {
-                style: {
-                    display: string
-                    top: string
-                    bottom: string
-                }
-            }
-        }
-        parentNode: {
-            firstChild: {
-                firstChild: {
-                    style: {
-                        display: string
-                        top: string
-                    }
-                }
-            }
-        }
-    }
-}
-
-type TdragLeaveHandlear = {
-
-}
-
-
-
-type TQuerySelectorAll = (selector: string) => NodeListOf<any>;
-
-export type TuseStartOverLeaveEnd = {
-    type: string
-    e: EventType
-    id: number
-    items: []
-    target: {
-        className: {}
-        parentNode: {
-            style: {
-                zIndex: string
-                height: string
-            }
-            childNodes: []
-            firstChild: {
-                firstChild: {
-                    style: {
-                        display: string
-                        top: string
-                    }
-                }
-            }
-        }
-        parentElement: {
-            childNodes: TchildNodes[]
-
-        }
-        previousSibling: {
-            style: {
-                boxShadow: string
-            }
-        }
-        lastChild: {
-            firstChild: {
-                style: {
-                    display: string
-                    top: string
-                    bottom: string
-                }
-            }
-        }
-        firstChild: {
-            draggable: boolean
-            style: {
-                display: string
-                top: string
-                bottom: string
-                cursor: string
-            }
-            firstChild: {
-                style: {
-                    display: string
-                    top: string
-                    cursor: string
-                    bottom: string
-                }
-            }
-        }
-        style: {
-            opacity: string
-            cursor: string
-            boxShadow: string
-            maxHeight: string
-            border: string
-            width: string
-            display: string
-        }
-        draggable: boolean
-        querySelectorAll: TQuerySelectorAll
-        childNodes: []
-    }
-    preventDefault: () => void
-    stopPropagation: () => void
-    operations: []
-    numbers: []
-    titleEqually: string
 }
 
 
@@ -190,32 +50,18 @@ const useStartOverLeaveEnd = () => {
 
     const dragOverHandler = (e: React.DragEvent<HTMLDivElement>, board: { id: number }) => {
         e.preventDefault();
-        //  два практически одинаковых условия_________
+
         if (e.currentTarget.className === "pallete__wrapp" && e.currentTarget.lastChild && disabledSpan) {
             (e.currentTarget.firstChild!.firstChild! as HTMLElement).style.display = "block";
             (e.currentTarget.firstChild!.firstChild! as HTMLElement).style.top = "-7px";
             (e.currentTarget.firstChild!.firstChild! as HTMLElement).style.bottom = "unset";
         }
 
-        const helper = (e: any) => {
-            if (e.target.className === "pallete__wrapp" && e.target.lastChild && !disabledSpan) {
-                (e.currentTarget.lastChild.firstChild as HTMLElement).style.display = "block";
-                (e.currentTarget.lastChild.firstChild as HTMLElement).style.top = "unset";
-                (e.currentTarget.lastChild.firstChild as HTMLElement).style.bottom = "7px";
-            }
+        if ((e.target as HTMLElement).className === "pallete__wrapp" && (e.target as HTMLElement).lastChild && !disabledSpan) {
+            (e.currentTarget.lastChild!.firstChild as HTMLElement).style.display = "block";
+            (e.currentTarget.lastChild!.firstChild as HTMLElement).style.top = "unset";
+            (e.currentTarget.lastChild!.firstChild as HTMLElement).style.bottom = "7px";
         }
-
-        helper(e)
-
-
-        // if (e.target.className === "pallete__wrapp" && e.target.lastChild && !disabledSpan) {
-        //     e.currentTarget.lastChild.firstChild.style.display = "block"
-        //     e.currentTarget.lastChild.firstChild.style.top = "unset"
-        //     e.currentTarget.lastChild.firstChild.style.bottom = "7px"
-
-        // }
-
-
 
         // для подсветки места дропа pallete__display при наведении на элементы 
         if (e.currentTarget.className !== "pallete__wrapp" && e.currentTarget && disabledSpan) {
@@ -268,25 +114,36 @@ const useStartOverLeaveEnd = () => {
     }
 
 
-    const dragLeaveHandlear = (e: React.DragEvent<HTMLDivElement>, board: {}) => {
+    const dragLeaveHandlear = (e: any, board: {}) => {
 
-        if (e.currentTarget.className === "pallete__wrapp" && e.currentTarget.firstChild) {
-            (e.currentTarget.firstChild.firstChild as HTMLElement).style.display = "none"
-        }
+        e.target.parentNode.childNodes.forEach((item: { firstChild: { style: { display: string } } }) => {
 
-        if (e.currentTarget.className === "pallete__display") {
-            (e.currentTarget.firstChild as HTMLElement).style.display = "none"
+            if (e.currentTarget.className !== "pallete__wrapp") {
+                item.firstChild.style.display = "none";
+            }
 
-        }
-        if (e.currentTarget.className === "pallete__operations") {
-            (e.currentTarget.firstChild as HTMLElement).style.display = "none"
-        }
-        if (e.currentTarget.className === "pallete__dial") {
-            (e.currentTarget.firstChild as HTMLElement).style.display = "none"
-        }
-        if (e.currentTarget.className === "pallete__equally") {
-            (e.currentTarget.firstChild as HTMLElement).style.display = "none"
-        }
+            if (e.currentTarget.className === "pallete__wrapp" && e.currentTarget.firstChild) {
+                (e.currentTarget.firstChild.firstChild as HTMLElement).style.display = "none"
+            }
+        })
+
+
+
+
+
+        // if (e.currentTarget.className === "pallete__display") {
+        //     (e.currentTarget.firstChild as HTMLElement).style.display = "none"
+
+        // }
+        // if (e.currentTarget.className === "pallete__operations") {
+        //     (e.currentTarget.firstChild as HTMLElement).style.display = "none"
+        // }
+        // if (e.currentTarget.className === "pallete__dial") {
+        //     (e.currentTarget.firstChild as HTMLElement).style.display = "none"
+        // }
+        // if (e.currentTarget.className === "pallete__equally") {
+        //     (e.currentTarget.firstChild as HTMLElement).style.display = "none"
+        // }
     }
 
     const dragEndHandler = (e: React.DragEvent<HTMLDivElement>, board: { id: number }, item: {}) => {
@@ -302,6 +159,7 @@ const useStartOverLeaveEnd = () => {
         board2[1].childNodes.forEach((item: { firstChild: { style: { display: string } } }) => {
             item.firstChild.style.display = "none"
         })
+
 
         if (board.id === 1 && disabledDrop) {
             e.currentTarget.style.opacity = "50%";
