@@ -1,10 +1,9 @@
-import { EventType } from "@testing-library/react";
 import { ReactNode, useEffect } from "react";
 import { useGetDropDbQuery } from "../api/apiSlice";
 import { useSelector, useDispatch } from 'react-redux';
 
 import { RootState } from 'src/store/index';
-import { setDropDb } from "src/store/reducer/dropStore";
+import { setDropDb, setHugState } from "src/store/reducer/dropStore";
 
 import useDrop from 'src/hooks/useDrop';
 import useElementHandler from 'src/hooks/useElementHandler';
@@ -44,6 +43,7 @@ const Pallete = () => {
 
     const dispatch = useDispatch();
     const dropState = useSelector((state: RootState) => state.dropStore.dropState);
+    const hugState = useSelector((state: RootState) => state.dropStore.hugState);
     const dataClone = JSON.parse(JSON.stringify(dropState))
 
     useEffect(() => {

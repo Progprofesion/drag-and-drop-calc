@@ -17,6 +17,7 @@
         border: 1px solid #E2E3E5;
         cursor: pointer;
         outline: none;
+        z-index: 10;
         &-wrapp {
             display: flex;
             justify-content: space-between;
@@ -28,6 +29,9 @@
         &-icon {
             width: 20px;
             height: 20px;
+        }
+        &-text {
+            z-index: -1;
         }
     }
     &__constructor {
