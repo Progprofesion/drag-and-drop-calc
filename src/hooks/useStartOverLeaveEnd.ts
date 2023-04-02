@@ -118,7 +118,7 @@ const useStartOverLeaveEnd = () => {
 
         e.target.parentNode.childNodes.forEach((item: { firstChild: { style: { display: string } } }) => {
 
-            if (e.currentTarget.className !== "pallete__wrapp") {
+            if (e.currentTarget.className !== "pallete__wrapp" && item.firstChild) {
                 item.firstChild.style.display = "none";
             }
 
@@ -126,24 +126,6 @@ const useStartOverLeaveEnd = () => {
                 (e.currentTarget.firstChild.firstChild as HTMLElement).style.display = "none"
             }
         })
-
-
-
-
-
-        // if (e.currentTarget.className === "pallete__display") {
-        //     (e.currentTarget.firstChild as HTMLElement).style.display = "none"
-
-        // }
-        // if (e.currentTarget.className === "pallete__operations") {
-        //     (e.currentTarget.firstChild as HTMLElement).style.display = "none"
-        // }
-        // if (e.currentTarget.className === "pallete__dial") {
-        //     (e.currentTarget.firstChild as HTMLElement).style.display = "none"
-        // }
-        // if (e.currentTarget.className === "pallete__equally") {
-        //     (e.currentTarget.firstChild as HTMLElement).style.display = "none"
-        // }
     }
 
     const dragEndHandler = (e: React.DragEvent<HTMLDivElement>, board: { id: number }, item: {}) => {

@@ -14,10 +14,11 @@
         justify-content: center;
         width: 110px;
         height: 36px;
-        border: 1px solid #E2E3E5;
+        border: none;
         cursor: pointer;
         outline: none;
         z-index: 10;
+        background: #F3F4F6;
         &-wrapp {
             display: flex;
             justify-content: space-between;
@@ -32,6 +33,11 @@
         }
         &-text {
             z-index: -1;
+        }
+        &_active {
+            background:  #FFFFFF;
+            border: 1px solid #E2E3E5;
+            border-radius: 5px;
         }
     }
     &__constructor {
@@ -54,6 +60,10 @@
         &-icon {
             width: 20px;
             height: 20px;
+        }
+        &_active {
+            background: none;
+            border: none
         }
     }
 }

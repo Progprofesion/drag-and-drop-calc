@@ -74,7 +74,6 @@ const Pallete = () => {
                     switch (item.type) {
                         case 'input':
                             return <div
-                                // onMouseDown={(e) => e.preventDefault()}
                                 onDoubleClick={(e) => doubleClickHandler(e, board, item)}
                                 onDragOver={(e) => dragOverHandler(e, board)}
                                 onDragLeave={e => dragLeaveHandlear(e, board)}
