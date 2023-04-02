@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react"
 import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from 'src/store/index';
-import { setDropDb } from "src/store/reducer/dropStore";
+import { setDropState } from "src/store/reducer/dropStore";
 import { setDisabledDrop } from "src/store/reducer/dropStore";
 
 type TboardElementHandler = {
@@ -109,7 +109,7 @@ const useElementHandler = () => {
             board.items!.splice(currentIndex, 1)
         }
 
-        dispatch(setDropDb(
+        dispatch(setDropState(
             dataClone.map((b: { id: number }) => {
                 if (b.id === board.id) {
                     return board

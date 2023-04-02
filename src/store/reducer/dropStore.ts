@@ -41,7 +41,7 @@ const dropStore = createSlice({
     name: 'db',
     initialState,
     reducers: {
-        setDropDb: (state, action) => {
+        setDropState: (state, action) => {
             state.dropState = action.payload;
         },
         setCurrentBoard: (state, action) => {
@@ -59,7 +59,7 @@ const dropStore = createSlice({
     }
 });
 export const {
-    setDropDb,
+    setDropState,
     setCurrentBoard,
     setCurrentItem,
     setDisabledDrop,

@@ -1,6 +1,6 @@
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from 'src/store/index';
-import { setDropDb } from "src/store/reducer/dropStore";
+import { setDropState } from "src/store/reducer/dropStore";
 
 export interface TuseDelete {
     preventDefault: () => void;
@@ -76,7 +76,7 @@ const useDelete = () => {
             if (board.id === 2 && e.currentTarget.className !== "pallete__display") {
                 const currentIndex = board.items.indexOf(item as never)
                 board.items.splice(currentIndex, 1)
-                dispatch(setDropDb(
+                dispatch(setDropState(
                     dataClone.map((b: { id: number }) => {
                         if (b.id === board.id) {
                             return board

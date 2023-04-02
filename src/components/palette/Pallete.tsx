@@ -3,7 +3,7 @@ import { useGetDropDbQuery } from "../api/apiSlice";
 import { useSelector, useDispatch } from 'react-redux';
 
 import { RootState } from 'src/store/index';
-import { setDropDb, setHugState } from "src/store/reducer/dropStore";
+import { setDropState, setHugState } from "src/store/reducer/dropStore";
 
 import useDrop from 'src/hooks/useDrop';
 import useElementHandler from 'src/hooks/useElementHandler';
@@ -47,7 +47,7 @@ const Pallete = () => {
     const dataClone = JSON.parse(JSON.stringify(dropState))
 
     useEffect(() => {
-        dispatch(setDropDb(data))
+        dispatch(setDropState(data))
     }, [isSuccess])
 
 

@@ -1,7 +1,7 @@
 import { useState } from "react"
 import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from 'src/store/index';
-import { setDropDb } from "src/store/reducer/dropStore";
+import { setDropState } from "src/store/reducer/dropStore";
 import { setDisabledDrop } from "src/store/reducer/dropStore";
 
 type TDrop = {
@@ -102,7 +102,7 @@ const useDrop = () => {
                 }, 0)
             }
 
-            dispatch(setDropDb(
+            dispatch(setDropState(
                 dataClone.map((b: { id: number }) => {
                     if (b.id === board.id) {
                         return board
@@ -139,7 +139,7 @@ const useDrop = () => {
                 board.items.splice(dropIndex + 1, 0, currentItem as never)
             }
 
-            dispatch(setDropDb(
+            dispatch(setDropState(
                 dataClone.map((b: { id: number }) => {
                     if (b.id === board.id) {
                         return board
@@ -175,7 +175,7 @@ const useDrop = () => {
 
 
 
-            dispatch(setDropDb(
+            dispatch(setDropState(
                 dataClone.map((b: { id: number }) => {
                     if (b.id === board.id) {
                         return board

@@ -2,7 +2,7 @@
     display: grid;
     justify-content: space-between;
     max-width: 540px;
-    grid-template-columns: 245px 245px;
+    grid-template-columns: 248px 248px;
     gap: 55px;
     &__display {
         position: relative;
@@ -159,7 +159,10 @@
 
 
 .pallete__wrapp {
+    margin: 0 auto;
     &:nth-child(2) {
+        width: 248px;
+        height: 448px;
         border: 2px dashed #C4C4C4;
         border-radius: 6px;
     }
