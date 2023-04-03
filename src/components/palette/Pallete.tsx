@@ -1,9 +1,10 @@
-import { ReactNode, useEffect } from "react";
+import { ReactNode, useEffect, useState } from "react";
 import { useGetDropDbQuery } from "../api/apiSlice";
 import { useSelector, useDispatch } from 'react-redux';
 
 import { RootState } from 'src/store/index';
 import { setDropState, setHugState } from "src/store/reducer/dropStore";
+// import { setCalckState } from "src/store/reducer/calcStore";
 
 import useDrop from 'src/hooks/useDrop';
 import useElementHandler from 'src/hooks/useElementHandler';
@@ -33,7 +34,6 @@ type Titem = {
 }
 
 
-
 const Pallete = () => {
 
     const {
@@ -41,13 +41,19 @@ const Pallete = () => {
         isSuccess
     } = useGetDropDbQuery(null);
 
+    const [result, setResult] = useState(0);
+    const [operation, setOperation] = useState('');
+    const [firstNumber, setFirstNumber] = useState('');
+    const [secondNumber, setSecondNumber] = useState('');
+    const [flag, setFlag] = useState(false);
+
     const dispatch = useDispatch();
     const dropState = useSelector((state: RootState) => state.dropStore.dropState);
-    const hugState = useSelector((state: RootState) => state.dropStore.hugState);
     const dataClone = JSON.parse(JSON.stringify(dropState))
 
     useEffect(() => {
         dispatch(setDropState(data))
+        setFlag(true)
     }, [isSuccess])
 
 
@@ -61,7 +67,58 @@ const Pallete = () => {
         dragEndHandler
     } = useStartOverLeaveEnd();
 
+    const handleInputNumber = (e: any) => {
+        if (operation) {
+            setSecondNumber(e);
+            setResult(null as any);
+            console.log(secondNumber, "second number");
+        } else if (!operation) {
+            setFirstNumber(e);
+            setResult(null as any);
+            setFlag(true)
+            console.log(firstNumber, "first number");
+        }
+    };
 
+    const handleCalculate = () => {
+        let result;
+
+        switch (operation) {
+            case '+':
+                result = parseFloat(firstNumber) + parseFloat(secondNumber);
+                break;
+            case '-':
+                result = parseFloat(firstNumber) - parseFloat(secondNumber);
+                break;
+            case 'x':
+                result = parseFloat(firstNumber) * parseFloat(secondNumber);
+                break;
+            case '/':
+                result = parseFloat(firstNumber) / parseFloat(secondNumber);
+                break;
+            default:
+                result = 0;
+        }
+
+        setResult(result.toFixed(2) as any);
+        setOperation("")
+        setSecondNumber("")
+    };
+
+    // const vision = () => {
+
+
+    //     if (firstNumber) {
+    //         return firstNumber
+    //     } else if (secondNumber) {
+    //         return secondNumber
+    //     } else if (result) {
+    //         return result
+    //     }
+
+
+    // }
+    // firstNumber ? firstNumber : "" || secondNumber ? secondNumber : "" || result ? result : ""
 
     const elements: ReactNode = dataClone.map((board: Tboard) => {
         return <div
@@ -89,6 +146,9 @@ const Pallete = () => {
                                     <div></div>
                                 </span>
                                 <input
+                                    value={result ? result : 0 || secondNumber ? secondNumber : 0 || firstNumber ? firstNumber : 0}
+                                    onChange={handleInputNumber}
+                                    lang="16"
                                     placeholder="0"
                                     type="tel"
                                     className="pallete__display-input" />
@@ -112,6 +172,11 @@ const Pallete = () => {
                                     className="pallete__operations-wrapp">
                                     {(item.operations as Titem).map(((item: Titem) =>
                                         <button
+                                            onClick={(e: any) => {
+                                                setOperation(e.target.value)
+
+                                            }}
+                                            value={item.titleOperations}
                                             key={item.titleOperations}
                                             className="pallete__operations-buttons">{item.titleOperations}</button>
                                     ))}
@@ -135,6 +200,10 @@ const Pallete = () => {
                                 <div className="pallete__dial-wrapp">
                                     {(item.numbers as Titem).map((item: Titem) =>
                                         <button
+                                            onClick={(e: any) => {
+                                                handleInputNumber(e.target.value)
+                                            }}
+                                            value={item.titleNumbers}
                                             key={item.titleNumbers}
                                             className="pallete__dial-button">{item.titleNumbers}</button>
                                     )}
@@ -155,7 +224,9 @@ const Pallete = () => {
                                     <div></div>
                                     <div></div>
                                 </span>
-                                <button className="pallete__equally-wrapp">{item.titleEqually}</button>
+                                <button
+                                    onClick={() => handleCalculate()}
+                                    className="pallete__equally-wrapp">{item.titleEqually}</button>
                             </div>
                         default:
                             return null;

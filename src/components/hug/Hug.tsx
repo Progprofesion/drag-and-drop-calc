@@ -43,7 +43,6 @@ const Hug = () => {
                 item.draggable = false
             })
             wrap[0].style.display = "none"
-            console.log(wrap[0].childNodes)
             wrap[1].childNodes.forEach((item: any) => {
                 item.style.cursor = "default"
             })

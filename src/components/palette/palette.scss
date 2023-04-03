@@ -60,6 +60,9 @@
             cursor: grab;
             z-index: 100;
             // transition: 250ms;
+            &:active {
+                transform: scale(98%);
+            }
             &:hover {
                 border: 2px solid rgba(93, 95, 239, 1);
             }
@@ -99,6 +102,9 @@
             border-radius: 6px;
             cursor: grab;
             // transition: 250ms;
+            &:active {
+                transform: scale(98%);
+            }
             &:hover {
                 border: 2px solid rgba(93, 95, 239, 1);
             }
@@ -126,6 +132,9 @@
             color: #FFFFFF;
             z-index: -1;
             border: none;
+            &:active {
+                transform: scale(99%);
+            }
         }
     }
     // &__drop {
