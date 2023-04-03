@@ -58,7 +58,11 @@
             border: 1px solid #E2E3E5;
             border-radius: 6px;
             cursor: grab;
-            transition: 1.500ms;
+            z-index: 100;
+            // transition: 250ms;
+            &:hover {
+                border: 2px solid rgba(93, 95, 239, 1);
+            }
         }
     }
     &__dial {
@@ -94,7 +98,10 @@
             border: 1px solid #E2E3E5;
             border-radius: 6px;
             cursor: grab;
-            transition: 1.500ms;
+            // transition: 250ms;
+            &:hover {
+                border: 2px solid rgba(93, 95, 239, 1);
+            }
         }
     }
     &__equally {
@@ -118,7 +125,7 @@
             border-radius: 6px;
             color: #FFFFFF;
             z-index: -1;
-            transition: 500ms;
+            border: none;
         }
     }
     // &__drop {

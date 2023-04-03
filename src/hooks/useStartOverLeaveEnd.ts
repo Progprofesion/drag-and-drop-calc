@@ -129,10 +129,15 @@ const useStartOverLeaveEnd = () => {
     }
 
     const dragEndHandler = (e: React.DragEvent<HTMLDivElement>, board: { id: number }, item: {}) => {
+        setDisabledSpan(false);
 
-        setDisabledSpan(false)
-
+        const operations: any = document.querySelectorAll<HTMLDivElement>(".pallete__operations");
+        const dial: any = document.querySelectorAll<HTMLDivElement>(".pallete__dial");
+        // отключает hover на неактивной доске
+        dial[0].lastChild.style.pointerEvents = "none";
+        operations[0].lastChild.style.pointerEvents = "none";
         const board2: any = document.querySelectorAll(".pallete__wrapp")
+
         if (dataClone[1].items.length >= 0) {
             board2[1].style.background = "none"
         }
@@ -158,7 +163,9 @@ const useStartOverLeaveEnd = () => {
                 node.style.cursor = "not-allowed"
                 node.style.boxShadow = "none"
             });
-            (e.currentTarget as EventTarget & HTMLDivElement).querySelectorAll<HTMLElement>('.pallete__dial-button').forEach((node: TNodeElement) => node.style.cursor = "not-allowed")
+            (e.currentTarget as EventTarget & HTMLDivElement).querySelectorAll<HTMLElement>('.pallete__dial-button').forEach((node: TNodeElement) => node.style.cursor = "not-allowed");
+            (e.currentTarget as EventTarget & HTMLDivElement).querySelectorAll<HTMLElement>('.pallete__equally-wrapp').forEach((node: TNodeElement) => node.style.cursor = "not-allowed")
+
             if (e.currentTarget.className === "pallete__display") {
                 e.currentTarget.style.boxShadow = "none"
             };

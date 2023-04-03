@@ -30,36 +30,51 @@ const Hug = () => {
     // console.log(hugState)
 
     const togleRunConst = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
-        const wrap: any = document.querySelectorAll<HTMLDivElement>(".pallete__wrapp")
-        const pallete: any = document.querySelector<HTMLDivElement>(".pallete")
+        const wrap: any = document.querySelectorAll<HTMLDivElement>(".pallete__wrapp");
+        const pallete: any = document.querySelector<HTMLDivElement>(".pallete");
+        const display: any = document.querySelector<HTMLDivElement>(".pallete__display");
+        const operations: any = document.querySelectorAll<HTMLDivElement>(".pallete__operations");
+        const dial: any = document.querySelectorAll<HTMLDivElement>(".pallete__dial");
+        const equally: any = document.querySelectorAll<HTMLDivElement>(".pallete__equally");
+
+
         if (!hugState) {
             wrap[1].childNodes.forEach((item: any) => {
                 item.draggable = false
             })
-            wrap[0].childNodes.forEach((item: any) => {
-                item.draggable = false
-            })
             wrap[0].style.display = "none"
-            pallete.style.gridTemplateColumns = "none"
+            console.log(wrap[0].childNodes)
+            wrap[1].childNodes.forEach((item: any) => {
+                item.style.cursor = "default"
+            })
+            wrap[1].style.gridColumnStart = 2;
+            wrap[1].style.gridColumnEnd = 2;
+            if (operations[1]) {
+                operations[1].lastChild.style.zIndex = "1";
+                operations[1].lastChild.childNodes.forEach((item: any) => {
+                    item.style.cursor = "pointer"
+                })
+            }
+            // Dial 
+            if (dial[1]) {
+                dial[1].lastChild.style.zIndex = "1"
+                dial[1].lastChild.childNodes.forEach((item: any) => {
+                    item.style.cursor = "pointer"
+                })
+            }
+            // Equally
+            if (equally[1]) {
+                equally[1].lastChild.style.cursor = "pointer"
+                equally[1].lastChild.style.zIndex = "1"
+            }
+
         } else if (hugState) {
             wrap[1].childNodes.forEach((item: any) => {
                 item.draggable = true
-            })
-            wrap[0].childNodes.forEach((item: any) => {
-                item.draggable = true
-            })
-            wrap[0].style.display = "block"
-            pallete.style.gridTemplateColumns = "248px 248px"
-            console.log(wrap[0])
-            wrap[0].childNodes.forEach((item: any) => {
-                item.style.boxShadow = "0px 2px 4px rgba(0, 0, 0, 0.06), 0px 4px 6px rgba(0, 0, 0, 0.1)"
-                item.style.opacity = "100%"
                 item.style.cursor = "grab"
             })
-            // const cloneDropState = dropState.splice(2)
-            dispatch(setDropState(data))
+            wrap[0].style.display = "block"
         }
-
     }
 
     return (

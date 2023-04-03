@@ -89,7 +89,7 @@ const useDrop = () => {
             dispatch(setDisabledDrop(true))
             if (board.id === 2) {
                 board.items.unshift(currentItem as never)
-                // нужно для отмены тени у инпута при аншифте на эелемент
+                // нужно для отмены тени у инпута при аншифте на элемент
                 setTimeout(() => {
                     (((e.target as HTMLElement).parentElement as HTMLElement).childNodes[0] as
                         HTMLElement).style.boxShadow = "none";
@@ -97,7 +97,6 @@ const useDrop = () => {
                         HTMLElement).style.cursor = "not-allowed";
                     (((e.target as HTMLElement).parentElement as HTMLElement).childNodes[0] as
                         HTMLElement).draggable = false;
-
 
                 }, 0)
             }

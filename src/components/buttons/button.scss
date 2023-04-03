@@ -1,0 +1,15 @@
+.buttons {
+    &__operations {
+        width: 52px;
+        height: 48px;
+        font-weight: 500;
+        background: #FFFFFF;
+        border: 1px solid #E2E3E5;
+        border-radius: 6px;
+        cursor: grab;
+    }
+    
+    &_active {
+    border: 2px solid #5D5FEF;
+    }
+}

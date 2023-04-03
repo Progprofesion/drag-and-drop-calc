@@ -62,6 +62,7 @@ const Pallete = () => {
     } = useStartOverLeaveEnd();
 
 
+
     const elements: ReactNode = dataClone.map((board: Tboard) => {
         return <div
             onDragOver={(e) => dragOverHandler(e, board)}
@@ -154,7 +155,7 @@ const Pallete = () => {
                                     <div></div>
                                     <div></div>
                                 </span>
-                                <div className="pallete__equally-wrapp">{item.titleEqually}</div>
+                                <button className="pallete__equally-wrapp">{item.titleEqually}</button>
                             </div>
                         default:
                             return null;
