@@ -10,14 +10,6 @@ type TNodeElement = {
     }
 }
 
-type Titem = {
-    firstChild: {
-        style: {
-            display: string
-        }
-    }
-}
-
 
 const useStartOverLeaveEnd = () => {
 
@@ -58,7 +50,6 @@ const useStartOverLeaveEnd = () => {
 
     const dragOverHandler = (e: React.DragEvent<HTMLDivElement>, board: { id: number }) => {
         e.preventDefault();
-
         if (e.currentTarget.className === "pallete__wrapp" && e.currentTarget.lastChild && disabledSpan) {
             (e.currentTarget.firstChild!.firstChild! as HTMLElement).style.display = "block";
             (e.currentTarget.firstChild!.firstChild! as HTMLElement).style.top = "-7px";
@@ -96,7 +87,6 @@ const useStartOverLeaveEnd = () => {
                 (e.currentTarget.firstChild as HTMLElement).style.bottom = "6px";
 
             }
-
 
             if (e.currentTarget.className === "pallete__operations" && dataClone[1].items.length > 1 && !disabledSpan) {
                 (e.currentTarget.firstChild as HTMLElement).style.display = "block";

@@ -1,6 +1,6 @@
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from 'src/store/index';
-import { setCalckResult } from 'src/store/reducer/calcStore';
+import { setCalcResult } from 'src/store/reducer/calcStore';
 
 type Titem = {
     style: { cursor: string }
@@ -13,6 +13,7 @@ const useToggle = () => {
 
     const togleRunConstr = () => {
 
+
         const wrap: NodeListOf<HTMLDivElement> = document.querySelectorAll<HTMLDivElement>(".pallete__wrapp");
         const display: NodeListOf<HTMLDivElement> = document.querySelectorAll<HTMLDivElement>(".pallete__display");
         const operations: NodeListOf<HTMLDivElement> = document.querySelectorAll<HTMLDivElement>(".pallete__operations");
@@ -21,10 +22,13 @@ const useToggle = () => {
         const hugConstr: HTMLDivElement | null = document.querySelector<HTMLDivElement>(".hug__constructor")
         const hugRunt: HTMLDivElement | null = document.querySelector<HTMLDivElement>(".hug__runtime")
 
+        const displayInput = document.querySelectorAll<HTMLElement>(".pallete__display-input");
+
         if (!hugState) {
-            (hugConstr as HTMLDivElement).style.pointerEvents = "none";
+            displayInput[1].style.fontSize = "36px";
             (hugConstr as HTMLDivElement).style.pointerEvents = "all";
             (hugConstr as HTMLDivElement).style.cursor = "pointer";
+            (hugRunt as HTMLDivElement).style.pointerEvents = "none";
             wrap[1].childNodes.forEach((item: {}) => {
                 (item as { draggable: boolean }).draggable = false
             });
@@ -54,9 +58,10 @@ const useToggle = () => {
             }
 
         } else if (hugState) {
-            dispatch(setCalckResult(0));
+            displayInput[1].style.fontSize = "36px";
+            dispatch(setCalcResult(0));
             (hugConstr as HTMLDivElement).style.pointerEvents = "none";
-            (hugConstr as HTMLDivElement).style.pointerEvents = "all";
+            (hugRunt as HTMLDivElement).style.pointerEvents = "all";
             wrap[1].childNodes.forEach((item: {}) => {
                 (item as { draggable: boolean }).draggable = true;
                 (item as Titem).style.cursor = "grab"

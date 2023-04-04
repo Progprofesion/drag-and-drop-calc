@@ -10,7 +10,7 @@ import useDrop from 'src/hooks/useDrop';
 import useElementHandler from 'src/hooks/useElementHandler';
 import useStartOverLeaveEnd from "src/hooks/useStartOverLeaveEnd";
 import useDelete from "src/hooks/useDelete";
-import useCalck from "src/hooks/useCalck";
+import useCalc from "src/hooks/useCalc";
 
 
 import './palette.scss';
@@ -42,7 +42,7 @@ const Pallete = () => {
 
     const dispatch = useDispatch();
     const dropState = useSelector((state: RootState) => state.dropStore.dropState);
-    const calckResult = useSelector((state: RootState) => state.calcStore.calckResult);
+    const calcResult = useSelector((state: RootState) => state.calcStore.calcResult);
     const firstNumbers = useSelector((state: RootState) => state.calcStore.firstNumbers);
     const secondNumbers = useSelector((state: RootState) => state.calcStore.secondNumbers);
 
@@ -50,6 +50,7 @@ const Pallete = () => {
 
     useEffect(() => {
         dispatch(setDropState(data))
+        // eslint-disable-next-line
     }, [isSuccess])
 
 
@@ -63,7 +64,7 @@ const Pallete = () => {
         dragEndHandler
     } = useStartOverLeaveEnd();
 
-    const { handleInputNumber, handleCalculate } = useCalck();
+    const { handleInputNumber, handleCalculate } = useCalc();
 
 
     const elements: ReactNode = dataClone.map((board: Tboard) => {
@@ -92,7 +93,7 @@ const Pallete = () => {
                                     <div></div>
                                 </span>
                                 <input
-                                    value={calckResult ? calckResult : 0 || secondNumbers !== "" ? secondNumbers : 0 || firstNumbers !== "" ? firstNumbers : 0}
+                                    value={calcResult ? calcResult : 0 || secondNumbers !== "" ? secondNumbers : 0 || firstNumbers !== "" ? firstNumbers : 0}
                                     onChange={(e) => handleInputNumber}
                                     lang="16"
                                     placeholder="0"

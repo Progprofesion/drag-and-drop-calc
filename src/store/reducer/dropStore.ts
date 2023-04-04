@@ -1,5 +1,4 @@
-import { createSlice, createAsyncThunk, createEntityAdapter } from "@reduxjs/toolkit"
-import { useHttp } from "src/hooks/http.hook";
+import { createSlice } from "@reduxjs/toolkit"
 
 interface IdropSlice {
     dropState: [],
@@ -14,9 +13,8 @@ interface IdropSlice {
     hugState: boolean
 }
 
-const cardsAdapter = createEntityAdapter();
 
-const initialState = cardsAdapter.getInitialState({
+const initialState = ({
     dropState: [],
     currentBoard: {
         id: 0,
@@ -29,13 +27,6 @@ const initialState = cardsAdapter.getInitialState({
     hugState: false
 }) as IdropSlice;
 
-export const fetchFilters = createAsyncThunk(
-    'filters/fetchFilters',
-    async () => {
-        const { request } = useHttp();
-        return await request('https://my-json-server.typicode.com/Progprofesion/test-task-sy')
-    }
-);
 
 const dropStore = createSlice({
     name: 'db',

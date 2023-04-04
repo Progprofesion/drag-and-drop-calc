@@ -1,4 +1,3 @@
-import { useState } from "react"
 import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from 'src/store/index';
 import { setDropState } from "src/store/reducer/dropStore";
@@ -31,10 +30,10 @@ const useDrop = () => {
 
             //-------------------------- 
             // Стили для расширения карточки. Нужно для фикса подсветки дропа при наведении в пустое место, между карточек.
-            ((e.target as HTMLElement).parentNode as HTMLElement).style.height = "448px";
-            if (board.items.length >= 4) {
-                ((e.target as HTMLElement).parentNode as HTMLElement).style.height = "448px"
-            }
+            // ((e.target as HTMLElement).parentNode as HTMLElement).style.height = "448px";
+            // if (board.items.length >= 4) {
+            //     ((e.target as HTMLElement).parentNode as HTMLElement).style.height = "448px"
+            // }
 
             // DISPLAY
             if (currentItem.id === 1 && displayCurrent[1]) {

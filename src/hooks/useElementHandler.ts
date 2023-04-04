@@ -1,4 +1,3 @@
-import { useState, useEffect } from "react"
 import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from 'src/store/index';
 import { setDropState } from "src/store/reducer/dropStore";
@@ -63,13 +62,6 @@ const useElementHandler = () => {
                 }
 
             })
-
-
-            if (board.items!.length > 2) {
-
-                (e.target as HTMLElement).style.maxHeight = "448px"
-            }
-
         }, 0);
 
         (e.target as HTMLElement).childNodes.forEach((item: ChildNode) => {

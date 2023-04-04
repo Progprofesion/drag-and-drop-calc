@@ -1,16 +1,15 @@
-import { createSlice, createEntityAdapter } from '@reduxjs/toolkit';
+import { createSlice } from '@reduxjs/toolkit';
 
 export interface UserSliceInterface {
-    calckResult: number
+    calcResult: number
     firstNumbers: string
     secondNumbers: string
     operation: string
 }
 
-const cardsAdapter = createEntityAdapter();
 
-const initialState = cardsAdapter.getInitialState({
-    calckResult: 0,
+const initialState = ({
+    calcResult: 0,
     firstNumbers: "",
     secondNumbers: "",
     operation: ""
@@ -21,8 +20,8 @@ const calcStore = createSlice({
     name: 'calc',
     initialState,
     reducers: {
-        setCalckResult: (state, action) => {
-            state.calckResult = action.payload
+        setCalcResult: (state, action) => {
+            state.calcResult = action.payload
         },
         setFirstNumber: (state, action) => {
             state.firstNumbers += action.payload
@@ -43,7 +42,7 @@ const calcStore = createSlice({
 });
 
 export const {
-    setCalckResult,
+    setCalcResult,
     setFirstNumber,
     setSecondNumber,
     setClearSecondNumbers,
