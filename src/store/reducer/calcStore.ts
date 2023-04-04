@@ -1,7 +1,9 @@
 import { createSlice } from '@reduxjs/toolkit';
 
 export interface UserSliceInterface {
+    result: number | string
     calcResult: number
+    saveResalt: number
     firstNumbers: string
     secondNumbers: string
     operation: string
@@ -9,19 +11,26 @@ export interface UserSliceInterface {
 
 
 const initialState = ({
+    result: 0,
     calcResult: 0,
+    saveResalt: 0,
     firstNumbers: "",
     secondNumbers: "",
-    operation: ""
-
+    operation: "",
 }) as UserSliceInterface
 
 const calcStore = createSlice({
     name: 'calc',
     initialState,
     reducers: {
+        setResult: (state, action) => {
+            state.result = action.payload
+        },
         setCalcResult: (state, action) => {
             state.calcResult = action.payload
+        },
+        setSaveResalt: (state, action) => {
+            state.saveResalt = action.payload
         },
         setFirstNumber: (state, action) => {
             state.firstNumbers += action.payload
@@ -37,12 +46,14 @@ const calcStore = createSlice({
         },
         setOperation: (state, action) => {
             state.operation = action.payload
-        }
+        },
     }
 });
 
 export const {
+    setResult,
     setCalcResult,
+    setSaveResalt,
     setFirstNumber,
     setSecondNumber,
     setClearSecondNumbers,

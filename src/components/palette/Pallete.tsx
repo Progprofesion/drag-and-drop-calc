@@ -144,7 +144,7 @@ const Pallete = () => {
                                 <div className="pallete__dial-wrapp">
                                     {(item.numbers as []).map((item: Titem) =>
                                         <button
-                                            onClick={(e: React.MouseEvent) => handleInputNumber((e.target as HTMLInputElement).value as any)}
+                                            onClick={(e: React.MouseEvent) => handleInputNumber((e.target as HTMLTextAreaElement).value as string)}
                                             value={item.titleNumbers}
                                             key={item.titleNumbers}
                                             className="pallete__dial-button">{item.titleNumbers}</button>

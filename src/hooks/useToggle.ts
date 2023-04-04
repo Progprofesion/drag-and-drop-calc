@@ -1,6 +1,9 @@
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from 'src/store/index';
-import { setCalcResult } from 'src/store/reducer/calcStore';
+import {
+    setClearSecondNumbers,
+    setClearFirstNumbers,
+} from "src/store/reducer/calcStore";
 
 type Titem = {
     style: { cursor: string }
@@ -9,10 +12,10 @@ type Titem = {
 const useToggle = () => {
 
     const hugState = useSelector((state: RootState) => state.dropStore.hugState);
+
     const dispatch = useDispatch();
 
     const togleRunConstr = () => {
-
 
         const wrap: NodeListOf<HTMLDivElement> = document.querySelectorAll<HTMLDivElement>(".pallete__wrapp");
         const display: NodeListOf<HTMLDivElement> = document.querySelectorAll<HTMLDivElement>(".pallete__display");
@@ -59,12 +62,14 @@ const useToggle = () => {
 
         } else if (hugState) {
             displayInput[1].style.fontSize = "36px";
-            dispatch(setCalcResult(0));
+            dispatch(setClearFirstNumbers(""));
+            dispatch(setClearSecondNumbers(""));
             (hugConstr as HTMLDivElement).style.pointerEvents = "none";
             (hugRunt as HTMLDivElement).style.pointerEvents = "all";
             wrap[1].childNodes.forEach((item: {}) => {
                 (item as { draggable: boolean }).draggable = true;
-                (item as Titem).style.cursor = "grab"
+                (item as Titem).style.cursor = "grab";
+                ((item as HTMLElement).lastChild as HTMLElement).style.zIndex = "-1";
             })
             wrap[0].style.display = "block"
 
@@ -72,15 +77,7 @@ const useToggle = () => {
                 display[1].draggable = false
                 display[1].style.cursor = "not-allowed"
             }
-            if (operations[1]) {
-                (operations[1].lastChild as HTMLDivElement).style.zIndex = "-1";
-            }
-            if (dial[1]) {
-                (dial[1].lastChild as HTMLDivElement).style.zIndex = "-1"
-            }
-            if (equally[1]) {
-                (equally[1].lastChild as HTMLDivElement).style.zIndex = "-1"
-            }
+
         }
     }
 
