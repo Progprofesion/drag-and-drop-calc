@@ -10,6 +10,14 @@ type TNodeElement = {
     }
 }
 
+type Titem = {
+    firstChild: {
+        style: {
+            display: string
+        }
+    }
+}
+
 
 const useStartOverLeaveEnd = () => {
 
@@ -27,7 +35,7 @@ const useStartOverLeaveEnd = () => {
         dispatch(setCurrentBoard(board))
         dispatch(setCurrentItem(item))
 
-        const board2: NodeListOf<HTMLAnchorElement> = document.querySelectorAll(".pallete__wrapp")
+        const board2: NodeListOf<HTMLDivElement> = document.querySelectorAll(".pallete__wrapp")
 
         if (dataClone[1].items.length === 0) {
             board2[1].style.background = " #F0F9FF"
@@ -114,12 +122,12 @@ const useStartOverLeaveEnd = () => {
     }
 
 
-    const dragLeaveHandlear = (e: any, board: {}) => {
+    const dragLeaveHandlear = (e: React.DragEvent<HTMLElement>, board: {}) => {
 
-        e.target.parentNode.childNodes.forEach((item: { firstChild: { style: { display: string } } }) => {
+        ((e.target as HTMLElement).parentNode as HTMLElement).childNodes.forEach((item: {}) => {
 
-            if (e.currentTarget.className !== "pallete__wrapp" && item.firstChild) {
-                item.firstChild.style.display = "none";
+            if (e.currentTarget.className !== "pallete__wrapp" && (item as HTMLElement).firstChild) {
+                ((item as HTMLElement).firstChild as HTMLElement).style.display = "none";
             }
 
             if (e.currentTarget.className === "pallete__wrapp" && e.currentTarget.firstChild) {
@@ -131,20 +139,20 @@ const useStartOverLeaveEnd = () => {
     const dragEndHandler = (e: React.DragEvent<HTMLDivElement>, board: { id: number }, item: {}) => {
         setDisabledSpan(false);
 
-        const operations: any = document.querySelectorAll<HTMLDivElement>(".pallete__operations");
-        const dial: any = document.querySelectorAll<HTMLDivElement>(".pallete__dial");
+        const operations: NodeListOf<HTMLDivElement> = document.querySelectorAll<HTMLDivElement>(".pallete__operations");
+        const dial: NodeListOf<HTMLDivElement> = document.querySelectorAll<HTMLDivElement>(".pallete__dial");
         // отключает hover на неактивной доске
-        dial[0].lastChild.style.pointerEvents = "none";
-        operations[0].lastChild.style.pointerEvents = "none";
-        const board2: any = document.querySelectorAll(".pallete__wrapp")
+        (dial[0].lastChild as HTMLElement).style.pointerEvents = "none";
+        (operations[0].lastChild as HTMLElement).style.pointerEvents = "none";
+        const board2: NodeListOf<HTMLDivElement> = document.querySelectorAll(".pallete__wrapp")
 
         if (dataClone[1].items.length >= 0) {
             board2[1].style.background = "none"
         }
 
         // убирает место дропа
-        board2[1].childNodes.forEach((item: { firstChild: { style: { display: string } } }) => {
-            item.firstChild.style.display = "none"
+        (board2[1] as HTMLElement).childNodes.forEach((item: {}) => {
+            ((item as HTMLElement).firstChild as HTMLElement).style.display = "none"
         })
 
 

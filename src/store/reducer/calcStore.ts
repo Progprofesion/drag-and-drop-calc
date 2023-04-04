@@ -4,7 +4,7 @@ export interface UserSliceInterface {
     calckResult: number
     firstNumbers: string
     secondNumbers: string
-    // clearSecondNumbers: any
+    operation: string
 }
 
 const cardsAdapter = createEntityAdapter();
@@ -13,12 +13,12 @@ const initialState = cardsAdapter.getInitialState({
     calckResult: 0,
     firstNumbers: "",
     secondNumbers: "",
-    // clearSecondNumbers: "",
+    operation: ""
 
 }) as UserSliceInterface
 
 const calcStore = createSlice({
-    name: 'db',
+    name: 'calc',
     initialState,
     reducers: {
         setCalckResult: (state, action) => {
@@ -36,6 +36,9 @@ const calcStore = createSlice({
         setClearSecondNumbers: (state, action) => {
             state.secondNumbers = action.payload
         },
+        setOperation: (state, action) => {
+            state.operation = action.payload
+        }
     }
 });
 
@@ -45,8 +48,9 @@ export const {
     setSecondNumber,
     setClearSecondNumbers,
     setClearFirstNumbers,
+    setOperation,
 } = calcStore.actions;
 
-export const { selectAll } = cardsAdapter.getSelectors((state: any) => state.storage)
+// export const { selectAll } = cardsAdapter.getSelectors((state: TgetSelector) => state.db)
 
 export default calcStore.reducer;

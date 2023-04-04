@@ -1,21 +1,16 @@
-import { ReactNode, useEffect, useState } from "react";
+import { ReactNode, useEffect } from "react";
 import { useGetDropDbQuery } from "../api/apiSlice";
 import { useSelector, useDispatch } from 'react-redux';
 
 import { RootState } from 'src/store/index';
-import { setDropState, setHugState } from "src/store/reducer/dropStore";
-import {
-    setCalckResult,
-    setFirstNumber,
-    setSecondNumber,
-    setClearSecondNumbers,
-    setClearFirstNumbers
-} from "src/store/reducer/calcStore";
+import { setDropState } from "src/store/reducer/dropStore";
+import { setOperation } from "src/store/reducer/calcStore";
 
 import useDrop from 'src/hooks/useDrop';
 import useElementHandler from 'src/hooks/useElementHandler';
 import useStartOverLeaveEnd from "src/hooks/useStartOverLeaveEnd";
 import useDelete from "src/hooks/useDelete";
+import useCalck from "src/hooks/useCalck";
 
 
 import './palette.scss';
@@ -24,7 +19,6 @@ type Tboard = {
     id: number
     items: []
     preventDefault: () => void
-    target: any
 }
 
 type Titem = {
@@ -36,7 +30,6 @@ type Titem = {
     titleEqually: string
     titleOperations: string
     titleNumbers: string
-    map: (Item: {}) => any
 }
 
 
@@ -46,12 +39,6 @@ const Pallete = () => {
         data = [],
         isSuccess
     } = useGetDropDbQuery(null);
-
-    // const [result, setResult] = useState(0);
-    const [operation, setOperation] = useState('');
-    // const [firstNumber, setFirstNumber] = useState([] as any);
-    // const [secondNumber, setSecondNumber] = useState([] as any);
-    const [saveResalt, setSaveResalt] = useState(0);
 
     const dispatch = useDispatch();
     const dropState = useSelector((state: RootState) => state.dropStore.dropState);
@@ -76,48 +63,7 @@ const Pallete = () => {
         dragEndHandler
     } = useStartOverLeaveEnd();
 
-
-
-    const handleInputNumber = (e: any) => {
-        if (operation) {
-            dispatch(setSecondNumber(e));
-            // setSaveResalt(calckResult)
-            dispatch(setCalckResult(null as any));
-        } else {
-            dispatch(setFirstNumber(e));
-            // setSaveResalt(calckResult)
-            dispatch(setCalckResult(null as any));
-        }
-
-    };
-
-    const handleCalculate = () => {
-        let result;
-        switch (operation) {
-            case '+':
-                result = saveResalt ? saveResalt + parseFloat(secondNumbers as never) : parseFloat(firstNumbers as never) + parseFloat(secondNumbers as never);
-                break;
-            case '-':
-                result = saveResalt ? saveResalt - (secondNumbers as never) : parseFloat(firstNumbers as never) - parseFloat(secondNumbers as never);
-                break;
-            case 'x':
-                result = saveResalt ? saveResalt * (secondNumbers as never) : parseFloat(firstNumbers as never) * parseFloat(secondNumbers as never);
-                break;
-            case '/':
-                result = saveResalt ? saveResalt / (secondNumbers as never) : parseFloat(firstNumbers as never) / parseFloat(secondNumbers as never);
-                break;
-            default:
-                result = saveResalt;
-        }
-
-        dispatch(setCalckResult((result as any) as any));
-        setSaveResalt(result)
-
-
-        setOperation("")
-        dispatch(setClearFirstNumbers(""));
-        dispatch(setClearSecondNumbers(""));
-    };
+    const { handleInputNumber, handleCalculate } = useCalck();
 
 
     const elements: ReactNode = dataClone.map((board: Tboard) => {
@@ -147,7 +93,7 @@ const Pallete = () => {
                                 </span>
                                 <input
                                     value={calckResult ? calckResult : 0 || secondNumbers !== "" ? secondNumbers : 0 || firstNumbers !== "" ? firstNumbers : 0}
-                                    onChange={handleInputNumber}
+                                    onChange={(e) => handleInputNumber}
                                     lang="16"
                                     placeholder="0"
                                     type="tel"
@@ -170,12 +116,9 @@ const Pallete = () => {
                                 </span>
                                 <div
                                     className="pallete__operations-wrapp">
-                                    {(item.operations as Titem).map(((item: Titem) =>
+                                    {(item.operations as []).map(((item: Titem) =>
                                         <button
-                                            onClick={(e: any) => {
-                                                setOperation(e.target.value)
-
-                                            }}
+                                            onClick={(e: React.MouseEvent) => dispatch(setOperation((e.target as HTMLTextAreaElement).value))}
                                             value={item.titleOperations}
                                             key={item.titleOperations}
                                             className="pallete__operations-buttons">{item.titleOperations}</button>
@@ -198,11 +141,9 @@ const Pallete = () => {
                                     <div></div>
                                 </span>
                                 <div className="pallete__dial-wrapp">
-                                    {(item.numbers as Titem).map((item: Titem) =>
+                                    {(item.numbers as []).map((item: Titem) =>
                                         <button
-                                            onClick={(e: any) => {
-                                                handleInputNumber(e.target.value)
-                                            }}
+                                            onClick={(e: React.MouseEvent) => handleInputNumber((e.target as HTMLInputElement).value as any)}
                                             value={item.titleNumbers}
                                             key={item.titleNumbers}
                                             className="pallete__dial-button">{item.titleNumbers}</button>

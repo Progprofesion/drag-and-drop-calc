@@ -1,99 +1,24 @@
-import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useGetDropDbQuery } from "../api/apiSlice";
 import runtimeImg from '../../assets/icon/runtimeImg.svg';
 import constructorImg from '../../assets/icon/constructorImg.svg';
-import { setDropState, setHugState } from "src/store/reducer/dropStore";
-import { setCalckResult } from 'src/store/reducer/calcStore';
+import { setHugState } from "src/store/reducer/dropStore";
+import useToggle from "src/hooks/useToggle";
 import { RootState } from 'src/store/index';
 
 import './hug.scss';
 
 const Hug = () => {
-
-
-    const {
-        data = [],
-        isSuccess
-    } = useGetDropDbQuery(null);
-
-
     const hugState = useSelector((state: RootState) => state.dropStore.hugState);
-    const dropState = useSelector((state: RootState) => state.dropStore.dropState);
-
     const dispatch = useDispatch();
 
-
-    const togleRunConst = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
-        const wrap: any = document.querySelectorAll<HTMLDivElement>(".pallete__wrapp");
-        const pallete: any = document.querySelector<HTMLDivElement>(".pallete");
-        const display: any = document.querySelectorAll<HTMLDivElement>(".pallete__display");
-        const operations: any = document.querySelectorAll<HTMLDivElement>(".pallete__operations");
-        const dial: any = document.querySelectorAll<HTMLDivElement>(".pallete__dial");
-        const equally: any = document.querySelectorAll<HTMLDivElement>(".pallete__equally");
-
-
-        if (!hugState) {
-            wrap[1].childNodes.forEach((item: any) => {
-                item.draggable = false
-            })
-            wrap[0].style.display = "none"
-            wrap[1].childNodes.forEach((item: any) => {
-                item.style.cursor = "default"
-            })
-            wrap[1].style.gridColumnStart = 2;
-            wrap[1].style.gridColumnEnd = 2;
-            if (operations[1]) {
-                operations[1].lastChild.style.zIndex = "1";
-                operations[1].lastChild.childNodes.forEach((item: any) => {
-                    item.style.cursor = "pointer"
-                })
-            }
-            // Dial 
-            if (dial[1]) {
-                dial[1].lastChild.style.zIndex = "1"
-                dial[1].lastChild.childNodes.forEach((item: any) => {
-                    item.style.cursor = "pointer"
-                })
-            }
-            // Equally
-            if (equally[1]) {
-                equally[1].lastChild.style.cursor = "pointer"
-                equally[1].lastChild.style.zIndex = "1"
-            }
-
-        } else if (hugState) {
-            dispatch(setCalckResult(0));
-
-            wrap[1].childNodes.forEach((item: any) => {
-
-                item.draggable = true
-                item.style.cursor = "grab"
-            })
-            wrap[0].style.display = "block"
-
-            if (display[1]) {
-                display[1].draggable = false
-                display[1].style.cursor = "not-allowed"
-            }
-
-            operations[1].lastChild.style.zIndex = "-1";
-
-            if (dial[1]) {
-                dial[1].lastChild.style.zIndex = "-1"
-            }
-
-            equally[1].lastChild.style.zIndex = "-1"
-
-        }
-    }
+    const { togleRunConstr } = useToggle()
 
     return (
         <section className="hug">
             <button
-                onClick={(e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+                onClick={() => {
                     dispatch(setHugState(true))
-                    togleRunConst(e)
+                    togleRunConstr()
                 }}
                 disabled={hugState}
                 className={hugState === true ? "hug__runtime hug__runtime_active" : "hug__runtime"}>
@@ -104,9 +29,9 @@ const Hug = () => {
             </button>
             <button
                 disabled={!hugState}
-                onClick={(e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+                onClick={() => {
                     dispatch(setHugState(false))
-                    togleRunConst(e)
+                    togleRunConstr()
                 }}
                 className={hugState === false ? "hug__constructor" : "hug__constructor hug__constructor_active"}>
                 <div className="hug__constructor-wrapp">

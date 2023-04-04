@@ -5,7 +5,7 @@ import { setDropState } from "src/store/reducer/dropStore";
 export interface TuseDelete {
     preventDefault: () => void;
     id?: number
-    target: {
+    target?: {
         className: {}
     }
     items: []

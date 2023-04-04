@@ -46,11 +46,11 @@
         justify-content: center;
         width: 133px;
         height: 36px;
-        cursor: pointer;
         background: #FFFFFF;
         border: 1px solid #E2E3E5;
         border-radius: 5px;
         outline: none;
+        pointer-events: none;
         &-wrapp {
             display: flex;
             justify-content: space-between;

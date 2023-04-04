@@ -59,7 +59,6 @@
             border-radius: 6px;
             cursor: grab;
             z-index: 100;
-            // transition: 250ms;
             &:active {
                 transform: scale(98%);
             }
@@ -101,7 +100,6 @@
             border: 1px solid #E2E3E5;
             border-radius: 6px;
             cursor: grab;
-            // transition: 250ms;
             &:active {
                 transform: scale(98%);
             }
@@ -134,12 +132,6 @@
             border: none;
         }
     }
-    // &__drop {
-    //     width: 243px;
-    //     height: 448px;
-    //     // border: 2px dashed #C4C4C4;
-    //     border-radius: 6px;
-    // }
     &__span {
         display: none;
         position: absolute;

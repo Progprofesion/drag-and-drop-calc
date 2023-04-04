@@ -8,13 +8,10 @@ export const apiSlice = createApi({
         getDropDb: builder.query({
             query: () => '/dropDb',
             providesTags: ['dropDb']
-        }),
-        getCalckDb: builder.query({
-            query: (id) => `/dropDb/${id}`
         })
     })
 });
 
 
 
-export const { useGetDropDbQuery, useGetCalckDbQuery } = apiSlice;
+export const { useGetDropDbQuery } = apiSlice;

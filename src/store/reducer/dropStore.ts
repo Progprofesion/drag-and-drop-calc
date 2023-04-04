@@ -65,6 +65,4 @@ export const {
     setDisabledDrop,
     setHugState } = dropStore.actions;
 
-export const { selectAll } = cardsAdapter.getSelectors((state: any) => state.storage)
-
 export default dropStore.reducer;
