@@ -1,13 +1,19 @@
 import { createSlice, createEntityAdapter } from '@reduxjs/toolkit';
 
 export interface UserSliceInterface {
-    calckState: number
+    calckResult: number
+    firstNumbers: string
+    secondNumbers: string
+    // clearSecondNumbers: any
 }
 
 const cardsAdapter = createEntityAdapter();
 
 const initialState = cardsAdapter.getInitialState({
-    calckState: 0
+    calckResult: 0,
+    firstNumbers: "",
+    secondNumbers: "",
+    // clearSecondNumbers: "",
 
 }) as UserSliceInterface
 
@@ -15,13 +21,31 @@ const calcStore = createSlice({
     name: 'db',
     initialState,
     reducers: {
-        setCalckState: (state, action) => {
-            state.calckState = action.payload
-        }
+        setCalckResult: (state, action) => {
+            state.calckResult = action.payload
+        },
+        setFirstNumber: (state, action) => {
+            state.firstNumbers += action.payload
+        },
+        setSecondNumber: (state, action) => {
+            state.secondNumbers += action.payload
+        },
+        setClearFirstNumbers: (state, action) => {
+            state.firstNumbers = action.payload
+        },
+        setClearSecondNumbers: (state, action) => {
+            state.secondNumbers = action.payload
+        },
     }
 });
 
-export const { setCalckState } = calcStore.actions;
+export const {
+    setCalckResult,
+    setFirstNumber,
+    setSecondNumber,
+    setClearSecondNumbers,
+    setClearFirstNumbers,
+} = calcStore.actions;
 
 export const { selectAll } = cardsAdapter.getSelectors((state: any) => state.storage)
 

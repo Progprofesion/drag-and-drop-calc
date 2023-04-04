@@ -132,9 +132,6 @@
             color: #FFFFFF;
             z-index: -1;
             border: none;
-            &:active {
-                transform: scale(99%);
-            }
         }
     }
     // &__drop {

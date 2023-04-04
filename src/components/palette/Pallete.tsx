@@ -4,7 +4,13 @@ import { useSelector, useDispatch } from 'react-redux';
 
 import { RootState } from 'src/store/index';
 import { setDropState, setHugState } from "src/store/reducer/dropStore";
-// import { setCalckState } from "src/store/reducer/calcStore";
+import {
+    setCalckResult,
+    setFirstNumber,
+    setSecondNumber,
+    setClearSecondNumbers,
+    setClearFirstNumbers
+} from "src/store/reducer/calcStore";
 
 import useDrop from 'src/hooks/useDrop';
 import useElementHandler from 'src/hooks/useElementHandler';
@@ -41,19 +47,22 @@ const Pallete = () => {
         isSuccess
     } = useGetDropDbQuery(null);
 
-    const [result, setResult] = useState(0);
+    // const [result, setResult] = useState(0);
     const [operation, setOperation] = useState('');
-    const [firstNumber, setFirstNumber] = useState('');
-    const [secondNumber, setSecondNumber] = useState('');
-    const [flag, setFlag] = useState(false);
+    // const [firstNumber, setFirstNumber] = useState([] as any);
+    // const [secondNumber, setSecondNumber] = useState([] as any);
+    const [saveResalt, setSaveResalt] = useState(0);
 
     const dispatch = useDispatch();
     const dropState = useSelector((state: RootState) => state.dropStore.dropState);
+    const calckResult = useSelector((state: RootState) => state.calcStore.calckResult);
+    const firstNumbers = useSelector((state: RootState) => state.calcStore.firstNumbers);
+    const secondNumbers = useSelector((state: RootState) => state.calcStore.secondNumbers);
+
     const dataClone = JSON.parse(JSON.stringify(dropState))
 
     useEffect(() => {
         dispatch(setDropState(data))
-        setFlag(true)
     }, [isSuccess])
 
 
@@ -67,58 +76,49 @@ const Pallete = () => {
         dragEndHandler
     } = useStartOverLeaveEnd();
 
+
+
     const handleInputNumber = (e: any) => {
         if (operation) {
-            setSecondNumber(e);
-            setResult(null as any);
-            console.log(secondNumber, "second number");
-        } else if (!operation) {
-            setFirstNumber(e);
-            setResult(null as any);
-            setFlag(true)
-            console.log(firstNumber, "first number");
+            dispatch(setSecondNumber(e));
+            // setSaveResalt(calckResult)
+            dispatch(setCalckResult(null as any));
+        } else {
+            dispatch(setFirstNumber(e));
+            // setSaveResalt(calckResult)
+            dispatch(setCalckResult(null as any));
         }
+
     };
 
     const handleCalculate = () => {
         let result;
-
         switch (operation) {
             case '+':
-                result = parseFloat(firstNumber) + parseFloat(secondNumber);
+                result = saveResalt ? saveResalt + parseFloat(secondNumbers as never) : parseFloat(firstNumbers as never) + parseFloat(secondNumbers as never);
                 break;
             case '-':
-                result = parseFloat(firstNumber) - parseFloat(secondNumber);
+                result = saveResalt ? saveResalt - (secondNumbers as never) : parseFloat(firstNumbers as never) - parseFloat(secondNumbers as never);
                 break;
             case 'x':
-                result = parseFloat(firstNumber) * parseFloat(secondNumber);
+                result = saveResalt ? saveResalt * (secondNumbers as never) : parseFloat(firstNumbers as never) * parseFloat(secondNumbers as never);
                 break;
             case '/':
-                result = parseFloat(firstNumber) / parseFloat(secondNumber);
+                result = saveResalt ? saveResalt / (secondNumbers as never) : parseFloat(firstNumbers as never) / parseFloat(secondNumbers as never);
                 break;
             default:
-                result = 0;
+                result = saveResalt;
         }
 
-        setResult(result.toFixed(2) as any);
+        dispatch(setCalckResult((result as any) as any));
+        setSaveResalt(result)
+
+
         setOperation("")
-        setSecondNumber("")
+        dispatch(setClearFirstNumbers(""));
+        dispatch(setClearSecondNumbers(""));
     };
 
-    // const vision = () => {
-
-
-    //     if (firstNumber) {
-    //         return firstNumber
-    //     } else if (secondNumber) {
-    //         return secondNumber
-    //     } else if (result) {
-    //         return result
-    //     }
-
-
-    // }
-    // firstNumber ? firstNumber : "" || secondNumber ? secondNumber : "" || result ? result : ""
 
     const elements: ReactNode = dataClone.map((board: Tboard) => {
         return <div
@@ -146,7 +146,7 @@ const Pallete = () => {
                                     <div></div>
                                 </span>
                                 <input
-                                    value={result ? result : 0 || secondNumber ? secondNumber : 0 || firstNumber ? firstNumber : 0}
+                                    value={calckResult ? calckResult : 0 || secondNumbers !== "" ? secondNumbers : 0 || firstNumbers !== "" ? firstNumbers : 0}
                                     onChange={handleInputNumber}
                                     lang="16"
                                     placeholder="0"

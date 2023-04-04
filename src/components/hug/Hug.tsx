@@ -4,6 +4,7 @@ import { useGetDropDbQuery } from "../api/apiSlice";
 import runtimeImg from '../../assets/icon/runtimeImg.svg';
 import constructorImg from '../../assets/icon/constructorImg.svg';
 import { setDropState, setHugState } from "src/store/reducer/dropStore";
+import { setCalckResult } from 'src/store/reducer/calcStore';
 import { RootState } from 'src/store/index';
 
 import './hug.scss';
@@ -22,17 +23,11 @@ const Hug = () => {
 
     const dispatch = useDispatch();
 
-    const [disabledButton, setDisabledButton] = useState(false);
-
-    // useEffect(() => {
-    // }, [hugState])
-
-    // console.log(hugState)
 
     const togleRunConst = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
         const wrap: any = document.querySelectorAll<HTMLDivElement>(".pallete__wrapp");
         const pallete: any = document.querySelector<HTMLDivElement>(".pallete");
-        const display: any = document.querySelector<HTMLDivElement>(".pallete__display");
+        const display: any = document.querySelectorAll<HTMLDivElement>(".pallete__display");
         const operations: any = document.querySelectorAll<HTMLDivElement>(".pallete__operations");
         const dial: any = document.querySelectorAll<HTMLDivElement>(".pallete__dial");
         const equally: any = document.querySelectorAll<HTMLDivElement>(".pallete__equally");
@@ -68,11 +63,28 @@ const Hug = () => {
             }
 
         } else if (hugState) {
+            dispatch(setCalckResult(0));
+
             wrap[1].childNodes.forEach((item: any) => {
+
                 item.draggable = true
                 item.style.cursor = "grab"
             })
             wrap[0].style.display = "block"
+
+            if (display[1]) {
+                display[1].draggable = false
+                display[1].style.cursor = "not-allowed"
+            }
+
+            operations[1].lastChild.style.zIndex = "-1";
+
+            if (dial[1]) {
+                dial[1].lastChild.style.zIndex = "-1"
+            }
+
+            equally[1].lastChild.style.zIndex = "-1"
+
         }
     }
 
