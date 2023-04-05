@@ -3,6 +3,8 @@ import { RootState } from 'src/store/index';
 import {
     setClearSecondNumbers,
     setClearFirstNumbers,
+    setCalcResult,
+    setSaveResalt,
 } from "src/store/reducer/calcStore";
 
 type Titem = {
@@ -64,6 +66,7 @@ const useToggle = () => {
             displayInput[1].style.fontSize = "36px";
             dispatch(setClearFirstNumbers(""));
             dispatch(setClearSecondNumbers(""));
+            dispatch(setCalcResult(0));
             (hugConstr as HTMLDivElement).style.pointerEvents = "none";
             (hugRunt as HTMLDivElement).style.pointerEvents = "all";
             wrap[1].childNodes.forEach((item: {}) => {

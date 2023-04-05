@@ -94,7 +94,7 @@ const Pallete = () => {
                                 </span>
                                 <input
                                     value={calcResult ? calcResult : 0 || secondNumbers !== "" ? secondNumbers : 0 || firstNumbers !== "" ? firstNumbers : 0}
-                                    onChange={(e) => handleInputNumber}
+                                    onChange={(e) => handleInputNumber(e)}
                                     lang="16"
                                     placeholder="0"
                                     type="tel"

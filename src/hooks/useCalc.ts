@@ -19,7 +19,6 @@ const useCalc = () => {
     const dispatch = useDispatch();
 
     let result = useSelector((state: RootState) => state.calcStore.result);
-    const calcResult = useSelector((state: RootState) => state.calcStore.calcResult);
     const saveResalt = useSelector((state: RootState) => state.calcStore.saveResalt);
     const firstNumbers = useSelector((state: RootState) => state.calcStore.firstNumbers);
     const secondNumbers = useSelector((state: RootState) => state.calcStore.secondNumbers);
@@ -28,21 +27,20 @@ const useCalc = () => {
 
     const displayInput = document.querySelectorAll<HTMLElement>(".pallete__display-input");
 
-    // const [saveResalt, setSaveResalt] = useState(0);
-    // if (firstNumbers) {
-    //     console.log(displayInput)
-    //     displayInput[1].style.fontSize = "24px"
-    // }
 
-    const handleInputNumber = (e: React.MouseEvent | string) => {
+    const handleInputNumber = (e: React.ChangeEvent<HTMLInputElement> | string) => {
         if (operation) {
+            if (secondNumbers.includes(',') || !secondNumbers) {
+                e = (e as string).replace(",", "");
+            }
             dispatch(setSecondNumber(e));
             dispatch(setCalcResult(0));
         } else {
-
+            if (firstNumbers.includes(',') || !firstNumbers) {
+                e = (e as string).replace(",", "");
+            }
             dispatch(setFirstNumber(e));
             dispatch(setCalcResult(0));
-            displayInput[1].style.fontSize = "36px";
         }
     };
 
@@ -82,8 +80,7 @@ const useCalc = () => {
 
         dispatch(setCalcResult(result));
         dispatch(setSaveResalt(result));
-        console.log(calcResult);
-        console.log(saveResalt);
+
         dispatch(setOperation(""));
         dispatch(setClearFirstNumbers(""));
         dispatch(setClearSecondNumbers(""));
