@@ -93,11 +93,16 @@ const Pallete = () => {
                                     <div></div>
                                 </span>
                                 <input
+                                    max={3}
+                                    maxLength={3}
                                     value={calcResult ? calcResult : 0 || secondNumbers !== "" ? secondNumbers : 0 || firstNumbers !== "" ? firstNumbers : 0}
                                     onChange={(e) => handleInputNumber(e)}
-                                    lang="16"
+                                    // inputProps={}
                                     placeholder="0"
                                     type="tel"
+                                    // onInput={(e) => {
+                                    //     (e.target as any).value = Math.max(0, parseInt((e.target as any).value)).toString().slice(0, 3)
+                                    // }}
                                     className="pallete__display-input" />
                             </div>;
                         case 'operations':

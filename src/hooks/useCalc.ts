@@ -29,18 +29,31 @@ const useCalc = () => {
 
 
     const handleInputNumber = (e: React.ChangeEvent<HTMLInputElement> | string) => {
+
+        const arrayOfDigits = Array.from(String(result), Number);
+        const arrayOfFirstNumbers = Array.from(String(firstNumbers), Number);
+
         if (operation) {
-            if (secondNumbers.includes(',') || !secondNumbers) {
-                e = (e as string).replace(",", "");
-            }
             dispatch(setSecondNumber(e));
             dispatch(setCalcResult(0));
+            if (firstNumbers.includes(',') || !firstNumbers) {
+                e = (e as string).replace(",", "");
+            }
+            if ((e.toString() as any) === "0" && arrayOfFirstNumbers.length === 1) {
+                e = (e as string).replace("0", "");
+            }
         } else {
             if (firstNumbers.includes(',') || !firstNumbers) {
                 e = (e as string).replace(",", "");
             }
+            if ((e.toString() as any) === "0" && arrayOfFirstNumbers.length === 1) {
+                e = (e as string).replace("0", "");
+            }
             dispatch(setFirstNumber(e));
             dispatch(setCalcResult(0));
+            displayInput[1].style.fontSize = "36px";
+            displayInput[1].style.fontWeight = "800";
+            displayInput[1].style.paddingTop = "unset"
         }
     };
 
@@ -71,11 +84,21 @@ const useCalc = () => {
                     parseFloat(firstNumbers.replace(',', '.') as never) / parseFloat(secondNumbers.replace(',', '.') as never));
                 if (secondNumbers === "0") {
                     result = "Не определено"
-                    displayInput[1].style.fontSize = "24px"
+                    displayInput[1].style.fontSize = "24px";
+                    displayInput[1].style.paddingTop = "19px"
                 }
                 break;
             default:
                 result = saveResalt;
+        }
+
+        const arrayOfDigits = Array.from(String(result), Number);
+
+        if (arrayOfDigits.length > 9) {
+            result = Math.round(result as number).toString().substring(0, 9);
+            // (result as number).toFixed(2)
+            // arrayOfDigits.toF
+            console.log(result)
         }
 
         dispatch(setCalcResult(result));
@@ -84,6 +107,10 @@ const useCalc = () => {
         dispatch(setOperation(""));
         dispatch(setClearFirstNumbers(""));
         dispatch(setClearSecondNumbers(""));
+
+
+
+
     };
 
     return { handleInputNumber, handleCalculate }
