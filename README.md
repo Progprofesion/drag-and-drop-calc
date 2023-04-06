@@ -35,4 +35,5 @@
 - eslint
 
 
-Install npm i, npm start
+## Install: 
+### npm i, npm start
