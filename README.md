@@ -33,3 +33,6 @@
 - redux / redux toolkit 
 - scss
 - eslint
+
+
+Install npm i, npm start
