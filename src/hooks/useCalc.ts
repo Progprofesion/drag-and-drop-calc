@@ -24,25 +24,30 @@ const useCalc = () => {
     const secondNumbers = useSelector((state: RootState) => state.calcStore.secondNumbers);
     const operation = useSelector((state: RootState) => state.calcStore.operation);
 
-
     const displayInput = document.querySelectorAll<HTMLElement>(".pallete__display-input");
-
 
     const handleInputNumber = (e: React.ChangeEvent<HTMLInputElement> | string) => {
 
-        const arrayOfDigits = Array.from(String(result), Number);
         const arrayOfFirstNumbers = Array.from(String(firstNumbers), Number);
+        const arrayOfSecondNumbers = Array.from(String(secondNumbers), Number);
+
 
         if (operation) {
-            dispatch(setSecondNumber(e));
-            dispatch(setCalcResult(0));
+            if (arrayOfSecondNumbers.length >= 9) {
+                return
+            }
             if (firstNumbers.includes(',') || !firstNumbers) {
                 e = (e as string).replace(",", "");
             }
             if ((e.toString() as any) === "0" && arrayOfFirstNumbers.length === 1) {
                 e = (e as string).replace("0", "");
             }
+            dispatch(setSecondNumber(e));
+            dispatch(setCalcResult(0));
         } else {
+            if (arrayOfFirstNumbers.length >= 9) {
+                return
+            }
             if (firstNumbers.includes(',') || !firstNumbers) {
                 e = (e as string).replace(",", "");
             }
@@ -95,10 +100,7 @@ const useCalc = () => {
         const arrayOfDigits = Array.from(String(result), Number);
 
         if (arrayOfDigits.length > 9) {
-            result = Math.round(result as number).toString().substring(0, 9);
-            // (result as number).toFixed(2)
-            // arrayOfDigits.toF
-            console.log(result)
+            result = (result as any).toString().substring(0, 9);
         }
 
         dispatch(setCalcResult(result));
@@ -107,10 +109,6 @@ const useCalc = () => {
         dispatch(setOperation(""));
         dispatch(setClearFirstNumbers(""));
         dispatch(setClearSecondNumbers(""));
-
-
-
-
     };
 
     return { handleInputNumber, handleCalculate }
