@@ -39,7 +39,7 @@ const useCalc = () => {
             if (firstNumbers.includes(',') || !firstNumbers) {
                 e = (e as string).replace(",", "");
             }
-            if ((e.toString() as any) === "0" && arrayOfFirstNumbers.length === 1) {
+            if ((e.toString() as string) === "0" && arrayOfFirstNumbers.length === 1) {
                 e = (e as string).replace("0", "");
             }
             dispatch(setSecondNumber(e));
@@ -51,7 +51,7 @@ const useCalc = () => {
             if (firstNumbers.includes(',') || !firstNumbers) {
                 e = (e as string).replace(",", "");
             }
-            if ((e.toString() as any) === "0" && arrayOfFirstNumbers.length === 1) {
+            if ((e.toString() as string) === "0" && arrayOfFirstNumbers.length === 1) {
                 e = (e as string).replace("0", "");
             }
             dispatch(setFirstNumber(e));
@@ -100,7 +100,7 @@ const useCalc = () => {
         const arrayOfDigits = Array.from(String(result), Number);
 
         if (arrayOfDigits.length > 9) {
-            result = (result as any).toString().substring(0, 9);
+            result = (result as string).toString().substring(0, 9);
         }
 
         dispatch(setCalcResult(result));
