@@ -1,7 +1,9 @@
+import { useState, useCallback, useEffect } from "react";
 import { useSelector, useDispatch } from 'react-redux';
 
 import { RootState } from 'src/store/index';
-
+import { useToggleTest } from "src/hooks/useToggleTest";
+// FC from react
 import {
     setResult,
     setCalcResult,
@@ -10,7 +12,8 @@ import {
     setSecondNumber,
     setClearSecondNumbers,
     setClearFirstNumbers,
-    setOperation
+    setOperation,
+    setCalcArr,
 } from "src/store/reducer/calcStore";
 
 
@@ -23,45 +26,51 @@ const useCalc = () => {
     const firstNumbers = useSelector((state: RootState) => state.calcStore.firstNumbers);
     const secondNumbers = useSelector((state: RootState) => state.calcStore.secondNumbers);
     const operation = useSelector((state: RootState) => state.calcStore.operation);
+    const calcArr: any = useSelector((state: RootState) => state.calcStore.calcArr);
+    const calcResult = useSelector((state: RootState) => state.calcStore.calcResult);
 
     const displayInput = document.querySelectorAll<HTMLElement>(".pallete__display-input");
-
     const handleInputNumber = (e: React.ChangeEvent<HTMLInputElement> | string) => {
 
         const arrayOfFirstNumbers = Array.from(String(firstNumbers), Number);
-        const arrayOfSecondNumbers = Array.from(String(secondNumbers), Number);
 
-
-        if (operation) {
-            if (arrayOfSecondNumbers.length >= 9) {
-                return
-            }
-            if (firstNumbers.includes(',') || !firstNumbers) {
-                e = (e as string).replace(",", "");
-            }
-            if ((e.toString() as string) === "0" && arrayOfFirstNumbers.length === 1) {
-                e = (e as string).replace("0", "");
-            }
-            dispatch(setSecondNumber(e));
-            dispatch(setCalcResult(0));
-        } else {
-            if (arrayOfFirstNumbers.length >= 9) {
-                return
-            }
-            if (firstNumbers.includes(',') || !firstNumbers) {
-                e = (e as string).replace(",", "");
-            }
-            if ((e.toString() as string) === "0" && arrayOfFirstNumbers.length === 1) {
-                e = (e as string).replace("0", "");
-            }
-            dispatch(setFirstNumber(e));
-            dispatch(setCalcResult(0));
-            displayInput[1].style.fontSize = "36px";
-            displayInput[1].style.fontWeight = "800";
-            displayInput[1].style.paddingTop = "unset"
+        dispatch(setFirstNumber(e));
+        if (arrayOfFirstNumbers.length >= 9) {
+            return
         }
+        if (firstNumbers === "0") {
+
+        }
+        if (firstNumbers.includes(',')) {
+            e = (e as string).replace(",", "");
+        }
+        if (arrayOfFirstNumbers[0] === 0) {
+            e = (e as string).replace("0", "");
+        }
+        // dispatch(setCalcResult(0));
+        displayInput[1].style.fontSize = "36px";
+        displayInput[1].style.fontWeight = "800";
+        displayInput[1].style.paddingTop = "unset"
+
+
+
+
     };
 
+
+    useEffect(() => {
+        let sum = calcArr.reduce((acc: any, next: any) => acc + next, 0)
+        dispatch(setCalcResult(sum));
+    }, [firstNumbers])
+
+
+    const arrNumbers = () => {
+        dispatch(setCalcArr(parseFloat(firstNumbers)));
+
+        dispatch(setClearFirstNumbers(""));
+    }
+
+    console.log(calcArr)
     const handleCalculate = () => {
         switch (operation) {
             case '+':
@@ -103,15 +112,25 @@ const useCalc = () => {
             result = (result as string).toString().substring(0, 9);
         }
 
-        dispatch(setCalcResult(result));
+
         dispatch(setSaveResalt(result));
 
         dispatch(setOperation(""));
         dispatch(setClearFirstNumbers(""));
         dispatch(setClearSecondNumbers(""));
+
+        if (calcArr) {
+            dispatch(setCalcArr(parseFloat(firstNumbers)));
+            let sum = calcArr.reduce((acc: any, next: any) => acc + next, 0)
+            dispatch(setCalcResult(sum));
+            console.log(calcResult)
+        }
+
+
+        // dispatch(setClearArr([]))
     };
 
-    return { handleInputNumber, handleCalculate }
+    return { handleInputNumber, handleCalculate, arrNumbers }
 
 }
 

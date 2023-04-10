@@ -1,16 +1,18 @@
-import { ReactNode, useEffect } from "react";
+import { ReactNode, useEffect, useCallback } from "react";
 import { useGetDropDbQuery } from "../api/apiSlice";
 import { useSelector, useDispatch } from 'react-redux';
 
 import { RootState } from 'src/store/index';
 import { setDropState } from "src/store/reducer/dropStore";
-import { setOperation } from "src/store/reducer/calcStore";
+import { setOperation, setToggle } from "src/store/reducer/calcStore";
 
 import useDrop from 'src/hooks/useDrop';
 import useElementHandler from 'src/hooks/useElementHandler';
 import useStartOverLeaveEnd from "src/hooks/useStartOverLeaveEnd";
 import useDelete from "src/hooks/useDelete";
 import useCalc from "src/hooks/useCalc";
+import { useToggleTest } from "src/hooks/useToggleTest";
+
 
 
 import './palette.scss';
@@ -35,6 +37,8 @@ type Titem = {
 
 const Pallete = () => {
 
+
+
     const {
         data = [],
         isSuccess
@@ -45,6 +49,8 @@ const Pallete = () => {
     const calcResult = useSelector((state: RootState) => state.calcStore.calcResult);
     const firstNumbers = useSelector((state: RootState) => state.calcStore.firstNumbers);
     const secondNumbers = useSelector((state: RootState) => state.calcStore.secondNumbers);
+    const toggle: any = useSelector((state: RootState) => state.calcStore.toggle);
+    const calcArr: any = useSelector((state: RootState) => state.calcStore.calcArr);
 
     const dataClone = JSON.parse(JSON.stringify(dropState))
 
@@ -52,6 +58,8 @@ const Pallete = () => {
         dispatch(setDropState(data))
         // eslint-disable-next-line
     }, [isSuccess])
+
+    // const toggle = useCallback(() => setNextNumbers((nextNumbers: boolean) => !nextNumbers), []);
 
 
     const { dropHandler } = useDrop();
@@ -64,8 +72,15 @@ const Pallete = () => {
         dragEndHandler
     } = useStartOverLeaveEnd();
 
-    const { handleInputNumber, handleCalculate } = useCalc();
+    const { handleInputNumber, handleCalculate, arrNumbers } = useCalc();
 
+
+    const detectedNumber = () => {
+        let num = 0;
+        let result = num + 1
+        return result
+    }
+    // const [toggleTest, setToogleTest] = useToggleTest(true)
 
     const elements: ReactNode = dataClone.map((board: Tboard) => {
         return <div
@@ -93,7 +108,7 @@ const Pallete = () => {
                                     <div></div>
                                 </span>
                                 <input
-                                    value={calcResult ? calcResult : 0 || secondNumbers !== "" ? secondNumbers : 0 || firstNumbers !== "" ? firstNumbers : 0}
+                                    value={toggle ? calcResult : firstNumbers}
                                     onChange={(e) => handleInputNumber(e)}
                                     placeholder="0"
                                     type="tel"
@@ -101,6 +116,10 @@ const Pallete = () => {
                             </div>;
                         case 'operations':
                             return <div
+                                onClick={() => {
+
+                                    detectedNumber();
+                                }}
                                 onDoubleClick={(e) => doubleClickHandler(e, board, item)}
                                 onDragOver={(e) => dragOverHandler(e, board)}
                                 onDragLeave={e => dragLeaveHandlear(e, board)}
@@ -118,7 +137,11 @@ const Pallete = () => {
                                     className="pallete__operations-wrapp">
                                     {(item.operations as []).map(((item: Titem) =>
                                         <button
-                                            onClick={(e: React.MouseEvent) => dispatch(setOperation((e.target as HTMLTextAreaElement).value))}
+                                            onClick={(e: React.MouseEvent) => {
+                                                dispatch(setOperation((e.target as HTMLTextAreaElement).value))
+                                                arrNumbers()
+                                                dispatch(setToggle(false))
+                                            }}
                                             value={item.titleOperations}
                                             key={item.titleOperations}
                                             className="pallete__operations-buttons">{item.titleOperations}</button>
@@ -166,7 +189,10 @@ const Pallete = () => {
                                     <div></div>
                                 </span>
                                 <button
-                                    onClick={() => handleCalculate()}
+                                    onClick={() => {
+                                        handleCalculate()
+                                        dispatch(setToggle(true))
+                                    }}
                                     className="pallete__equally-wrapp">{item.titleEqually}</button>
                             </div>
                         default:

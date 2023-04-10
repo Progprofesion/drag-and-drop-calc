@@ -7,6 +7,10 @@ export interface UserSliceInterface {
     firstNumbers: string
     secondNumbers: string
     operation: string
+    calcArr: []
+    toggle: boolean
+    incr: number
+    summary: number
 }
 
 
@@ -17,6 +21,10 @@ const initialState = ({
     firstNumbers: "",
     secondNumbers: "",
     operation: "",
+    calcArr: [],
+    toggle: false,
+    incr: 0,
+    summary: 0,
 }) as UserSliceInterface
 
 const calcStore = createSlice({
@@ -46,7 +54,27 @@ const calcStore = createSlice({
         },
         setOperation: (state, action) => {
             state.operation = action.payload
+            state.incr += 1
         },
+        setCalcArr: (state, action) => {
+            if (action.payload) {
+                (state.calcArr as any).push(action.payload)
+            }
+        },
+        setClearArr: (state, action) => {
+            state.calcArr = action.payload
+        },
+        setToggle: (state, action) => {
+            // if (action.payload === true) {
+            //     state.toggle = false
+            // } else if (action.payload === false) {
+            //     state.toggle = true
+            // }
+            state.toggle = action.payload
+        },
+        setSummary: (state, action) => {
+            state.summary = action.payload
+        }
     }
 });
 
@@ -59,8 +87,11 @@ export const {
     setClearSecondNumbers,
     setClearFirstNumbers,
     setOperation,
+    setCalcArr,
+    setClearArr,
+    setToggle,
+    setSummary
 } = calcStore.actions;
 
-// export const { selectAll } = cardsAdapter.getSelectors((state: TgetSelector) => state.db)
 
 export default calcStore.reducer;

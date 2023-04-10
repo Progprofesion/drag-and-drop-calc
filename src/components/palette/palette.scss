@@ -1,13 +1,13 @@
 .pallete {
     display: grid;
     justify-content: space-between;
-    max-width: 540px;
     grid-template-columns: 248px 248px;
     gap: 55px;
+    width: 549px;
     &__wrapp {
         margin: 0 auto;
         &:nth-child(2) {
-            width: 248px;
+            width: 243px;
             height: 448px;
             border: 2px dashed #C4C4C4;
             border-radius: 6px;
