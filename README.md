@@ -1,10 +1,4 @@
-<<<<<<< HEAD
 # Getting Started with Create React App
-=======
-https://progprofesion.github.io/test-task-SS/
-
-## Правая **часть экрана - холст**
->>>>>>> 4ba8a8e92015058acfec912715c132bdf8b880ff
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
@@ -30,12 +24,8 @@ See the section about [running tests](https://facebook.github.io/create-react-ap
 Builds the app for production to the `build` folder.\
 It correctly bundles React in production mode and optimizes the build for the best performance.
 
-<<<<<<< HEAD
 The build is minified and the filenames include the hashes.\
 Your app is ready to be deployed!
-=======
-- собранный калькулятор работает по тем же принципам, что и нативный в macOs или windows
->>>>>>> 4ba8a8e92015058acfec912715c132bdf8b880ff
 
 See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
 

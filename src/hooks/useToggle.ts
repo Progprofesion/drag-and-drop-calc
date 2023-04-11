@@ -4,8 +4,7 @@ import {
     setClearSecondNumbers,
     setClearFirstNumbers,
     setCalcResult,
-    setClearArr,
-    setToggle
+    setSaveResalt,
 } from "src/store/reducer/calcStore";
 
 type Titem = {
@@ -31,11 +30,7 @@ const useToggle = () => {
         const displayInput = document.querySelectorAll<HTMLElement>(".pallete__display-input");
 
         if (!hugState) {
-            dispatch(setClearArr([]));
-            dispatch(setToggle(false));
-            if (displayInput[1]) {
-                displayInput[1].style.fontSize = "36px";
-            }
+            displayInput[1].style.fontSize = "36px";
             (hugConstr as HTMLDivElement).style.pointerEvents = "all";
             (hugConstr as HTMLDivElement).style.cursor = "pointer";
             (hugRunt as HTMLDivElement).style.pointerEvents = "none";
@@ -68,10 +63,7 @@ const useToggle = () => {
             }
 
         } else if (hugState) {
-            // dispatch(setClearArr([]));
-            if (displayInput[1]) {
-                displayInput[1].style.fontSize = "36px";
-            }
+            displayInput[1].style.fontSize = "36px";
             dispatch(setClearFirstNumbers(""));
             dispatch(setClearSecondNumbers(""));
             dispatch(setCalcResult(0));
