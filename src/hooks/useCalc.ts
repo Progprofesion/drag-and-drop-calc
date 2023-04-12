@@ -40,14 +40,16 @@ const useCalc = () => {
                 e = (e as string).replace(",", "0,");
 
             }
-            if (secondNumbers.includes('0,')) {
+            if (secondNumbers.includes(',')) {
                 e = (e as string).replace("0,", "");
+                console.log(secondNumbers)
             }
             if ((e.toString() as string) === "0" && arrayOfSecondNumbers.length === 0) {
                 e = (e as string).replace("0", "");
             }
             dispatch(setSecondNumber(e));
             dispatch(setCalcResult(0));
+
         } else {
             if (arrayOfFirstNumbers.length >= 9) {
                 return
@@ -55,8 +57,9 @@ const useCalc = () => {
             if (firstNumbers.includes(',') || !firstNumbers) {
                 e = (e as string).replace(",", "0,");
             }
-            if (firstNumbers.includes('0,')) {
+            if (firstNumbers.includes(',')) {
                 e = (e as string).replace("0,", "");
+                console.log(firstNumbers)
             }
             if ((e.toString() as string) === "0" && arrayOfFirstNumbers.length === 0) {
                 e = (e as string).replace("0", "");
@@ -66,6 +69,7 @@ const useCalc = () => {
             displayInput[1].style.fontSize = "36px";
             displayInput[1].style.fontWeight = "800";
             displayInput[1].style.paddingTop = "unset"
+
         }
     };
 
