@@ -30,7 +30,10 @@ const useToggle = () => {
         const displayInput = document.querySelectorAll<HTMLElement>(".pallete__display-input");
 
         if (!hugState) {
-            displayInput[1].style.fontSize = "36px";
+            if (displayInput[1]) {
+                displayInput[1].style.fontSize = "36px";
+            }
+
             (hugConstr as HTMLDivElement).style.pointerEvents = "all";
             (hugConstr as HTMLDivElement).style.cursor = "pointer";
             (hugRunt as HTMLDivElement).style.pointerEvents = "none";
@@ -63,7 +66,9 @@ const useToggle = () => {
             }
 
         } else if (hugState) {
-            displayInput[1].style.fontSize = "36px";
+            if (displayInput[1]) {
+                displayInput[1].style.fontSize = "36px";
+            }
             dispatch(setClearFirstNumbers(""));
             dispatch(setClearSecondNumbers(""));
             dispatch(setCalcResult(0));
