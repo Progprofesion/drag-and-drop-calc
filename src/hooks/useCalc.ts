@@ -23,7 +23,6 @@ const useCalc = () => {
     const firstNumbers = useSelector((state: RootState) => state.calcStore.firstNumbers);
     const secondNumbers = useSelector((state: RootState) => state.calcStore.secondNumbers);
     const operation = useSelector((state: RootState) => state.calcStore.operation);
-    const calcResult = useSelector((state: RootState) => state.calcStore.calcResult);
 
     const displayInput = document.querySelectorAll<HTMLElement>(".pallete__display-input");
 
@@ -33,12 +32,16 @@ const useCalc = () => {
         const arrayOfSecondNumbers = Array.from(String(secondNumbers), Number);
 
 
-        if (operation) {
+        if (operation && !result) {
             if (arrayOfSecondNumbers.length >= 9) {
                 return
             }
-            if (secondNumbers.includes(',') || !firstNumbers) {
-                e = (e as string).replace(",", "");
+            if (secondNumbers.includes(',') || !secondNumbers) {
+                e = (e as string).replace(",", "0,");
+
+            }
+            if (secondNumbers.includes('0,')) {
+                e = (e as string).replace("0,", "");
             }
             if ((e.toString() as string) === "0" && arrayOfSecondNumbers.length === 0) {
                 e = (e as string).replace("0", "");
@@ -50,7 +53,10 @@ const useCalc = () => {
                 return
             }
             if (firstNumbers.includes(',') || !firstNumbers) {
-                e = (e as string).replace(",", "");
+                e = (e as string).replace(",", "0,");
+            }
+            if (firstNumbers.includes('0,')) {
+                e = (e as string).replace("0,", "");
             }
             if ((e.toString() as string) === "0" && arrayOfFirstNumbers.length === 0) {
                 e = (e as string).replace("0", "");
@@ -63,36 +69,65 @@ const useCalc = () => {
         }
     };
 
-    const arrNumbers = () => {
-        dispatch(setResult(result = parseFloat(firstNumbers.replace(',', '.') as never) + parseFloat(secondNumbers.replace(',', '.') as never)));
-        dispatch(setCalcResult(result));
-        dispatch(setSaveResalt(result));
-        if (!calcResult) {
-            dispatch(setClearFirstNumbers(""));
-        } else {
-            dispatch(setClearSecondNumbers(""));
-        }
-
-
-    }
-
     const handleCalculate = () => {
 
+        const firstNumb = parseFloat(firstNumbers.replace(',', '.') as never)
+        const secondNumb = parseFloat(secondNumbers.replace(',', '.') as never)
+
+        switch (operation) {
+            case '+':
+                setResult(result = saveResalt && !firstNumbers ?
+                    saveResalt + secondNumb :
+
+                    firstNumb + secondNumb);
+                break;
+            case '-':
+                setResult(result = saveResalt && !firstNumbers ?
+                    saveResalt - secondNumb :
+
+                    firstNumb - secondNumb);
+                break;
+            case 'x':
+                setResult(result = saveResalt && !firstNumbers ?
+                    saveResalt * secondNumb :
+
+                    firstNumb * secondNumb);
+                break;
+            case '/':
+                setResult(result = saveResalt && !firstNumbers && secondNumbers !== "0" ?
+                    saveResalt / secondNumb :
+
+                    firstNumb / secondNumb);
+                if (secondNumbers === "0") {
+                    result = "Не определено"
+                    displayInput[1].style.fontSize = "24px";
+                    displayInput[1].style.paddingTop = "19px"
+                }
+                break;
+            default:
+                result = saveResalt;
+        }
 
         const arrayOfDigits = Array.from(String(result), Number);
 
-        if (arrayOfDigits.length > 9) {
+
+        if (arrayOfDigits.length > 9 && secondNumb !== 0) {
             result = (result as string).toString().substring(0, 9);
         }
 
 
 
-        dispatch(setOperation(""));
-        // dispatch(setClearFirstNumbers(""));
-        // dispatch(setClearSecondNumbers(""));
+        if (secondNumbers) {
+            dispatch(setCalcResult(result.toString().replace(".", ",")));
+            dispatch(setSaveResalt(result));
+            dispatch(setOperation(""));
+            dispatch(setClearFirstNumbers(""));
+            dispatch(setClearSecondNumbers(""));
+        }
+
     };
 
-    return { handleInputNumber, handleCalculate, arrNumbers }
+    return { handleInputNumber, handleCalculate }
 
 }
 

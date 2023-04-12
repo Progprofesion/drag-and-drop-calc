@@ -1,9 +1,9 @@
 .pallete {
     display: grid;
     justify-content: space-between;
+    max-width: 540px;
     grid-template-columns: 248px 248px;
     gap: 55px;
-    width: 550px;
     &__wrapp {
         margin: 0 auto;
         &:nth-child(2) {

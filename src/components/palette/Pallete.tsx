@@ -64,7 +64,7 @@ const Pallete = () => {
         dragEndHandler
     } = useStartOverLeaveEnd();
 
-    const { handleInputNumber, handleCalculate, arrNumbers } = useCalc();
+    const { handleInputNumber, handleCalculate } = useCalc();
 
 
     const elements: ReactNode = dataClone.map((board: Tboard) => {
@@ -118,10 +118,7 @@ const Pallete = () => {
                                     className="pallete__operations-wrapp">
                                     {(item.operations as []).map(((item: Titem) =>
                                         <button
-                                            onClick={(e: React.MouseEvent) => {
-                                                dispatch(setOperation((e.target as HTMLTextAreaElement).value))
-                                                arrNumbers()
-                                            }}
+                                            onClick={(e: React.MouseEvent) => dispatch(setOperation((e.target as HTMLTextAreaElement).value))}
                                             value={item.titleOperations}
                                             key={item.titleOperations}
                                             className="pallete__operations-buttons">{item.titleOperations}</button>
