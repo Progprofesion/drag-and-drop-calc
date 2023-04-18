@@ -4,7 +4,6 @@ import {
     setClearSecondNumbers,
     setClearFirstNumbers,
     setCalcResult,
-    setSaveResalt,
 } from "src/store/reducer/calcStore";
 
 type Titem = {

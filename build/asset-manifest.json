@@ -1,15 +1,15 @@
 {
   "files": {
-    "main.css": "/test-task-SS/static/css/main.7010e330.css",
-    "main.js": "/test-task-SS/static/js/main.cdbbbfd4.js",
-    "static/media/runtimeImg.svg": "/test-task-SS/static/media/runtimeImg.1e033d8501f85bfd21633e578c03792e.svg",
-    "index.html": "/test-task-SS/index.html",
-    "static/media/constructorImg.svg": "/test-task-SS/static/media/constructorImg.6ebc67525eed5bae0211005943ba6c4a.svg",
-    "main.7010e330.css.map": "/test-task-SS/static/css/main.7010e330.css.map",
-    "main.cdbbbfd4.js.map": "/test-task-SS/static/js/main.cdbbbfd4.js.map"
+    "main.css": "/drag-and-drop-calc/static/css/main.e7fdec31.css",
+    "main.js": "/drag-and-drop-calc/static/js/main.538142e5.js",
+    "static/media/runtimeImg.svg": "/drag-and-drop-calc/static/media/runtimeImg.1e033d8501f85bfd21633e578c03792e.svg",
+    "index.html": "/drag-and-drop-calc/index.html",
+    "static/media/constructorImg.svg": "/drag-and-drop-calc/static/media/constructorImg.6ebc67525eed5bae0211005943ba6c4a.svg",
+    "main.e7fdec31.css.map": "/drag-and-drop-calc/static/css/main.e7fdec31.css.map",
+    "main.538142e5.js.map": "/drag-and-drop-calc/static/js/main.538142e5.js.map"
   },
   "entrypoints": [
-    "static/css/main.7010e330.css",
-    "static/js/main.cdbbbfd4.js"
+    "static/css/main.e7fdec31.css",
+    "static/js/main.538142e5.js"
   ]
 }

@@ -2,7 +2,7 @@
   "name": "test-task-sendsay",
   "version": "0.1.0",
   "private": true,
-  "homepage": "https://progprofesion.github.io/test-task-SS/",
+  "homepage": "https://progprofesion.github.io/drag-and-drop-calc/",
   "dependencies": {
     "@reduxjs/toolkit": "^1.9.3",
     "@testing-library/jest-dom": "^5.16.5",

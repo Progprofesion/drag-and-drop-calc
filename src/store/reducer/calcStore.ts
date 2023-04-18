@@ -61,6 +61,5 @@ export const {
     setOperation,
 } = calcStore.actions;
 
-// export const { selectAll } = cardsAdapter.getSelectors((state: TgetSelector) => state.db)
 
 export default calcStore.reducer;
